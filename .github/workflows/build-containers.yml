@@ -135,7 +135,7 @@ jobs:
           DEPLOY_PATH="${{ secrets.SERVER_DEPLOY_PATH }}"
           VAULT_URL="${{ secrets.VAULT_URL }}"
           VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
-          VAULT_SECRET_PATH="${{ secrets.VAULT_SECRET_PATH }}"
+          VAULT_SECRET_PATH="boto/data/production"
           
           # Deploy via SSH with heredoc (prevents variable expansion issues)
           ssh -i ~/.ssh/deploy_key \
