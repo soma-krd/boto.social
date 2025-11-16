@@ -124,7 +124,7 @@ Link: https://opencollective.com/boto
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=gitroomhq/boto-app&type=Date)](https://www.star-history.com/#gitroomhq/boto-app&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=soma-krd/boto.social&type=Date)](https://www.star-history.com/#soma-krd/boto.social&Date)
 
 ## License
 

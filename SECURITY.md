@@ -40,4 +40,4 @@ We take security vulnerabilities seriously and will respond promptly to reports 
 
 This SECURITY.md file is based on the [GitHub Security Policy Template](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository).
 
-Thank you for helping to keep the `boto-app` secure!
+Thank you for helping to keep the `boto.social` secure!
