@@ -7,7 +7,7 @@ const Comp: FC<{ removeModal: () => void; platform: string; style: string }> = (
 ) => {
   const load = async () => {
     const cookie = await fetchCookie(`auth`);
-    if (document.querySelector('iframe#modal-postiz')) {
+    if (document.querySelector('iframe#modal-boto')) {
       return;
     }
 
@@ -30,7 +30,7 @@ const Comp: FC<{ removeModal: () => void; platform: string; style: string }> = (
     iframe.src =
       (import.meta.env?.FRONTEND_URL || process?.env?.FRONTEND_URL) +
       `/modal/${props.style}/${props.platform}?loggedAuth=${cookie}`;
-    iframe.id = 'modal-postiz';
+    iframe.id = 'modal-boto';
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.position = 'fixed';
@@ -42,7 +42,7 @@ const Comp: FC<{ removeModal: () => void; platform: string; style: string }> = (
 
     window.addEventListener('message', (event) => {
       if (event.data.action === 'closeIframe') {
-        const iframe = document.querySelector('iframe#modal-postiz');
+        const iframe = document.querySelector('iframe#modal-boto');
         if (iframe) {
           props.removeModal();
           div.remove();

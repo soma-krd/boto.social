@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <a href="https://postiz.com/" target="_blank">
+  <a href="https://boto.social/" target="_blank">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/765e9d72-3ee7-4a56-9d59-a2c9befe2311">
-    <img alt="Postiz Logo" src="https://github.com/user-attachments/assets/f0d30d70-dddb-4142-8876-e9aa6ed1cb99" width="280"/>
+    <img alt="Boto Logo" src="https://github.com/user-attachments/assets/f0d30d70-dddb-4142-8876-e9aa6ed1cb99" width="280"/>
   </picture>
   </a>
 </p>
@@ -22,52 +22,52 @@
 <div align="center">
   <strong>
   <h2>Your ultimate AI social media scheduling tool</h2><br />
-  <a href="https://postiz.com">Postiz</a>: An alternative to: Buffer.com, Hypefury, Twitter Hunter, etc...<br /><br />
+  <a href="https://boto.social">Boto</a>: An alternative to: Buffer.com, Hypefury, Twitter Hunter, etc...<br /><br />
   </strong>
-  Postiz offers everything you need to manage your social media posts,<br />build an audience, capture leads, and grow your business.
+  Boto offers everything you need to manage your social media posts,<br />build an audience, capture leads, and grow your business.
 </div>
 
 <div class="flex" align="center">
   <br />
-  <img alt="Instagram" src="https://postiz.com/svgs/socials/Instagram.svg" width="32">
-  <img alt="Youtube" src="https://postiz.com/svgs/socials/Youtube.svg" width="32">
-  <img alt="Dribbble" src="https://postiz.com/svgs/socials/Dribbble.svg" width="32">
-  <img alt="Linkedin" src="https://postiz.com/svgs/socials/Linkedin.svg" width="32">
-  <img alt="Reddit" src="https://postiz.com/svgs/socials/Reddit.svg" width="32">
-  <img alt="TikTok" src="https://postiz.com/svgs/socials/TikTok.svg" width="32">
-  <img alt="Facebook" src="https://postiz.com/svgs/socials/Facebook.svg" width="32">
-  <img alt="Pinterest" src="https://postiz.com/svgs/socials/Pinterest.svg" width="32">
-  <img alt="Threads" src="https://postiz.com/svgs/socials/Threads.svg" width="32">
-  <img alt="X" src="https://postiz.com/svgs/socials/X.svg" width="32">
-  <img alt="Slack" src="https://postiz.com/svgs/socials/Slack.svg" width="32">
-  <img alt="Discord" src="https://postiz.com/svgs/socials/Discord.svg" width="32">
-  <img alt="Mastodon" src="https://postiz.com/svgs/socials/Mastodon.svg" width="32">
-  <img alt="Bluesky" src="https://postiz.com/svgs/socials/Bluesky.svg" width="32">
+  <img alt="Instagram" src="https://boto.social/svgs/socials/Instagram.svg" width="32">
+  <img alt="Youtube" src="https://boto.social/svgs/socials/Youtube.svg" width="32">
+  <img alt="Dribbble" src="https://boto.social/svgs/socials/Dribbble.svg" width="32">
+  <img alt="Linkedin" src="https://boto.social/svgs/socials/Linkedin.svg" width="32">
+  <img alt="Reddit" src="https://boto.social/svgs/socials/Reddit.svg" width="32">
+  <img alt="TikTok" src="https://boto.social/svgs/socials/TikTok.svg" width="32">
+  <img alt="Facebook" src="https://boto.social/svgs/socials/Facebook.svg" width="32">
+  <img alt="Pinterest" src="https://boto.social/svgs/socials/Pinterest.svg" width="32">
+  <img alt="Threads" src="https://boto.social/svgs/socials/Threads.svg" width="32">
+  <img alt="X" src="https://boto.social/svgs/socials/X.svg" width="32">
+  <img alt="Slack" src="https://boto.social/svgs/socials/Slack.svg" width="32">
+  <img alt="Discord" src="https://boto.social/svgs/socials/Discord.svg" width="32">
+  <img alt="Mastodon" src="https://boto.social/svgs/socials/Mastodon.svg" width="32">
+  <img alt="Bluesky" src="https://boto.social/svgs/socials/Bluesky.svg" width="32">
 </div>
 
 <p align="center">
   <br />
-  <a href="https://docs.postiz.com" rel="dofollow"><strong>Explore the docs »</strong></a>
+  <a href="https://docs.boto.social" rel="dofollow"><strong>Explore the docs »</strong></a>
   <br />
 
   <br />
-  <a href="https://youtube.com/@postizofficial" rel="dofollow"><strong>Watch the YouTube Tutorials»</strong></a>
+  <a href="https://youtube.com/@botoofficial" rel="dofollow"><strong>Watch the YouTube Tutorials»</strong></a>
   <br />
 </p>
 
 <p align="center">
-  <a href="https://platform.postiz.com">Register</a>
+  <a href="https://platform.boto.social">Register</a>
   ·
-  <a href="https://discord.postiz.com">Join Our Discord (devs only)</a>
+  <a href="https://discord.boto.social">Join Our Discord (devs only)</a>
   ·
-  <a href="https://docs.postiz.com/public-api">Public API</a><br />
+  <a href="https://docs.boto.social/public-api">Public API</a><br />
 </p>
 <p align="center">
-  <a href="https://www.npmjs.com/package/@postiz/node">NodeJS SDK</a>
+  <a href="https://www.npmjs.com/package/@boto/node">NodeJS SDK</a>
   ·
-  <a href="https://www.npmjs.com/package/n8n-nodes-postiz">N8N custom node</a>
+  <a href="https://www.npmjs.com/package/n8n-nodes-boto">N8N custom node</a>
   ·
-  <a href="https://apps.make.com/postiz">Make.com integration</a>
+  <a href="https://apps.make.com/boto">Make.com integration</a>
 </p>
 
 
@@ -102,29 +102,29 @@
 
 ## Quick Start
 
-To have the project up and running, please follow the [Quick Start Guide](https://docs.postiz.com/quickstart)
+To have the project up and running, please follow the [Quick Start Guide](https://docs.boto.social/quickstart)
 
-## Sponsor Postiz
+## Sponsor Boto
 
-We now give a few options to Sponsor Postiz:
+We now give a few options to Sponsor Boto:
 - Just a donation: You like what we are building, and want to buy us some coffees so we can build faster.
-- Main Repository: Get your logo with a backlink from the main Postiz repository. Postiz has almost 3m downloads and 20k views per month.
+- Main Repository: Get your logo with a backlink from the main Boto repository. Boto has almost 3m downloads and 20k views per month.
 - Main Repository + Website: Get your logo on the central repository and the main website. Here are some metrics: - Website has 20k hits per month + 65 DR (strong backlink) - Repository has 20k hits per month + Almost 3m docker downloads.
 
-Link: https://opencollective.com/postiz
+Link: https://opencollective.com/boto
 
-## Postiz Compliance
+## Boto Compliance
 
-- Postiz is an open-source, self-hosted social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others.
-- Postiz hosted service uses official, platform-approved OAuth flows.
-- Postiz does not automate or scrape content from social media platforms.
-- Postiz does not collect, store, or proxy API keys or access tokens from users.
-- Postiz never ask users to paste API keys into our hosted product.
-- Postiz Users always authenticate directly with the social platform (e.g., X, Discord, etc.), ensuring platform compliance and data privacy.
+- Boto is an open-source, self-hosted social media scheduling tool that supports platforms like X (formerly Twitter), Bluesky, Mastodon, Discord, and others.
+- Boto hosted service uses official, platform-approved OAuth flows.
+- Boto does not automate or scrape content from social media platforms.
+- Boto does not collect, store, or proxy API keys or access tokens from users.
+- Boto never ask users to paste API keys into our hosted product.
+- Boto Users always authenticate directly with the social platform (e.g., X, Discord, etc.), ensuring platform compliance and data privacy.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=gitroomhq/postiz-app&type=Date)](https://www.star-history.com/#gitroomhq/postiz-app&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=gitroomhq/boto-app&type=Date)](https://www.star-history.com/#gitroomhq/boto-app&Date)
 
 ## License
 
@@ -133,5 +133,5 @@ This repository's source code is available under the [AGPL-3.0 license](LICENSE)
 <br /><br /><br />
 
 <p align="center">
-  <a href="https://www.g2.com/products/postiz/take_survey" target="blank"><img alt="g2" src="https://github.com/user-attachments/assets/892cb74c-0b49-4589-b2f5-fbdbf7a98f66" /></a>
+  <a href="https://www.g2.com/products/boto/take_survey" target="blank"><img alt="g2" src="https://github.com/user-attachments/assets/892cb74c-0b49-4589-b2f5-fbdbf7a98f66" /></a>
 </p>

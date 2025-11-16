@@ -200,7 +200,7 @@ export const useMenuItem = () => {
           />
         </svg>
       ),
-      path: 'https://affiliate.postiz.com',
+      path: 'https://affiliate.boto.social',
       role: ['ADMIN', 'SUPERADMIN', 'USER'],
       requireBilling: true,
     },

@@ -10,14 +10,14 @@ export const startMcp = async (app: INestApplication) => {
   const organizationService = app.get(OrganizationService, { strict: false });
 
   const mastra = await mastraService.mastra();
-  const agent = mastra.getAgent('postiz');
+  const agent = mastra.getAgent('boto');
   const tools = await agent.getTools();
 
   const server = new MCPServer({
-    name: 'Postiz MCP',
+    name: 'Boto MCP',
     version: '1.0.0',
     tools,
-    agents: { postiz: agent },
+    agents: { boto: agent },
   });
 
   app.use(

@@ -12,7 +12,7 @@ export const PopupContainerContainer: FC = () => {
 
   if (!url) {
     return (
-      <div className="text-4xl">This website is not supported by Postiz</div>
+      <div className="text-4xl">This website is not supported by Boto</div>
     );
   }
 
@@ -57,12 +57,12 @@ export const PopupContainer: FC<{ url: string }> = (props) => {
 
   if (!provider) {
     return (
-      <div className="text-4xl">This website is not supported by Postiz</div>
+      <div className="text-4xl">This website is not supported by Boto</div>
     );
   }
 
   if (!isLoggedIn) {
-    return <div className="text-4xl">You are not logged in to Postiz</div>;
+    return <div className="text-4xl">You are not logged in to Boto</div>;
   }
 
   return <div />;

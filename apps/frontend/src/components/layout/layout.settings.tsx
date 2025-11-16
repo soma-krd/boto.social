@@ -96,7 +96,7 @@ export const LayoutSettings = ({ children }: { children: ReactNode }) => {
               >
                 <div className="min-w-[55px]">
                   <Image
-                    src={isGeneral ? '/postiz.svg' : '/logo.svg'}
+                    src={isGeneral ? '/boto.svg' : '/logo.svg'}
                     width={55}
                     height={53}
                     alt="Logo"
@@ -160,8 +160,8 @@ export const LayoutSettings = ({ children }: { children: ReactNode }) => {
                     <div className="text-center mb-[20px] text-xl [@media(max-width:1024px)]:text-xl">
                       <h1 className="text-3xl [@media(max-width:1024px)]:text-xl">
                         {t(
-                          'join_10000_entrepreneurs_who_use_postiz',
-                          'Join 10,000+ Entrepreneurs Who Use Postiz'
+                          'join_10000_entrepreneurs_who_use_boto',
+                          'Join 10,000+ Entrepreneurs Who Use Boto'
                         )}
                         <br />
                         {t(

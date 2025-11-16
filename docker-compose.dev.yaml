@@ -1,36 +1,36 @@
 # Do **not** use this yml for production. It is not up-to-date.
-# Use https://docs.postiz.com/installation/docker-compose
+# Use https://docs.boto.social/installation/docker-compose
 # This is only for the dev enviroment
 
 services:
-  postiz-postgres:
+  boto-postgres:
     # ref: https://hub.docker.com/_/postgres
     image: postgres:17-alpine # 17.0
-    container_name: postiz-postgres
+    container_name: boto-postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: postiz-local-pwd
-      POSTGRES_USER: postiz-local
-      POSTGRES_DB: postiz-db-local
+      POSTGRES_PASSWORD: boto-local-pwd
+      POSTGRES_USER: boto-local
+      POSTGRES_DB: boto-db-local
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
-      - postiz-network
-  postiz-redis:
+      - boto-network
+  boto-redis:
     # ref: https://hub.docker.com/_/redis
     image: redis:7-alpine # 7.4.0
-    container_name: postiz-redis
+    container_name: boto-redis
     restart: always
     ports:
       - 6379:6379
     networks:
-      - postiz-network
-  postiz-pg-admin:
+      - boto-network
+  boto-pg-admin:
     # ref: https://hub.docker.com/r/dpage/pgadmin4/tags
     image: dpage/pgadmin4:latest
-    container_name: postiz-pg-admin
+    container_name: boto-pg-admin
     restart: always
     ports:
       - 8081:80
@@ -38,19 +38,19 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     networks:
-      - postiz-network
-  postiz-redisinsight:
+      - boto-network
+  boto-redisinsight:
     # ref: https://hub.docker.com/r/redis/redisinsight
     image: redis/redisinsight:latest
-    container_name: postiz-redisinsight
+    container_name: boto-redisinsight
     links:
-      - postiz-redis
+      - boto-redis
     ports:
       - '5540:5540'
     volumes:
       - redisinsight:/data
     networks:
-      - postiz-network
+      - boto-network
     restart: always
 
 volumes:
@@ -59,5 +59,5 @@ volumes:
     external: false
 
 networks:
-  postiz-network:
+  boto-network:
     external: false
