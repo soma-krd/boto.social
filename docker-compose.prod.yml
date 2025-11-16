@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  boto-app:
+    image: ghcr.io/soma-krd/boto.social:${IMAGE_TAG:-latest}
+    container_name: boto-app
+    restart: unless-stopped
+    
+    # Load environment variables from .env file (fetched from Vault)
+    env_file:
+      - .env
+    
+    ports:
+      - "3000:3000"   # Backend API
+      - "4200:4200"   # Frontend
+    
+    volumes:
+      # Persistent storage for uploads
+      - ./uploads:/uploads
+      # Application logs
+      - ./logs:/app/logs
+    
+    networks:
+      - boto-network
+    
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:4200"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # Resource limits (adjust based on your server capacity)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+networks:
+  boto-network:
+    driver: bridge
+    # If you need to connect to existing postgres/redis containers
+    # Use external network or link them appropriately
+    # external: true
+    # name: your-existing-network
+
+volumes:
+  uploads:
+  logs:
+

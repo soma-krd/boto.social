@@ -4,6 +4,8 @@ name: "Build Containers"
 on:
   workflow_dispatch:
   push:
+    branches:
+      - feature/boto
     tags:
       - '*'
 
@@ -16,7 +18,12 @@ jobs:
       - name: Get Container Version
         id: getcontainerver
         run: |
-          echo "containerver=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          # Use tag name if available, otherwise use commit SHA
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "containerver=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "containerver=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
 
   build-containers:
     needs: build-containers-common
@@ -99,3 +106,200 @@ jobs:
       - name: Verify Manifest
         run: |
           docker manifest inspect ghcr.io/soma-krd/boto.social:latest
+
+  deploy-to-server:
+    needs: [build-container-manifest, build-containers-common]
+    runs-on: ubuntu-latest
+    # Only deploy on push to main branch (not on tags)
+    if: github.ref == 'refs/heads/feature/boto'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Production Server via SSH
+        env:
+          CONTAINERVER: ${{ needs.build-containers-common.outputs.containerver }}
+        run: |
+          set -euxo pipefail
+          
+          echo "=== DEPLOYING BOTO TO PRODUCTION ==="
+          
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          
+          # Prepare variables
+          IMAGE_TAG="${{ env.CONTAINERVER }}"
+          DEPLOY_PATH="${{ secrets.SERVER_DEPLOY_PATH }}"
+          VAULT_URL="${{ secrets.VAULT_URL }}"
+          VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
+          VAULT_SECRET_PATH="${{ secrets.VAULT_SECRET_PATH }}"
+          
+          # Deploy via SSH with heredoc (prevents variable expansion issues)
+          ssh -i ~/.ssh/deploy_key \
+              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+              bash -s -- \
+              "$IMAGE_TAG" \
+              "$DEPLOY_PATH" \
+              "$VAULT_URL" \
+              "$VAULT_TOKEN" \
+              "$VAULT_SECRET_PATH" <<'DEPLOY_SCRIPT'
+            set -euxo pipefail
+            
+            # Read arguments passed from GitHub Actions
+            IMAGE_TAG="$1"
+            DEPLOY_PATH="$2"
+            VAULT_URL="$3"
+            VAULT_TOKEN="$4"
+            VAULT_SECRET_PATH="$5"
+            
+            IMAGE="ghcr.io/soma-krd/boto.social:${IMAGE_TAG}"
+            APP_NAME="boto-app"
+            NEW_CONTAINER="${APP_NAME}-new"
+            
+            echo "========================================="
+            echo "  Boto Production Deployment"
+            echo "========================================="
+            echo "Image: $IMAGE"
+            echo "Deploy Path: $DEPLOY_PATH"
+            echo ""
+            
+            cd "$DEPLOY_PATH"
+            
+            # Step 1: Fetch secrets from Vault
+            echo "==> Step 1/7: Fetching secrets from Vault..."
+            SECRETS_JSON=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" "${VAULT_URL}/v1/${VAULT_SECRET_PATH}")
+            
+            if [ -z "$SECRETS_JSON" ] || [ "$(echo "$SECRETS_JSON" | jq -r '.data.data')" == "null" ]; then
+              echo "❌ Error: Failed to fetch secrets from Vault at path ${VAULT_SECRET_PATH}"
+              echo "Vault Response: $SECRETS_JSON"
+              exit 1
+            fi
+            
+            # Backup existing .env
+            if [ -f .env ]; then
+              cp .env .env.backup.$(date +%Y%m%d_%H%M%S)
+            fi
+            
+            # Generate .env file
+            {
+              echo "# Generated from Vault secrets - DO NOT EDIT MANUALLY"
+              echo "# Generated at: $(date)"
+              echo ""
+              echo "$SECRETS_JSON" | jq -r '.data.data | to_entries[] | .key + "=\"" + (.value | tostring) + "\""'
+            } > .env
+            
+            chmod 600 .env
+            echo "✅ Secrets fetched and .env created"
+            
+            # Step 2: Pull latest image
+            echo "==> Step 2/7: Pulling Docker image..."
+            docker pull "$IMAGE"
+            echo "✅ Image pulled"
+            
+            # Step 3: Stop and remove any existing new container
+            echo "==> Step 3/7: Cleaning up old deployment containers..."
+            docker stop "$NEW_CONTAINER" 2>/dev/null || true
+            docker rm "$NEW_CONTAINER" 2>/dev/null || true
+            echo "✅ Cleanup done"
+            
+            # Step 4: Start new container
+            echo "==> Step 4/7: Starting new container..."
+            docker run -d \
+              --name "$NEW_CONTAINER" \
+              --restart unless-stopped \
+              --env-file .env \
+              -p 3000:3000 \
+              -p 4200:4200 \
+              -v "$DEPLOY_PATH/uploads:/uploads" \
+              -v "$DEPLOY_PATH/logs:/app/logs" \
+              "$IMAGE"
+            
+            echo "✅ New container started"
+            
+            # Step 5: Wait for container to initialize
+            echo "==> Step 5/7: Waiting for application to initialize..."
+            sleep 15
+            
+            # Step 6: Run migrations
+            echo "==> Step 6/7: Running database migrations..."
+            docker exec "$NEW_CONTAINER" sh -c "pnpm run prisma-db-push" || {
+              echo "⚠️  Migration command failed, but continuing"
+            }
+            echo "✅ Migrations completed"
+            
+            # Step 7: Health check
+            echo "==> Step 7/7: Performing health checks..."
+            
+            FRONTEND_URL="http://localhost:4200"
+            BACKEND_URL="http://localhost:3000"
+            
+            for i in {1..30}; do
+              # Check if container is still running
+              if ! docker ps -q -f name="^${NEW_CONTAINER}$" | grep -q .; then
+                echo "❌ Container $NEW_CONTAINER stopped unexpectedly"
+                docker logs --tail 50 "$NEW_CONTAINER" || true
+                exit 1
+              fi
+              
+              # Check frontend health
+              if docker exec "$NEW_CONTAINER" curl -fs "$FRONTEND_URL" >/dev/null 2>&1; then
+                # Check backend health
+                if docker exec "$NEW_CONTAINER" curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
+                  echo "✅ New container is healthy (Frontend & Backend)"
+                  
+                  # Stop and remove old container
+                  echo "Stopping old container: $APP_NAME"
+                  docker stop "$APP_NAME" 2>/dev/null || true
+                  docker rm "$APP_NAME" 2>/dev/null || true
+                  
+                  # Rename new to original
+                  echo "Activating new container by renaming"
+                  docker rename "$NEW_CONTAINER" "$APP_NAME"
+                  
+                  # Cleanup old images
+                  echo "Cleaning up old Docker images..."
+                  docker image prune -f >/dev/null 2>&1 || true
+                  
+                  echo ""
+                  echo "========================================="
+                  echo "  ✅ Deployment Successful!"
+                  echo "========================================="
+                  echo "Image: $IMAGE"
+                  echo "Container: $APP_NAME"
+                  echo "========================================="
+                  
+                  exit 0
+                fi
+              fi
+              
+              echo "Attempt $i/30: Waiting for health check..."
+              sleep 2
+            done
+            
+            # Health check failed
+            echo "❌ Health check failed after 30 attempts"
+            echo "Container logs:"
+            docker logs --tail 100 "$NEW_CONTAINER"
+            
+            # Rollback
+            echo "Rolling back - removing failed container"
+            docker stop "$NEW_CONTAINER" || true
+            docker rm "$NEW_CONTAINER" || true
+            
+            # Restore old .env if exists
+            if [ -f .env.backup.* ]; then
+              latest_backup=$(ls -t .env.backup.* | head -1)
+              cp "$latest_backup" .env
+              echo "Restored previous .env file"
+            fi
+            
+            exit 1
+          DEPLOY_SCRIPT
+          
+          # Cleanup SSH key
+          rm ~/.ssh/deploy_key
+          
+          echo "✅ Deployment process completed!"
