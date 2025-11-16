@@ -22,6 +22,9 @@ import { FarcasterProvider } from '@boto/frontend/components/auth/providers/farc
 import dynamic from 'next/dynamic';
 import { WalletUiProvider } from '@boto/frontend/components/auth/providers/placeholder/wallet.ui.provider';
 import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useModals } from '@boto/frontend/components/layout/new-modal';
+import { PrivacyPolicyContent } from '@boto/frontend/components/legal/privacy-policy-content';
+import { TermsOfServiceContent } from '@boto/frontend/components/legal/terms-of-service-content';
 const WalletProvider = dynamic(
   () => import('@boto/frontend/components/auth/providers/wallet.provider'),
   {
@@ -88,6 +91,7 @@ export function RegisterAfter({
   provider: string;
 }) {
   const t = useT();
+  const modal = useModals();
   const { isGeneral, genericOauth, neynarClientId, billingEnabled } =
     useVariables();
   const [loading, setLoading] = useState(false);
@@ -108,6 +112,31 @@ export function RegisterAfter({
     },
   });
   const fetchData = useFetch();
+  
+  const openPrivacyModal = () => {
+    modal.openModal({
+      title: t('privacy_policy', 'Privacy Policy'),
+      withCloseButton: true,
+      classNames: {
+        modal: 'w-[100%] max-w-[1400px]',
+      },
+      size: '80%',
+      children: <PrivacyPolicyContent />,
+    });
+  };
+
+  const openTermsModal = () => {
+    modal.openModal({
+      title: t('terms_of_service', 'Terms of Service'),
+      withCloseButton: true,
+      classNames: {
+        modal: 'w-[100%] max-w-[1400px]',
+      },
+      size: '80%',
+      children: <TermsOfServiceContent />,
+    });
+  };
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     await fetchData('/auth/register', {
@@ -205,19 +234,19 @@ export function RegisterAfter({
             'by_registering_you_agree_to_our',
             'By registering you agree to our'
           )}&nbsp;
-          <a
-            href={`https://boto.social/terms`}
-            className="underline hover:font-bold"
+          <span
+            onClick={openTermsModal}
+            className="underline hover:font-bold cursor-pointer"
           >
             {t('terms_of_service', 'Terms of Service')}
-          </a>&nbsp;
+          </span>&nbsp;
           {t('and', 'and')}&nbsp;
-          <a
-            href={`https://boto.social/privacy`}
-            className="underline hover:font-bold"
+          <span
+            onClick={openPrivacyModal}
+            className="underline hover:font-bold cursor-pointer"
           >
             {t('privacy_policy', 'Privacy Policy')}
-          </a>&nbsp;
+          </span>&nbsp;
         </div>
         <div className="text-center mt-6">
           <div className="w-full flex">

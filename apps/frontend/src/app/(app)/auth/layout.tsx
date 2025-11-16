@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import loadDynamic from 'next/dynamic';
 import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
 import { SocialMediaShowcase } from '@boto/frontend/components/auth/social.media.showcase';
+import { MantineWrapper } from '@boto/react/helpers/mantine.wrapper';
 const ReturnUrlComponent = loadDynamic(() => import('./return.url.component'));
 export default async function AuthLayout({
   children,
@@ -16,7 +17,8 @@ export default async function AuthLayout({
   const t = await getT();
 
   return (
-    <div className="dark !bg-black lbox">
+    <MantineWrapper>
+      <div className="dark !bg-black lbox">
       <ReturnUrlComponent />
       <div className="flex flex-col lg:flex-row h-[100vh] w-[100vw] overflow-hidden">
         {/* Social Media Showcase - Hidden on mobile, visible on desktop */}
@@ -54,5 +56,6 @@ export default async function AuthLayout({
         </div>
       </div>
     </div>
+    </MantineWrapper>
   );
 }
