@@ -1,5 +1,5 @@
 import { IsDefined, IsString, Validate } from 'class-validator';
-import { ValidUrlExtension } from '@gitroom/helpers/utils/valid.url.path';
+import { ValidUrlExtension } from '@boto/helpers/utils/valid.url.path';
 
 export class UploadDto {
   @IsString()

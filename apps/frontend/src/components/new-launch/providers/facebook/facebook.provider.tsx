@@ -3,10 +3,10 @@
 import {
   PostComment,
   withProvider,
-} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
-import { FacebookDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/facebook.dto';
-import { Input } from '@gitroom/react/form/input';
-import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+} from '@boto/frontend/components/new-launch/providers/high.order.provider';
+import { FacebookDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/facebook.dto';
+import { Input } from '@boto/react/form/input';
+import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
 
 export const FacebookSettings = () => {
   const { register } = useSettings();

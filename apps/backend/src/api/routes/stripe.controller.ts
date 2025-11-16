@@ -8,9 +8,9 @@ import {
   RawBodyRequest,
   Req,
 } from '@nestjs/common';
-import { StripeService } from '@gitroom/nestjs-libraries/services/stripe.service';
+import { StripeService } from '@boto/nestjs-libraries/services/stripe.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CodesService } from '@gitroom/nestjs-libraries/services/codes.service';
+import { CodesService } from '@boto/nestjs-libraries/services/codes.service';
 
 @ApiTags('Stripe')
 @Controller('/stripe')
@@ -31,7 +31,7 @@ export class StripeController {
     // Maybe it comes from another stripe webhook
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    if (event?.data?.object?.metadata?.service !== 'gitroom') {
+    if (event?.data?.object?.metadata?.service !== 'boto') {
       return { ok: true };
     }
 
@@ -56,7 +56,7 @@ export class StripeController {
     if (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      event?.data?.object?.metadata?.service !== 'gitroom' &&
+      event?.data?.object?.metadata?.service !== 'boto' &&
       event.type !== 'invoice.payment_succeeded'
     ) {
       return { ok: true };

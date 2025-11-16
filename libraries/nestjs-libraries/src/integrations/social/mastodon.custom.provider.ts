@@ -2,9 +2,9 @@ import {
   ClientInformation,
   PostDetails,
   PostResponse,
-} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
-import { MastodonProvider } from '@gitroom/nestjs-libraries/integrations/social/mastodon.provider';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
+import { MastodonProvider } from '@boto/nestjs-libraries/integrations/social/mastodon.provider';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
 
 export class MastodonCustomProvider extends MastodonProvider {
   override identifier = 'mastodon-custom';

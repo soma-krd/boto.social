@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { OrganizationService } from '@gitroom/nestjs-libraries/database/prisma/organizations/organization.service';
-import { HttpForbiddenException } from '@gitroom/nestjs-libraries/services/exception.filter';
+import { OrganizationService } from '@boto/nestjs-libraries/database/prisma/organizations/organization.service';
+import { HttpForbiddenException } from '@boto/nestjs-libraries/services/exception.filter';
 
 @Injectable()
 export class PublicAuthMiddleware implements NestMiddleware {

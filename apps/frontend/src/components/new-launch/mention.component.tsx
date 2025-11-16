@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useImperativeHandle, useState } from 'react';
 import { computePosition, flip, shift } from '@floating-ui/dom';
 import { posToDOMRect, ReactRenderer } from '@tiptap/react';
-import { timer } from '@gitroom/helpers/utils/timer';
+import { timer } from '@boto/helpers/utils/timer';
 
 // Debounce utility for TipTap
 const debounce = <T extends any[]>(

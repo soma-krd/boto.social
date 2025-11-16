@@ -1,17 +1,17 @@
 import Stripe from 'stripe';
 import { Injectable } from '@nestjs/common';
 import { Organization, User } from '@prisma/client';
-import { SubscriptionService } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/subscription.service';
-import { OrganizationService } from '@gitroom/nestjs-libraries/database/prisma/organizations/organization.service';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
-import { BillingSubscribeDto } from '@gitroom/nestjs-libraries/dtos/billing/billing.subscribe.dto';
+import { SubscriptionService } from '@boto/nestjs-libraries/database/prisma/subscriptions/subscription.service';
+import { OrganizationService } from '@boto/nestjs-libraries/database/prisma/organizations/organization.service';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
+import { BillingSubscribeDto } from '@boto/nestjs-libraries/dtos/billing/billing.subscribe.dto';
 import { capitalize, groupBy } from 'lodash';
-import { MessagesService } from '@gitroom/nestjs-libraries/database/prisma/marketplace/messages.service';
-import { pricing } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/pricing';
-import { AuthService } from '@gitroom/helpers/auth/auth.service';
-import { TrackService } from '@gitroom/nestjs-libraries/track/track.service';
-import { UsersService } from '@gitroom/nestjs-libraries/database/prisma/users/users.service';
-import { TrackEnum } from '@gitroom/nestjs-libraries/user/track.enum';
+import { MessagesService } from '@boto/nestjs-libraries/database/prisma/marketplace/messages.service';
+import { pricing } from '@boto/nestjs-libraries/database/prisma/subscriptions/pricing';
+import { AuthService } from '@boto/helpers/auth/auth.service';
+import { TrackService } from '@boto/nestjs-libraries/track/track.service';
+import { UsersService } from '@boto/nestjs-libraries/database/prisma/users/users.service';
+import { TrackEnum } from '@boto/nestjs-libraries/user/track.enum';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-04-10',
@@ -337,7 +337,7 @@ export class StripeService {
         cancel_at_period_end:
           !currentUserSubscription.data[0].cancel_at_period_end,
         metadata: {
-          service: 'gitroom',
+          service: 'boto',
           id,
         },
       }
@@ -381,7 +381,7 @@ export class StripeService {
       subscription_data: {
         ...(allowTrial ? { trial_period_days: 7 } : {}),
         metadata: {
-          service: 'gitroom',
+          service: 'boto',
           ...body,
           userId,
           uniqueId,
@@ -438,7 +438,7 @@ export class StripeService {
         service_agreement: 'full',
       },
       metadata: {
-        service: 'gitroom',
+        service: 'boto',
       },
       country,
       email,
@@ -528,13 +528,13 @@ export class StripeService {
       success_url: process.env['FRONTEND_URL'] + `/messages/${groupId}`,
       metadata: {
         orderId,
-        service: 'gitroom',
+        service: 'boto',
         type: 'marketplace',
       },
       line_items: [
         ...ordersItems,
         {
-          integrationType: `Gitroom Fee (${+process.env.FEE_AMOUNT! * 100}%)`,
+          integrationType: `boto Fee (${+process.env.FEE_AMOUNT! * 100}%)`,
           quantity: 1,
           price: price * +process.env.FEE_AMOUNT!,
         },
@@ -643,7 +643,7 @@ export class StripeService {
       await stripe.subscriptions.update(currentUserSubscription.data[0].id, {
         cancel_at_period_end: false,
         metadata: {
-          service: 'gitroom',
+          service: 'boto',
           ...body,
           userId,
           id,

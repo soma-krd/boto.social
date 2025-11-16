@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 export const GithubProvider = () => {
   const fetch = useFetch();
   const t = useT();

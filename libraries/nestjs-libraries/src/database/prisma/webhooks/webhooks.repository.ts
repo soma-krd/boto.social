@@ -1,6 +1,6 @@
-import { PrismaRepository } from '@gitroom/nestjs-libraries/database/prisma/prisma.service';
+import { PrismaRepository } from '@boto/nestjs-libraries/database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { WebhooksDto } from '@gitroom/nestjs-libraries/dtos/webhooks/webhooks.dto';
+import { WebhooksDto } from '@boto/nestjs-libraries/dtos/webhooks/webhooks.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

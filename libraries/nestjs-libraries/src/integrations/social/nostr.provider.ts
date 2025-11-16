@@ -3,13 +3,13 @@ import {
   PostDetails,
   PostResponse,
   SocialProvider,
-} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
 import dayjs from 'dayjs';
-import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
+import { SocialAbstract } from '@boto/nestjs-libraries/integrations/social.abstract';
 import { getPublicKey, Relay, finalizeEvent } from 'nostr-tools';
 import WebSocket from 'ws';
-import { AuthService } from '@gitroom/helpers/auth/auth.service';
+import { AuthService } from '@boto/helpers/auth/auth.service';
 
 // @ts-ignore
 global.WebSocket = WebSocket;

@@ -1,23 +1,23 @@
 'use client';
 
 import React, { FC, useCallback, useContext, useMemo } from 'react';
-import { MarketplaceProvider } from '@gitroom/frontend/components/marketplace/marketplace.provider';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { Button } from '@gitroom/react/form/button';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { MarketplaceProvider } from '@boto/frontend/components/marketplace/marketplace.provider';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { Button } from '@boto/react/form/button';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
 import useSWR from 'swr';
 import { capitalize } from 'lodash';
 import removeMd from 'remove-markdown';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
-import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useModals } from '@boto/frontend/components/layout/new-modal';
 import { Post as PrismaPost } from '@prisma/client';
 import dynamic from 'next/dynamic';
-import { IntegrationContext } from '@gitroom/frontend/components/launches/helpers/use.integration';
+import { IntegrationContext } from '@boto/frontend/components/launches/helpers/use.integration';
 import dayjs from 'dayjs';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { newDayjs } from '@gitroom/frontend/components/layout/set.timezone';
+import { useT } from '@boto/react/translation/get.transation.service.client';
+import { newDayjs } from '@boto/frontend/components/layout/set.timezone';
 const PreviewPopupDynamic = dynamic(() =>
-  import('@gitroom/frontend/components/marketplace/preview.popup.dynamic').then(
+  import('@boto/frontend/components/marketplace/preview.popup.dynamic').then(
     (mod) => mod.PreviewPopupDynamic
   )
 );

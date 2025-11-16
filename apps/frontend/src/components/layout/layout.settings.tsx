@@ -1,50 +1,50 @@
 'use client';
 
 import { ReactNode, useCallback, useEffect } from 'react';
-import { Title } from '@gitroom/frontend/components/layout/title';
-import { ContextWrapper } from '@gitroom/frontend/components/layout/user.context';
-import { TopMenu } from '@gitroom/frontend/components/layout/top.menu';
-import { MantineWrapper } from '@gitroom/react/helpers/mantine.wrapper';
-import { ToolTip } from '@gitroom/frontend/components/layout/top.tip';
-import { ShowMediaBoxModal } from '@gitroom/frontend/components/media/media.component';
+import { Title } from '@boto/frontend/components/layout/title';
+import { ContextWrapper } from '@boto/frontend/components/layout/user.context';
+import { TopMenu } from '@boto/frontend/components/layout/top.menu';
+import { MantineWrapper } from '@boto/react/helpers/mantine.wrapper';
+import { ToolTip } from '@boto/frontend/components/layout/top.tip';
+import { ShowMediaBoxModal } from '@boto/frontend/components/media/media.component';
 import Image from 'next/image';
-import { Toaster, useToaster } from '@gitroom/react/toaster/toaster';
-import { ShowPostSelector } from '@gitroom/frontend/components/post-url-selector/post.url.selector';
-import { OrganizationSelector } from '@gitroom/frontend/components/layout/organization.selector';
-import NotificationComponent from '@gitroom/frontend/components/notifications/notification.component';
+import { Toaster, useToaster } from '@boto/react/toaster/toaster';
+import { ShowPostSelector } from '@boto/frontend/components/post-url-selector/post.url.selector';
+import { OrganizationSelector } from '@boto/frontend/components/layout/organization.selector';
+import NotificationComponent from '@boto/frontend/components/notifications/notification.component';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
 import utc from 'dayjs/plugin/utc';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isBetween from 'dayjs/plugin/isBetween';
-import { ShowLinkedinCompany } from '@gitroom/frontend/components/launches/helpers/linkedin.component';
-import { SettingsComponent } from '@gitroom/frontend/components/layout/settings.component';
-import { Onboarding } from '@gitroom/frontend/components/onboarding/onboarding';
-import { Support } from '@gitroom/frontend/components/layout/support';
-import { ContinueProvider } from '@gitroom/frontend/components/layout/continue.provider';
+import { ShowLinkedinCompany } from '@boto/frontend/components/launches/helpers/linkedin.component';
+import { SettingsComponent } from '@boto/frontend/components/layout/settings.component';
+import { Onboarding } from '@boto/frontend/components/onboarding/onboarding';
+import { Support } from '@boto/frontend/components/layout/support';
+import { ContinueProvider } from '@boto/frontend/components/layout/continue.provider';
 import { CopilotKit } from '@copilotkit/react-core';
-import { Impersonate } from '@gitroom/frontend/components/layout/impersonate';
+import { Impersonate } from '@boto/frontend/components/layout/impersonate';
 import clsx from 'clsx';
-import { BillingComponent } from '@gitroom/frontend/components/billing/billing.component';
+import { BillingComponent } from '@boto/frontend/components/billing/billing.component';
 import dynamic from 'next/dynamic';
-import { NewSubscription } from '@gitroom/frontend/components/layout/new.subscription';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { NewSubscription } from '@boto/frontend/components/layout/new.subscription';
+import { useVariables } from '@boto/react/helpers/variable.context';
 const ModeComponent = dynamic(
-  () => import('@gitroom/frontend/components/layout/mode.component'),
+  () => import('@boto/frontend/components/layout/mode.component'),
   {
     ssr: false,
   }
 );
 import { extend } from 'dayjs';
 import { useSearchParams } from 'next/navigation';
-import { CheckPayment } from '@gitroom/frontend/components/layout/check.payment';
-import { ChromeExtensionComponent } from '@gitroom/frontend/components/layout/chrome.extension.component';
-import { LanguageComponent } from '@gitroom/frontend/components/layout/language.component';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import i18next from '@gitroom/react/translation/i18next';
-import { MediaSettingsLayout } from '@gitroom/frontend/components/launches/helpers/media.settings.component';
+import { CheckPayment } from '@boto/frontend/components/layout/check.payment';
+import { ChromeExtensionComponent } from '@boto/frontend/components/layout/chrome.extension.component';
+import { LanguageComponent } from '@boto/frontend/components/layout/language.component';
+import { useT } from '@boto/react/translation/get.transation.service.client';
+import i18next from '@boto/react/translation/i18next';
+import { MediaSettingsLayout } from '@boto/frontend/components/launches/helpers/media.settings.component';
 extend(utc);
 extend(weekOfYear);
 extend(isoWeek);
@@ -131,7 +131,7 @@ export const LayoutSettings = ({ children }: { children: ReactNode }) => {
                       />
                     </svg>
                   ) : (
-                    'Gitroom'
+                    'boto'
                   )}
                 </div>
               </Link>

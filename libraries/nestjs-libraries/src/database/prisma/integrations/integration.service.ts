@@ -1,27 +1,27 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { IntegrationRepository } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.repository';
-import { IntegrationManager } from '@gitroom/nestjs-libraries/integrations/integration.manager';
-import { InstagramProvider } from '@gitroom/nestjs-libraries/integrations/social/instagram.provider';
-import { FacebookProvider } from '@gitroom/nestjs-libraries/integrations/social/facebook.provider';
+import { IntegrationRepository } from '@boto/nestjs-libraries/database/prisma/integrations/integration.repository';
+import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
+import { InstagramProvider } from '@boto/nestjs-libraries/integrations/social/instagram.provider';
+import { FacebookProvider } from '@boto/nestjs-libraries/integrations/social/facebook.provider';
 import {
   AnalyticsData,
   AuthTokenDetails,
   SocialProvider,
-} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
+} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
 import { Integration, Organization } from '@prisma/client';
-import { NotificationService } from '@gitroom/nestjs-libraries/database/prisma/notifications/notification.service';
-import { LinkedinPageProvider } from '@gitroom/nestjs-libraries/integrations/social/linkedin.page.provider';
+import { NotificationService } from '@boto/nestjs-libraries/database/prisma/notifications/notification.service';
+import { LinkedinPageProvider } from '@boto/nestjs-libraries/integrations/social/linkedin.page.provider';
 import dayjs from 'dayjs';
-import { timer } from '@gitroom/helpers/utils/timer';
-import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
-import { RefreshToken } from '@gitroom/nestjs-libraries/integrations/social.abstract';
-import { IntegrationTimeDto } from '@gitroom/nestjs-libraries/dtos/integrations/integration.time.dto';
-import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
-import { PlugDto } from '@gitroom/nestjs-libraries/dtos/plugs/plug.dto';
-import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
+import { timer } from '@boto/helpers/utils/timer';
+import { ioRedis } from '@boto/nestjs-libraries/redis/redis.service';
+import { RefreshToken } from '@boto/nestjs-libraries/integrations/social.abstract';
+import { IntegrationTimeDto } from '@boto/nestjs-libraries/dtos/integrations/integration.time.dto';
+import { UploadFactory } from '@boto/nestjs-libraries/upload/upload.factory';
+import { PlugDto } from '@boto/nestjs-libraries/dtos/plugs/plug.dto';
+import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
 import { difference, uniq } from 'lodash';
 import utc from 'dayjs/plugin/utc';
-import { AutopostRepository } from '@gitroom/nestjs-libraries/database/prisma/autopost/autopost.repository';
+import { AutopostRepository } from '@boto/nestjs-libraries/database/prisma/autopost/autopost.repository';
 
 dayjs.extend(utc);
 

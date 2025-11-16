@@ -1,12 +1,12 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { Integrations } from '@gitroom/frontend/components/launches/calendar.context';
-import { useMoveToIntegrationListener } from '@gitroom/frontend/components/launches/helpers/use.move.to.integration';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { Integrations } from '@boto/frontend/components/launches/calendar.context';
+import { useMoveToIntegrationListener } from '@boto/frontend/components/launches/helpers/use.move.to.integration';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
-import { useStateCallback } from '@gitroom/react/helpers/use.state.callback';
-import { timer } from '@gitroom/helpers/utils/timer';
+import { useStateCallback } from '@boto/react/helpers/use.state.callback';
+import { timer } from '@boto/helpers/utils/timer';
 export const PickPlatforms: FC<{
   integrations: Integrations[];
   selectedIntegrations: Integrations[];

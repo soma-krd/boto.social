@@ -2,9 +2,9 @@
 
 import { FC, useCallback, useState } from 'react';
 import clsx from 'clsx';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useVariables } from '@boto/react/helpers/variable.context';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 const useFaqList = () => {
   const { isGeneral } = useVariables();
   const user = useUser();
@@ -26,24 +26,24 @@ const useFaqList = () => {
       : []),
     {
       title: t(
-        'faq_can_i_trust_boto_gitroom',
-        `Can I trust ${isGeneral ? 'Boto' : 'Gitroom'}?`
+        'faq_can_i_trust_boto_boto',
+        `Can I trust ${isGeneral ? 'Boto' : 'boto'}?`
       ),
       description: t(
-        'faq_boto_gitroom_is_proudly_open_source',
+        'faq_boto_boto_is_proudly_open_source',
         `${
-          isGeneral ? 'Boto' : 'Gitroom'
+          isGeneral ? 'Boto' : 'boto'
         } is proudly open-source! We believe in an ethical and transparent culture, meaning that ${
-          isGeneral ? 'Boto' : 'Gitroom'
+          isGeneral ? 'Boto' : 'boto'
         } will live forever. You can check out the entire code or use it for personal projects. To view the open-source repository, <a href="https://github.com/soma-krd/boto.social" target="_blank" style="text-decoration: underline;">click here</a>.`
       ),
     },
     {
       title: t('faq_what_are_channels', 'What are channels?'),
       description: t(
-        'faq_boto_gitroom_allows_you_to_schedule_posts',
+        'faq_boto_boto_allows_you_to_schedule_posts',
         `${
-          isGeneral ? 'Boto' : 'Gitroom'
+          isGeneral ? 'Boto' : 'boto'
         } allows you to schedule your posts between different channels.
 A channel is a publishing platform where you can schedule your posts.
 For example, you can schedule your posts on X, Facebook, Instagram, TikTok, YouTube, Reddit, Linkedin, Dribbble, Threads and Pinterest.`

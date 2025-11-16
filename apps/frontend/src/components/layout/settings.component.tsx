@@ -1,6 +1,6 @@
 'use client';
 
-import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { useModals } from '@boto/frontend/components/layout/new-modal';
 import React, {
   FC,
   Ref,
@@ -10,27 +10,27 @@ import React, {
   useState,
 } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { showMediaBox } from '@gitroom/frontend/components/media/media.component';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { showMediaBox } from '@boto/frontend/components/media/media.component';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { UserDetailDto } from '@gitroom/nestjs-libraries/dtos/users/user.details.dto';
-import { useToaster } from '@gitroom/react/toaster/toaster';
+import { UserDetailDto } from '@boto/nestjs-libraries/dtos/users/user.details.dto';
+import { useToaster } from '@boto/react/toaster/toaster';
 import { useSWRConfig } from 'swr';
 import clsx from 'clsx';
-import { TeamsComponent } from '@gitroom/frontend/components/settings/teams.component';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { LogoutComponent } from '@gitroom/frontend/components/layout/logout.component';
+import { TeamsComponent } from '@boto/frontend/components/settings/teams.component';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { LogoutComponent } from '@boto/frontend/components/layout/logout.component';
 import { useSearchParams } from 'next/navigation';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { PublicComponent } from '@gitroom/frontend/components/public-api/public.component';
+import { useVariables } from '@boto/react/helpers/variable.context';
+import { PublicComponent } from '@boto/frontend/components/public-api/public.component';
 import Link from 'next/link';
-import { Webhooks } from '@gitroom/frontend/components/webhooks/webhooks';
-import { Sets } from '@gitroom/frontend/components/sets/sets';
-import { SignaturesComponent } from '@gitroom/frontend/components/settings/signatures.component';
-import { Autopost } from '@gitroom/frontend/components/autopost/autopost';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { SVGLine } from '@gitroom/frontend/components/launches/launches.component';
-import { GlobalSettings } from '@gitroom/frontend/components/settings/global.settings';
+import { Webhooks } from '@boto/frontend/components/webhooks/webhooks';
+import { Sets } from '@boto/frontend/components/sets/sets';
+import { SignaturesComponent } from '@boto/frontend/components/settings/signatures.component';
+import { Autopost } from '@boto/frontend/components/autopost/autopost';
+import { useT } from '@boto/react/translation/get.transation.service.client';
+import { SVGLine } from '@boto/frontend/components/launches/launches.component';
+import { GlobalSettings } from '@boto/frontend/components/settings/global.settings';
 export const SettingsPopup: FC<{
   getRef?: Ref<any>;
 }> = (props) => {

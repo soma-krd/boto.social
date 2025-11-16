@@ -1,6 +1,6 @@
-import { ProvidersInterface } from '@gitroom/backend/services/auth/providers.interface';
+import { ProvidersInterface } from '@boto/backend/services/auth/providers.interface';
 import { randomBytes } from 'crypto';
-import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
+import { ioRedis } from '@boto/nestjs-libraries/redis/redis.service';
 import bs58 from 'bs58';
 import nacl from 'tweetnacl';
 

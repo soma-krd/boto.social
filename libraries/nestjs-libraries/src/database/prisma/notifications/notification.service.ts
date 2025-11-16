@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { NotificationsRepository } from '@gitroom/nestjs-libraries/database/prisma/notifications/notifications.repository';
-import { EmailService } from '@gitroom/nestjs-libraries/services/email.service';
-import { OrganizationRepository } from '@gitroom/nestjs-libraries/database/prisma/organizations/organization.repository';
-import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
-import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
+import { NotificationsRepository } from '@boto/nestjs-libraries/database/prisma/notifications/notifications.repository';
+import { EmailService } from '@boto/nestjs-libraries/services/email.service';
+import { OrganizationRepository } from '@boto/nestjs-libraries/database/prisma/organizations/organization.repository';
+import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
+import { ioRedis } from '@boto/nestjs-libraries/redis/redis.service';
 import dayjs from 'dayjs';
 
 @Injectable()

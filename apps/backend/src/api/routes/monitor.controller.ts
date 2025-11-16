@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
+import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
 
 @ApiTags('Monitor')
 @Controller('/monitor')

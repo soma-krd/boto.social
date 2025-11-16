@@ -3,13 +3,13 @@
 import {
   PostComment,
   withProvider,
-} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+} from '@boto/frontend/components/new-launch/providers/high.order.provider';
 import { FC } from 'react';
-import { Select } from '@gitroom/react/form/select';
-import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
-import { InstagramDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/instagram.dto';
-import { InstagramCollaboratorsTags } from '@gitroom/frontend/components/new-launch/providers/instagram/instagram.tags';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { Select } from '@boto/react/form/select';
+import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+import { InstagramDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/instagram.dto';
+import { InstagramCollaboratorsTags } from '@boto/frontend/components/new-launch/providers/instagram/instagram.tags';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 const postType = [
   {
     value: 'post',

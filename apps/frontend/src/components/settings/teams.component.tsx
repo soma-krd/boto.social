@@ -1,21 +1,21 @@
-import { Button } from '@gitroom/react/form/button';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { Button } from '@boto/react/form/button';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
 import useSWR from 'swr';
 import React, { useCallback, useMemo } from 'react';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
+import { useUser } from '@boto/frontend/components/layout/user.context';
 import { capitalize } from 'lodash';
-import { useModals } from '@gitroom/frontend/components/layout/new-modal';
-import { TopTitle } from '@gitroom/frontend/components/launches/helpers/top.title.component';
-import { Input } from '@gitroom/react/form/input';
+import { useModals } from '@boto/frontend/components/layout/new-modal';
+import { TopTitle } from '@boto/frontend/components/launches/helpers/top.title.component';
+import { Input } from '@boto/react/form/input';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
-import { Select } from '@gitroom/react/form/select';
-import { Checkbox } from '@gitroom/react/form/checkbox';
+import { Select } from '@boto/react/form/select';
+import { Checkbox } from '@boto/react/form/checkbox';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { AddTeamMemberDto } from '@gitroom/nestjs-libraries/dtos/settings/add.team.member.dto';
-import { useToaster } from '@gitroom/react/toaster/toaster';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { AddTeamMemberDto } from '@boto/nestjs-libraries/dtos/settings/add.team.member.dto';
+import { useToaster } from '@boto/react/toaster/toaster';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
 import copy from 'copy-to-clipboard';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 const roles = [
   {
     name: 'User',

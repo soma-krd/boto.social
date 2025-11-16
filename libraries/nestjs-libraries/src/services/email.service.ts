@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { EmailInterface } from '@gitroom/nestjs-libraries/emails/email.interface';
-import { ResendProvider } from '@gitroom/nestjs-libraries/emails/resend.provider';
-import { EmptyProvider } from '@gitroom/nestjs-libraries/emails/empty.provider';
-import { NodeMailerProvider } from '@gitroom/nestjs-libraries/emails/node.mailer.provider';
-import { concurrency } from '@gitroom/helpers/utils/concurrency.service';
+import { EmailInterface } from '@boto/nestjs-libraries/emails/email.interface';
+import { ResendProvider } from '@boto/nestjs-libraries/emails/resend.provider';
+import { EmptyProvider } from '@boto/nestjs-libraries/emails/empty.provider';
+import { NodeMailerProvider } from '@boto/nestjs-libraries/emails/node.mailer.provider';
+import { concurrency } from '@boto/helpers/utils/concurrency.service';
 
 @Injectable()
 export class EmailService {

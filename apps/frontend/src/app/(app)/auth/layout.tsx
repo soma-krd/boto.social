@@ -1,12 +1,12 @@
-import { getT } from '@gitroom/react/translation/get.translation.service.backend';
+import { getT } from '@boto/react/translation/get.translation.service.backend';
 
 export const dynamic = 'force-dynamic';
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 import loadDynamic from 'next/dynamic';
-import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
-import { SocialMediaShowcase } from '@gitroom/frontend/components/auth/social.media.showcase';
+import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
+import { SocialMediaShowcase } from '@boto/frontend/components/auth/social.media.showcase';
 const ReturnUrlComponent = loadDynamic(() => import('./return.url.component'));
 export default async function AuthLayout({
   children,

@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getCookieUrlFromDomain } from '@gitroom/helpers/subdomain/subdomain.management';
-import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
+import { getCookieUrlFromDomain } from '@boto/helpers/subdomain/subdomain.management';
+import { internalFetch } from '@boto/helpers/utils/internal.fetch';
 import acceptLanguage from 'accept-language';
 import {
   cookieName,
   fallbackLng,
   headerName,
   languages,
-} from '@gitroom/react/translation/i18n.config';
+} from '@boto/react/translation/i18n.config';
 acceptLanguage.languages(languages);
 
 // This function can be marked `async` if using `await` inside

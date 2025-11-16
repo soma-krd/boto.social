@@ -1,10 +1,10 @@
 'use client';
 
 import { FC, ReactNode } from 'react';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { MenuItem } from '@gitroom/frontend/components/new-layout/menu-item';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { useVariables } from '@boto/react/helpers/variable.context';
+import { useT } from '@boto/react/translation/get.transation.service.client';
+import { MenuItem } from '@boto/frontend/components/new-layout/menu-item';
 
 interface MenuItemInterface {
   name: string;

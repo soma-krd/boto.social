@@ -311,7 +311,7 @@ checksums:
     forks: d692bdb4892481b1b4d9adf13b5b7ce0
     registration_is_disabled: eff7aff64ccfe6068849fe1a1212c0a0
     login_instead: 4e7a13b6c39065d8e093c554345ccd7c
-    gitroom: 6edccb5285794dba2f351f2fb1d2f803
+    boto: 6edccb5285794dba2f351f2fb1d2f803
     select_a_conversation_and_chat_away: 941ced71a44545919a489e4e7e8223d0
     adding_channel_redirecting_you: 397169979a6de32672e54cf01c9e7f24
     could_not_add_provider: 9326fd712ed969f76071f9d2debee931
@@ -457,10 +457,10 @@ checksums:
     choose_upload_without_posting_description: 223c59be260eeaafe420791b76e2523c
     faq_am_i_going_to_be_charged_by_boto: f4aad17d35bcaf45427216a432f23af3
     faq_to_confirm_credit_card_information_boto_will_hold: 5087b85985bbb6f46ea869d4796fb891
-    faq_can_i_trust_boto_gitroom: 9ee3c694bc392c339333047484d36003
-    faq_boto_gitroom_is_proudly_open_source: 17658906aec47f1557f84c71efadee03
+    faq_can_i_trust_boto_boto: 9ee3c694bc392c339333047484d36003
+    faq_boto_boto_is_proudly_open_source: 17658906aec47f1557f84c71efadee03
     faq_what_are_channels: 22bc7aebd017e487d9a5ac8946a2a08d
-    faq_boto_gitroom_allows_you_to_schedule_posts: 287ddb6d7f14970e29aa6e2431bbe207
+    faq_boto_boto_allows_you_to_schedule_posts: 287ddb6d7f14970e29aa6e2431bbe207
     faq_what_are_team_members: bb369e1b85f24dbc4519ce32d71953d6
     faq_if_you_have_a_team_with_multiple_members: ed9a422bfca288261c3959d0fd49f657
     faq_what_is_ai_auto_complete: 3ffc4a069c8e35e01e952375b3c401ba

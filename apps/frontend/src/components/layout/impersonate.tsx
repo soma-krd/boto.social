@@ -1,14 +1,14 @@
-import { Input } from '@gitroom/react/form/input';
+import { Input } from '@boto/react/form/input';
 import { ChangeEventHandler, useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { Select } from '@gitroom/react/form/select';
-import { pricing } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/pricing';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { setCookie } from '@gitroom/frontend/components/layout/layout.context';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { Select } from '@boto/react/form/select';
+import { pricing } from '@boto/nestjs-libraries/database/prisma/subscriptions/pricing';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useVariables } from '@boto/react/helpers/variable.context';
+import { setCookie } from '@boto/frontend/components/layout/layout.context';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 export const Subscription = () => {
   const fetch = useFetch();
   const t = useT();

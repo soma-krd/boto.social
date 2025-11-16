@@ -1,8 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, Transport } from '@nestjs/microservices';
-import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
-import { WebhooksService } from '@gitroom/nestjs-libraries/database/prisma/webhooks/webhooks.service';
-import { AutopostService } from '@gitroom/nestjs-libraries/database/prisma/autopost/autopost.service';
+import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts.service';
+import { WebhooksService } from '@boto/nestjs-libraries/database/prisma/webhooks/webhooks.service';
+import { AutopostService } from '@boto/nestjs-libraries/database/prisma/autopost/autopost.service';
 
 @Controller()
 export class PostsController {

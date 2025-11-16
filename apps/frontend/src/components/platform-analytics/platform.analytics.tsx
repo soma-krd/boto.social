@@ -4,19 +4,19 @@ import useSWR from 'swr';
 import { useCallback, useMemo, useState } from 'react';
 import { capitalize, orderBy } from 'lodash';
 import clsx from 'clsx';
-import ImageWithFallback from '@gitroom/react/helpers/image.with.fallback';
+import ImageWithFallback from '@boto/react/helpers/image.with.fallback';
 import Image from 'next/image';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { RenderAnalytics } from '@gitroom/frontend/components/platform-analytics/render.analytics';
-import { Select } from '@gitroom/react/form/select';
-import { Button } from '@gitroom/react/form/button';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { RenderAnalytics } from '@boto/frontend/components/platform-analytics/render.analytics';
+import { Select } from '@boto/react/form/select';
+import { Button } from '@boto/react/form/button';
 import { useRouter } from 'next/navigation';
-import { useToaster } from '@gitroom/react/toaster/toaster';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { useToaster } from '@boto/react/toaster/toaster';
+import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useVariables } from '@boto/react/helpers/variable.context';
 import useCookie from 'react-use-cookie';
-import { SVGLine } from '@gitroom/frontend/components/launches/launches.component';
-import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
+import { SVGLine } from '@boto/frontend/components/launches/launches.component';
+import { LoadingComponent } from '@boto/frontend/components/layout/loading';
 const allowedIntegrations = [
   'facebook',
   'instagram',

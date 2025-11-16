@@ -2,9 +2,9 @@
 
 import { useCallback } from 'react';
 import Image from 'next/image';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useVariables } from '@boto/react/helpers/variable.context';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 export const OauthProvider = () => {
   const fetch = useFetch();
   const { oauthLogoUrl, oauthDisplayName } = useVariables();

@@ -8,13 +8,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
+import { GetOrgFromRequest } from '@boto/nestjs-libraries/user/org.from.request';
 import { Organization } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
-import { CheckPolicies } from '@gitroom/backend/services/auth/permissions/permissions.ability';
-import { AutopostService } from '@gitroom/nestjs-libraries/database/prisma/autopost/autopost.service';
-import { AutopostDto } from '@gitroom/nestjs-libraries/dtos/autopost/autopost.dto';
-import { AuthorizationActions, Sections } from '@gitroom/backend/services/auth/permissions/permission.exception.class';
+import { CheckPolicies } from '@boto/backend/services/auth/permissions/permissions.ability';
+import { AutopostService } from '@boto/nestjs-libraries/database/prisma/autopost/autopost.service';
+import { AutopostDto } from '@boto/nestjs-libraries/dtos/autopost/autopost.dto';
+import { AuthorizationActions, Sections } from '@boto/backend/services/auth/permissions/permission.exception.class';
 
 @ApiTags('Autopost')
 @Controller('/autopost')

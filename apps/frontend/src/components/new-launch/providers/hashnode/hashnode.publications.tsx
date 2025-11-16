@@ -1,10 +1,10 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import { useCustomProviderFunction } from '@gitroom/frontend/components/launches/helpers/use.custom.provider.function';
-import { Select } from '@gitroom/react/form/select';
-import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useCustomProviderFunction } from '@boto/frontend/components/launches/helpers/use.custom.provider.function';
+import { Select } from '@boto/react/form/select';
+import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 export const HashnodePublications: FC<{
   name: string;
   onChange: (event: {

@@ -11,22 +11,22 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
+import { GetOrgFromRequest } from '@boto/nestjs-libraries/user/org.from.request';
 import { Organization } from '@prisma/client';
-import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
-import { CheckPolicies } from '@gitroom/backend/services/auth/permissions/permissions.ability';
-import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
+import { IntegrationService } from '@boto/nestjs-libraries/database/prisma/integrations/integration.service';
+import { CheckPolicies } from '@boto/backend/services/auth/permissions/permissions.ability';
+import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
-import { MediaService } from '@gitroom/nestjs-libraries/database/prisma/media/media.service';
-import { GetPostsDto } from '@gitroom/nestjs-libraries/dtos/posts/get.posts.dto';
+import { UploadFactory } from '@boto/nestjs-libraries/upload/upload.factory';
+import { MediaService } from '@boto/nestjs-libraries/database/prisma/media/media.service';
+import { GetPostsDto } from '@boto/nestjs-libraries/dtos/posts/get.posts.dto';
 import {
   AuthorizationActions,
   Sections,
-} from '@gitroom/backend/services/auth/permissions/permission.exception.class';
-import { VideoDto } from '@gitroom/nestjs-libraries/dtos/videos/video.dto';
-import { VideoFunctionDto } from '@gitroom/nestjs-libraries/dtos/videos/video.function.dto';
-import { UploadDto } from '@gitroom/nestjs-libraries/dtos/media/upload.dto';
+} from '@boto/backend/services/auth/permissions/permission.exception.class';
+import { VideoDto } from '@boto/nestjs-libraries/dtos/videos/video.dto';
+import { VideoFunctionDto } from '@boto/nestjs-libraries/dtos/videos/video.function.dto';
+import { UploadDto } from '@boto/nestjs-libraries/dtos/media/upload.dto';
 import axios from 'axios';
 import { Readable } from 'stream';
 import { lookup } from 'mime-types';

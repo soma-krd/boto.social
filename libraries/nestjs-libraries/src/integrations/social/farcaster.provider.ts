@@ -3,17 +3,17 @@ import {
   PostDetails,
   PostResponse,
   SocialProvider,
-} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
 import dayjs from 'dayjs';
-import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
+import { SocialAbstract } from '@boto/nestjs-libraries/integrations/social.abstract';
 import { NeynarAPIClient } from '@neynar/nodejs-sdk';
 import { Integration } from '@prisma/client';
-import { AuthService } from '@gitroom/helpers/auth/auth.service';
+import { AuthService } from '@boto/helpers/auth/auth.service';
 import { groupBy } from 'lodash';
-import { FarcasterDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/farcaster.dto';
-import { Tool } from '@gitroom/nestjs-libraries/integrations/tool.decorator';
-import { Rules } from '@gitroom/nestjs-libraries/chat/rules.description.decorator';
+import { FarcasterDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/farcaster.dto';
+import { Tool } from '@boto/nestjs-libraries/integrations/tool.decorator';
+import { Rules } from '@boto/nestjs-libraries/chat/rules.description.decorator';
 
 const client = new NeynarAPIClient({
   apiKey: process.env.NEYNAR_SECRET_KEY || '00000000-000-0000-000-000000000000',

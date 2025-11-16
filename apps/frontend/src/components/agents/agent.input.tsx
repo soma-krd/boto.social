@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useCopilotContext, useCopilotReadable } from '@copilotkit/react-core';
-import AutoResizingTextarea from '@gitroom/frontend/components/agents/agent.textarea';
+import AutoResizingTextarea from '@boto/frontend/components/agents/agent.textarea';
 import { useChatContext } from '@copilotkit/react-ui';
 import { InputProps } from '@copilotkit/react-ui/dist/components/chat/props';
 const MAX_NEWLINES = 6;

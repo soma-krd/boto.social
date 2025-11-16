@@ -1,17 +1,17 @@
-import { AgentToolInterface } from '@gitroom/nestjs-libraries/chat/agent.tool.interface';
+import { AgentToolInterface } from '@boto/nestjs-libraries/chat/agent.tool.interface';
 import { createTool } from '@mastra/core/tools';
 import { z } from 'zod';
 import { Injectable } from '@nestjs/common';
-import { socialIntegrationList } from '@gitroom/nestjs-libraries/integrations/integration.manager';
-import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
-import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
-import { AllProvidersSettings } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/all.providers.settings';
+import { socialIntegrationList } from '@boto/nestjs-libraries/integrations/integration.manager';
+import { IntegrationService } from '@boto/nestjs-libraries/database/prisma/integrations/integration.service';
+import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts.service';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
+import { AllProvidersSettings } from '@boto/nestjs-libraries/dtos/posts/providers-settings/all.providers.settings';
 import { validate } from 'class-validator';
 import { Integration } from '@prisma/client';
-import { checkAuth } from '@gitroom/nestjs-libraries/chat/auth.context';
-import { stripHtmlValidation } from '@gitroom/helpers/utils/strip.html.validation';
-import { weightedLength } from '@gitroom/helpers/utils/count.length';
+import { checkAuth } from '@boto/nestjs-libraries/chat/auth.context';
+import { stripHtmlValidation } from '@boto/helpers/utils/strip.html.validation';
+import { weightedLength } from '@boto/helpers/utils/count.length';
 
 function countCharacters(text: string, type: string): number {
   if (type !== 'x') {

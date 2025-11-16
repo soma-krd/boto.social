@@ -1,11 +1,11 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { StarsRepository } from '@gitroom/nestjs-libraries/database/prisma/stars/stars.repository';
+import { StarsRepository } from '@boto/nestjs-libraries/database/prisma/stars/stars.repository';
 import { chunk, groupBy } from 'lodash';
 import dayjs from 'dayjs';
-import { NotificationService } from '@gitroom/nestjs-libraries/database/prisma/notifications/notification.service';
-import { StarsListDto } from '@gitroom/nestjs-libraries/dtos/analytics/stars.list.dto';
+import { NotificationService } from '@boto/nestjs-libraries/database/prisma/notifications/notification.service';
+import { StarsListDto } from '@boto/nestjs-libraries/dtos/analytics/stars.list.dto';
 import { mean } from 'simple-statistics';
-import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
+import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
 enum Inform {
   Removed,
   New,

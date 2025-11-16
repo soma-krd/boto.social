@@ -1,10 +1,10 @@
 import { FC, useCallback, useMemo, useState } from 'react';
 import { Integration } from '@prisma/client';
 import useSWR from 'swr';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { ChartSocial } from '@gitroom/frontend/components/analytics/chart-social';
-import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { ChartSocial } from '@boto/frontend/components/analytics/chart-social';
+import { LoadingComponent } from '@boto/frontend/components/layout/loading';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 export const RenderAnalytics: FC<{
   integration: Integration;
   date: number;

@@ -5,9 +5,9 @@ import DrawChart from 'chart.js/auto';
 import {
   ForksList,
   StarsList,
-} from '@gitroom/frontend/components/analytics/stars.and.forks.interface';
+} from '@boto/frontend/components/analytics/stars.and.forks.interface';
 import dayjs from 'dayjs';
-import { newDayjs } from '@gitroom/frontend/components/layout/set.timezone';
+import { newDayjs } from '@boto/frontend/components/layout/set.timezone';
 export const Chart: FC<{
   list: StarsList[] | ForksList[];
 }> = (props) => {

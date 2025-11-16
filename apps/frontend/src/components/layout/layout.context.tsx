@@ -1,10 +1,10 @@
 'use client';
 
 import { ReactNode, useCallback } from 'react';
-import { FetchWrapperComponent } from '@gitroom/helpers/utils/custom.fetch';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
-import { useReturnUrl } from '@gitroom/frontend/app/(app)/auth/return.url.component';
-import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { FetchWrapperComponent } from '@boto/helpers/utils/custom.fetch';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useReturnUrl } from '@boto/frontend/app/(app)/auth/return.url.component';
+import { useVariables } from '@boto/react/helpers/variable.context';
 export default function LayoutContext(params: { children: ReactNode }) {
   if (params?.children) {
     // eslint-disable-next-line react/no-children-prop

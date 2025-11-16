@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Agent } from '@gitroom/frontend/components/agents/agent';
+import { Agent } from '@boto/frontend/components/agents/agent';
 export const metadata: Metadata = {
   title: 'Boto - Agent',
   description: '',

@@ -4,12 +4,12 @@ import { FC } from 'react';
 import {
   PostComment,
   withProvider,
-} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
-import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
-import { PinterestBoard } from '@gitroom/frontend/components/new-launch/providers/pinterest/pinterest.board';
-import { PinterestSettingsDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/pinterest.dto';
-import { Input } from '@gitroom/react/form/input';
-import { ColorPicker } from '@gitroom/react/form/color.picker';
+} from '@boto/frontend/components/new-launch/providers/high.order.provider';
+import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+import { PinterestBoard } from '@boto/frontend/components/new-launch/providers/pinterest/pinterest.board';
+import { PinterestSettingsDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/pinterest.dto';
+import { Input } from '@boto/react/form/input';
+import { ColorPicker } from '@boto/react/form/color.picker';
 const PinterestSettings: FC = () => {
   const { register, control } = useSettings();
   return (

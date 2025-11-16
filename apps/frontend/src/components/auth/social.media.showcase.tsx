@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { getT } from '@gitroom/react/translation/get.translation.service.backend';
+import { getT } from '@boto/react/translation/get.translation.service.backend';
 
 export async function SocialMediaShowcase() {
   const t = await getT();

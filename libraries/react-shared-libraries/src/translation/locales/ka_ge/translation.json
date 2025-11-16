@@ -308,7 +308,7 @@
     "forks": "ფორკები",
     "registration_is_disabled": "რეგისტრაცია გათიშულია",
     "login_instead": "შემოსვლა",
-    "gitroom": "Gitroom",
+    "boto": "boto",
     "select_a_conversation_and_chat_away": "აირჩიეთ საუბარი და დაიწყეთ ჩათი",
     "adding_channel_redirecting_you": "არხის დამატება... გადამისამართება",
     "could_not_add_provider": "პროვაიდერის დამატება ვერ მოხერხდა.",
@@ -455,9 +455,9 @@
     "faq_am_i_going_to_be_charged_by_boto": "Boto დამაკისრებს თანხას?",
     "faq_to_confirm_credit_card_information_boto_will_hold": "საკრედიტო ბარათის დადასტურებისთვის Boto დროებით დაბლოკავს $2-ს და მაშინვე გაათავისუფლებს",
     "faq_can_i_trust_boto": "შემიძლია ვენდო Boto-ს?",
-    "faq_boto_gitroom_is_proudly_open_source": "Boto არის ღია კოდის! გამჭვირვალე კულტურა — შეგიძლიათ ნახოთ მთელი კოდი ან გამოიყენოთ პირადი პროექტებისთვის. ღია რეპოზიტორიის სანახავად <a href=\"https://github.com/soma-krd/boto.social\" target=\"_blank\" style=\"text-decoration: underline;\">დააჭირეთ აქ</a>.",
+    "faq_boto_boto_is_proudly_open_source": "Boto არის ღია კოდის! გამჭვირვალე კულტურა — შეგიძლიათ ნახოთ მთელი კოდი ან გამოიყენოთ პირადი პროექტებისთვის. ღია რეპოზიტორიის სანახავად <a href=\"https://github.com/soma-krd/boto.social\" target=\"_blank\" style=\"text-decoration: underline;\">დააჭირეთ აქ</a>.",
     "faq_what_are_channels": "რა არის არხები?",
-    "faq_boto_gitroom_allows_you_to_schedule_posts": "Boto გაძლევთ პოსტების დაგეგმვის საშუალებას სხვადასხვა არხებზე — მაგალითად X, Facebook, Instagram, TikTok, YouTube, Reddit, LinkedIn, Dribbble, Threads და Pinterest.",
+    "faq_boto_boto_allows_you_to_schedule_posts": "Boto გაძლევთ პოსტების დაგეგმვის საშუალებას სხვადასხვა არხებზე — მაგალითად X, Facebook, Instagram, TikTok, YouTube, Reddit, LinkedIn, Dribbble, Threads და Pinterest.",
     "faq_what_are_team_members": "რა არის გუნდის წევრები?",
     "faq_if_you_have_a_team_with_multiple_members": "თუ თქვენ ჰყავთ გუნდი რამდენიმე წევრით, შეგიძლიათ მოიწვიოთ ისინი workspace-ში, ითანამშრომლოთ პოსტებზე და დაამატონ თავიანთი არხები",
     "faq_what_is_ai_auto_complete": "რა არის AI auto-complete?",
@@ -503,5 +503,5 @@
     "label_who_can_reply_to_this_post": "ვის შეუძლია პასუხის გაცემა ამ პოსტზე?",
     "delete_integration": "ინტეგრაციის წაშლა",
     "start_writing_your_post": "დაიწყეთ თქვენი პოსტის წერა წინასწარი ხედვისთვის",
-    "faq_can_i_trust_boto_gitroom": "Შემიძლია ვენდო Boto-ს?"
+    "faq_can_i_trust_boto_boto": "Შემიძლია ვენდო Boto-ს?"
 }

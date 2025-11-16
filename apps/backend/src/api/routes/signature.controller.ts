@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
+import { GetOrgFromRequest } from '@boto/nestjs-libraries/user/org.from.request';
 import { Organization } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
-import { SignatureService } from '@gitroom/nestjs-libraries/database/prisma/signatures/signature.service';
-import { SignatureDto } from '@gitroom/nestjs-libraries/dtos/signature/signature.dto';
+import { SignatureService } from '@boto/nestjs-libraries/database/prisma/signatures/signature.service';
+import { SignatureDto } from '@boto/nestjs-libraries/dtos/signature/signature.dto';
 
 @ApiTags('Signatures')
 @Controller('/signatures')

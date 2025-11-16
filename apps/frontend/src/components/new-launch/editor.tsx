@@ -13,27 +13,27 @@ import React, {
   Fragment,
 } from 'react';
 import clsx from 'clsx';
-import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+import { useUser } from '@boto/frontend/components/layout/user.context';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
 import EmojiPicker from 'emoji-picker-react';
 import { Theme } from 'emoji-picker-react';
-import { BoldText } from '@gitroom/frontend/components/new-launch/bold.text';
-import { UText } from '@gitroom/frontend/components/new-launch/u.text';
-import { SignatureBox } from '@gitroom/frontend/components/signature';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { BoldText } from '@boto/frontend/components/new-launch/bold.text';
+import { UText } from '@boto/frontend/components/new-launch/u.text';
+import { SignatureBox } from '@boto/frontend/components/signature';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 import {
   SelectedIntegrations,
   useLaunchStore,
-} from '@gitroom/frontend/components/new-launch/store';
+} from '@boto/frontend/components/new-launch/store';
 import { useShallow } from 'zustand/react/shallow';
-import { AddPostButton } from '@gitroom/frontend/components/new-launch/add.post.button';
-import { MultiMediaComponent } from '@gitroom/frontend/components/media/media.component';
-import { UpDownArrow } from '@gitroom/frontend/components/launches/up.down.arrow';
-import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
-import { useExistingData } from '@gitroom/frontend/components/launches/helpers/use.existing.data';
+import { AddPostButton } from '@boto/frontend/components/new-launch/add.post.button';
+import { MultiMediaComponent } from '@boto/frontend/components/media/media.component';
+import { UpDownArrow } from '@boto/frontend/components/launches/up.down.arrow';
+import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useExistingData } from '@boto/frontend/components/launches/helpers/use.existing.data';
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 import { useDropzone } from 'react-dropzone';
-import { useUppyUploader } from '@gitroom/frontend/components/media/new.uploader';
+import { useUppyUploader } from '@boto/frontend/components/media/new.uploader';
 import { Dashboard } from '@uppy/react';
 import Link from '@tiptap/extension-link';
 import {
@@ -48,16 +48,16 @@ import Bold from '@tiptap/extension-bold';
 import Text from '@tiptap/extension-text';
 import Paragraph from '@tiptap/extension-paragraph';
 import Underline from '@tiptap/extension-underline';
-import { stripHtmlValidation } from '@gitroom/helpers/utils/strip.html.validation';
+import { stripHtmlValidation } from '@boto/helpers/utils/strip.html.validation';
 import { History } from '@tiptap/extension-history';
 import { BulletList, ListItem } from '@tiptap/extension-list';
-import { Bullets } from '@gitroom/frontend/components/new-launch/bullets.component';
+import { Bullets } from '@boto/frontend/components/new-launch/bullets.component';
 import Heading from '@tiptap/extension-heading';
-import { HeadingComponent } from '@gitroom/frontend/components/new-launch/heading.component';
+import { HeadingComponent } from '@boto/frontend/components/new-launch/heading.component';
 import Mention from '@tiptap/extension-mention';
-import { suggestion } from '@gitroom/frontend/components/new-launch/mention.component';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
-import { AComponent } from '@gitroom/frontend/components/new-launch/a.component';
+import { suggestion } from '@boto/frontend/components/new-launch/mention.component';
+import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { AComponent } from '@boto/frontend/components/new-launch/a.component';
 import { capitalize } from 'lodash';
 
 const InterceptBoldShortcut = Extension.create({

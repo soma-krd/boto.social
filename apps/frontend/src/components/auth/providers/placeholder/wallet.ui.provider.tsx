@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useT } from '@boto/react/translation/get.transation.service.client';
 
 export const WalletUiProvider: FC = () => {
   const t = useT();

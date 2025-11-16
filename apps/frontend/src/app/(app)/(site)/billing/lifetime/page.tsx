@@ -1,9 +1,9 @@
-import { LifetimeDeal } from '@gitroom/frontend/components/billing/lifetime.deal';
+import { LifetimeDeal } from '@boto/frontend/components/billing/lifetime.deal';
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
-import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
+import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
 export const metadata: Metadata = {
-  title: `${isGeneralServerSide() ? 'Boto' : 'Gitroom'} Lifetime deal`,
+  title: `${isGeneralServerSide() ? 'Boto' : 'boto'} Lifetime deal`,
   description: '',
 };
 export default async function Page() {

@@ -1,9 +1,9 @@
 export const dynamic = 'force-dynamic';
-import { Login } from '@gitroom/frontend/components/auth/login';
+import { Login } from '@boto/frontend/components/auth/login';
 import { Metadata } from 'next';
-import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
+import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
 export const metadata: Metadata = {
-  title: `${isGeneralServerSide() ? 'Boto' : 'Gitroom'} Login`,
+  title: `${isGeneralServerSide() ? 'Boto' : 'boto'} Login`,
   description: '',
 };
 export default async function Auth() {
