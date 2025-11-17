@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
 import { EmailInterface } from '@boto/nestjs-libraries/emails/email.interface';
+import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -8,6 +8,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
@@ -32,7 +35,7 @@ export class NodeMailerProvider implements EmailInterface {
       to: to, // list of receivers
       subject: subject, // Subject line
       text: html, // plain text body
-      html: html, // html body
+      html: html, // html body,
     });
 
     return sends;
