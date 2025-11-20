@@ -126,20 +126,20 @@ jobs:
           
           # Setup SSH
           mkdir -p ~/.ssh
-          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          echo "${{ secrets.MAIN_SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.MAIN_SERVER_IP }} >> ~/.ssh/known_hosts
           
           # Prepare variables
           IMAGE_TAG="${{ env.CONTAINERVER }}"
-          DEPLOY_PATH="${{ secrets.SERVER_DEPLOY_PATH }}"
+          DEPLOY_PATH="${{ secrets.MAIN_SERVER_DEPLOY_PATH }}"
           VAULT_URL="${{ secrets.VAULT_URL }}"
           VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
           VAULT_SECRET_PATH="boto/data/production"
           
           # Deploy via SSH with heredoc (prevents variable expansion issues)
           ssh -i ~/.ssh/deploy_key \
-              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+              ${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }} \
               bash -s -- \
               "$IMAGE_TAG" \
               "$DEPLOY_PATH" \
