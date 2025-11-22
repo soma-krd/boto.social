@@ -237,7 +237,7 @@ jobs:
             cd "$DEPLOY_PATH"
 
             # Create Docker Compose file
-            cat > docker-compose.dev.yaml << 'EOF'
+            cat > docker-compose.dev.yaml << 'COMPOSE_EOF'
 services:
  boto-postgres:
    image: postgres:15
