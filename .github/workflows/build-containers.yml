@@ -260,7 +260,7 @@ jobs:
               echo "# Generated from Vault secrets - DO NOT EDIT MANUALLY"
               echo "# Generated at: $(date)"
               echo ""
-              echo "$SECRETS_JSON" | jq -r '.data.data | to_entries[] | .key + "=\"" + (.value | tostring) + "\""'
+              echo "$SECRETS_JSON" | jq -r '.data.data | to_entries[] | .key + "=" + (.value | tostring)'
             } > .env
             
             chmod 600 .env
