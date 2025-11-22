@@ -238,55 +238,7 @@ jobs:
 
             # Create Docker Compose file
             cat > docker-compose.dev.yaml << 'COMPOSE_EOF'
-services:
- boto-postgres:
-   image: postgres:15
-   container_name: boto-postgres
-   restart: always
-   environment:
-     POSTGRES_USER: boto
-     POSTGRES_PASSWORD: dfj02idkn209dfg5536dfg21s3
-     POSTGRES_DB: boto
-   volumes:
-     - ./postgres_data:/var/lib/postgresql/data
-   networks:
-     - soma_somanet
- boto-redis:
-   image: redis:7
-   container_name: boto-redis
-   restart: always
-   volumes:
-     - ./redis_data:/data
-   networks:
-     - soma_somanet
- boto-pg-admin:
-   image: dpage/pgadmin4:latest
-   container_name: boto-pg-admin
-   restart: always
-   environment:
-     PGADMIN_DEFAULT_EMAIL: admin@soma.krd
-     PGADMIN_DEFAULT_PASSWORD: dfj02idkn209dPo04ndfkgsK
-   volumes:
-     - ./pgadmin_data:/var/lib/pgadmin
-   networks:
-     - soma_somanet
- boto-app:
-   image: ghcr.io/soma-krd/boto.social:placeholder
-   container_name: boto-app
-   restart: unless-stopped
-   env_file:
-     - .env
-   volumes:
-     - ./uploads:/uploads
-     - ./logs:/app/logs
-   networks:
-     - soma_somanet
-
-networks:
- soma_somanet:
-   external: true
-EOF
-
+            
             # Step 1: Fetch secrets from Vault
             echo "==> Step 1/7: Fetching secrets from Vault..."
             SECRETS_JSON=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" "${VAULT_URL}/v1/${VAULT_SECRET_PATH}")
