@@ -188,7 +188,7 @@ jobs:
 
       - name: Copy Docker Compose file
         run: |
-          scp -i ~/.ssh/deploy_key -p ${{ secrets.MAIN_SERVER_SSH_PORT }} docker-compose.dev.yaml ${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }}:${{ secrets.MAIN_SERVER_DEPLOY_PATH }}/
+          scp -i ~/.ssh/deploy_key -p ${{ secrets.MAIN_SERVER_SSH_PORT }} "docker-compose.dev.yaml" "${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }}:${{ secrets.MAIN_SERVER_DEPLOY_PATH }}/"
 
       - name: Deploy to Production Server via SSH
         env:
