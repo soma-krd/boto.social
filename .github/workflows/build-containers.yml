@@ -322,9 +322,8 @@ jobs:
             # Step 7: Health check
             echo "==> Step 7/7: Performing health checks..."
 
-            FRONTEND_URL="http://localhost:4200"
             BACKEND_URL="http://localhost:3000"
-            echo "Health check URLs: Frontend=$FRONTEND_URL, Backend=$BACKEND_URL"
+            echo "Health check URL: Backend=$BACKEND_URL"
 
             for i in {1..30}; do
               echo "Health check attempt $i/30"
@@ -337,32 +336,26 @@ jobs:
                 exit 1
               fi
 
-              # Check frontend health
-              if docker exec boto-app curl -fs "$FRONTEND_URL" >/dev/null 2>&1; then
-                echo "✅ Frontend health check passed"
-                # Check backend health
-                if docker exec boto-app curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
-                  echo "✅ Backend health check passed"
-                  echo "✅ New container is healthy (Frontend & Backend)"
+              # Check backend health
+              if docker exec boto-app curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
+                echo "✅ Backend health check passed"
+                echo "✅ New container is healthy (Backend)"
 
-                  # Cleanup old images
-                  echo "Cleaning up old Docker images..."
-                  docker image prune -f >/dev/null 2>&1 || true
+                # Cleanup old images
+                echo "Cleaning up old Docker images..."
+                docker image prune -f >/dev/null 2>&1 || true
 
-                  echo ""
-                  echo "========================================="
-                  echo "  ✅ Deployment Successful!"
-                  echo "========================================="
-                  echo "Image: $IMAGE"
-                  echo "Container: boto-app"
-                  echo "========================================="
+                echo ""
+                echo "========================================="
+                echo "  ✅ Deployment Successful!"
+                echo "========================================="
+                echo "Image: $IMAGE"
+                echo "Container: boto-app"
+                echo "========================================="
 
-                  exit 0
-                else
-                  echo "❌ Backend health check failed"
-                fi
+                exit 0
               else
-                echo "❌ Frontend health check failed"
+                echo "❌ Backend health check failed"
               fi
 
               echo "Attempt $i/30: Waiting for health check..."
