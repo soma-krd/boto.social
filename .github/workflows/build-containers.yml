@@ -240,9 +240,6 @@ jobs:
             cd "$DEPLOY_PATH"
             echo "Changed to deploy path: $(pwd)"
 
-            # Create Docker Compose file
-            cat > docker-compose.dev.yaml << 'COMPOSE_EOF'
-            
             # Step 1: Fetch secrets from Vault
             echo "==> Step 1/7: Fetching secrets from Vault..."
             echo "Vault URL: ${VAULT_URL}/v1/${VAULT_SECRET_PATH}"
