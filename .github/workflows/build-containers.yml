@@ -266,107 +266,89 @@ jobs:
             chmod 600 .env
             echo "✅ Secrets fetched and .env created"
             
-            # Step 2: Pull latest image
-            echo "==> Step 2/7: Pulling Docker image..."
-            docker pull "$IMAGE"
+            # Step 2: Prepare Docker Compose
+            echo "==> Step 2/7: Preparing Docker Compose..."
+            sed -i "s/placeholder/${IMAGE_TAG}/" docker-compose.dev.yaml
+            echo "✅ Compose file updated"
+
+            # Step 3: Pull latest image
+            echo "==> Step 3/7: Pulling Docker image..."
+            docker compose -f docker-compose.dev.yaml pull boto-app
             echo "✅ Image pulled"
-            
-            # Step 3: Stop and remove any existing new container
-            echo "==> Step 3/7: Cleaning up old deployment containers..."
-            docker stop "$NEW_CONTAINER" 2>/dev/null || true
-            docker rm "$NEW_CONTAINER" 2>/dev/null || true
-            echo "✅ Cleanup done"
-            
+
             # Step 4: Start new container
             echo "==> Step 4/7: Starting new container..."
-            docker run -d \
-              --name "$NEW_CONTAINER" \
-              --restart unless-stopped \
-              --network "$NETWORK_NAME" \
-              --env-file "$DEPLOY_PATH/.env" \
-              -v "$DEPLOY_PATH/uploads:/uploads" \
-              -v "$DEPLOY_PATH/logs:/app/logs" \
-              "$IMAGE"
-            
+            docker compose -f docker-compose.dev.yaml up -d boto-app
             echo "✅ New container started"
-            
+
             # Step 5: Wait for container to initialize
             echo "==> Step 5/7: Waiting for application to initialize..."
             sleep 15
-            
+
             # Step 6: Run migrations
             echo "==> Step 6/7: Running database migrations..."
-            docker exec "$NEW_CONTAINER" sh -c "pnpm run prisma-db-push" || {
+            docker exec boto-app sh -c "pnpm run prisma-db-push" || {
               echo "⚠️  Migration command failed, but continuing"
             }
             echo "✅ Migrations completed"
-            
+
             # Step 7: Health check
             echo "==> Step 7/7: Performing health checks..."
-            
+
             FRONTEND_URL="http://localhost:4200"
             BACKEND_URL="http://localhost:3000"
-            
+
             for i in {1..30}; do
               # Check if container is still running
-              if ! docker ps -q -f name="^${NEW_CONTAINER}$" | grep -q .; then
-                echo "❌ Container $NEW_CONTAINER stopped unexpectedly"
-                docker logs --tail 50 "$NEW_CONTAINER" || true
+              if ! docker ps -q -f name="^boto-app$" | grep -q .; then
+                echo "❌ Container boto-app stopped unexpectedly"
+                docker logs --tail 50 boto-app || true
                 exit 1
               fi
-              
+
               # Check frontend health
-              if docker exec "$NEW_CONTAINER" curl -fs "$FRONTEND_URL" >/dev/null 2>&1; then
+              if docker exec boto-app curl -fs "$FRONTEND_URL" >/dev/null 2>&1; then
                 # Check backend health
-                if docker exec "$NEW_CONTAINER" curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
+                if docker exec boto-app curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
                   echo "✅ New container is healthy (Frontend & Backend)"
-                  
-                  # Stop and remove old container
-                  echo "Stopping old container: $APP_NAME"
-                  docker stop "$APP_NAME" 2>/dev/null || true
-                  docker rm "$APP_NAME" 2>/dev/null || true
-                  
-                  # Rename new to original
-                  echo "Activating new container by renaming"
-                  docker rename "$NEW_CONTAINER" "$APP_NAME"
-                  
+
                   # Cleanup old images
                   echo "Cleaning up old Docker images..."
                   docker image prune -f >/dev/null 2>&1 || true
-                  
+
                   echo ""
                   echo "========================================="
                   echo "  ✅ Deployment Successful!"
                   echo "========================================="
                   echo "Image: $IMAGE"
-                  echo "Container: $APP_NAME"
+                  echo "Container: boto-app"
                   echo "========================================="
-                  
+
                   exit 0
                 fi
               fi
-              
+
               echo "Attempt $i/30: Waiting for health check..."
               sleep 2
             done
-            
+
             # Health check failed
             echo "❌ Health check failed after 30 attempts"
             echo "Container logs:"
-            docker logs --tail 100 "$NEW_CONTAINER"
-            
+            docker logs --tail 100 boto-app
+
             # Rollback
-            echo "Rolling back - removing failed container"
-            docker stop "$NEW_CONTAINER" || true
-            docker rm "$NEW_CONTAINER" || true
-            
+            echo "Rolling back - stopping failed container"
+            docker compose -f docker-compose.dev.yaml stop boto-app || true
+            docker compose -f docker-compose.dev.yaml rm boto-app || true
+
             # Restore old .env if exists
             if [ -f .env.backup.* ]; then
               latest_backup=$(ls -t .env.backup.* | head -1)
               cp "$latest_backup" .env
               echo "Restored previous .env file"
             fi
-            
+
             exit 1
           DEPLOY_SCRIPT
           

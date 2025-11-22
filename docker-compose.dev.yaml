@@ -1,63 +1,36 @@
-# Do **not** use this yml for production. It is not up-to-date.
-# Use https://docs.boto.social/installation/docker-compose
-# This is only for the dev enviroment
-
 services:
   boto-postgres:
-    # ref: https://hub.docker.com/_/postgres
-    image: postgres:17-alpine # 17.0
+    image: postgres:15
     container_name: boto-postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: boto-local-pwd
-      POSTGRES_USER: boto-local
-      POSTGRES_DB: boto-db-local
+      POSTGRES_USER: boto
+      POSTGRES_PASSWORD: dfj02idkn209dfg5536dfg21s3
+      POSTGRES_DB: boto
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+      - ./postgres_data:/var/lib/postgresql/data
     networks:
-      - boto-network
+      - soma_somanet
   boto-redis:
-    # ref: https://hub.docker.com/_/redis
-    image: redis:7-alpine # 7.4.0
+    image: redis:7
     container_name: boto-redis
     restart: always
-    ports:
-      - 6379:6379
-    networks:
-      - boto-network
-  boto-pg-admin:
-    # ref: https://hub.docker.com/r/dpage/pgadmin4/tags
-    image: dpage/pgadmin4:latest
-    container_name: boto-pg-admin
-    restart: always
-    ports:
-      - 8081:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    networks:
-      - boto-network
-  boto-redisinsight:
-    # ref: https://hub.docker.com/r/redis/redisinsight
-    image: redis/redisinsight:latest
-    container_name: boto-redisinsight
-    links:
-      - boto-redis
-    ports:
-      - '5540:5540'
     volumes:
-      - redisinsight:/data
+      - ./redis_data:/data
     networks:
-      - boto-network
-    restart: always
-
-volumes:
-  redisinsight:
-  postgres-volume:
-    external: false
+      - soma_somanet
+  boto-app:
+    image: ghcr.io/soma-krd/boto.social:placeholder
+    container_name: boto-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./uploads:/uploads
+      - ./logs:/app/logs
+    networks:
+      - soma_somanet
 
 networks:
-  boto-network:
-    external: false
+  soma_somanet:
+    external: true
