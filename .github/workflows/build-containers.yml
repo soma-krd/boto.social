@@ -280,7 +280,7 @@ jobs:
             # Step 2: Prepare Docker Compose
             echo "==> Step 2/7: Preparing Docker Compose..."
             echo "Updating docker-compose.dev.yaml placeholder to ${IMAGE_TAG}"
-            sed -i "s/placeholder/${IMAGE_TAG}/" docker-compose.dev.yaml
+            sed -i "s|placeholder|${IMAGE_TAG}|g" docker-compose.dev.yaml
             echo "✅ Compose file updated"
 
             # Step 3: Pull latest image
