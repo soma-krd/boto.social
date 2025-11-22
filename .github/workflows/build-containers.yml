@@ -122,6 +122,7 @@ jobs:
           # Pass secrets as environment variables for validation
           MAIN_SERVER_SSH_KEY: ${{ secrets.MAIN_SERVER_SSH_KEY }}
           MAIN_SERVER_IP: ${{ secrets.MAIN_SERVER_IP }}
+          MAIN_SERVER_SSH_PORT: ${{ secrets.MAIN_SERVER_SSH_PORT }}
           MAIN_SERVER_SSH_USER: ${{ secrets.MAIN_SERVER_SSH_USER }}
           MAIN_SERVER_DEPLOY_PATH: ${{ secrets.MAIN_SERVER_DEPLOY_PATH }}
           VAULT_URL: ${{ secrets.VAULT_URL }}
@@ -136,6 +137,7 @@ jobs:
           REQUIRED_SECRETS=(
             "MAIN_SERVER_SSH_KEY"
             "MAIN_SERVER_IP"
+            "MAIN_SERVER_SSH_PORT"
             "MAIN_SERVER_SSH_USER"
             "MAIN_SERVER_DEPLOY_PATH"
             "VAULT_URL"
@@ -187,7 +189,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.MAIN_SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.MAIN_SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.MAIN_SERVER_SSH_PORT }} -H ${{ secrets.MAIN_SERVER_IP }} >> ~/.ssh/known_hosts
           
           # Prepare variables
           IMAGE_TAG="${{ env.CONTAINERVER }}"
@@ -198,6 +200,7 @@ jobs:
           
           # Deploy via SSH with heredoc (prevents variable expansion issues)
           ssh -i ~/.ssh/deploy_key \
+              -p ${{ secrets.MAIN_SERVER_SSH_PORT }} \
               ${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }} \
               bash -s -- \
               "$IMAGE_TAG" \
