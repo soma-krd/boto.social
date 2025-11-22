@@ -19,6 +19,17 @@ services:
       - ./redis_data:/data
     networks:
       - soma_somanet
+  boto-pg-admin:
+    image: dpage/pgadmin4:latest
+    container_name: boto-pg-admin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@soma.krd
+      PGADMIN_DEFAULT_PASSWORD: dfj02idkn209dPo04ndfkgsK
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+    networks:
+      - soma_somanet
   boto-app:
     image: ghcr.io/soma-krd/boto.social:placeholder
     container_name: boto-app
