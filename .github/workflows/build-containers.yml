@@ -116,6 +116,65 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate Required Secrets
+        env:
+          CONTAINERVER: ${{ needs.build-containers-common.outputs.containerver }}
+          # Pass secrets as environment variables for validation
+          MAIN_SERVER_SSH_KEY: ${{ secrets.MAIN_SERVER_SSH_KEY }}
+          MAIN_SERVER_IP: ${{ secrets.MAIN_SERVER_IP }}
+          MAIN_SERVER_SSH_USER: ${{ secrets.MAIN_SERVER_SSH_USER }}
+          MAIN_SERVER_DEPLOY_PATH: ${{ secrets.MAIN_SERVER_DEPLOY_PATH }}
+          VAULT_URL: ${{ secrets.VAULT_URL }}
+          VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+        run: |
+          set -euxo pipefail
+          
+          echo "=== VALIDATING DEPLOYMENT SECRETS ==="
+          echo ""
+          
+          # Required GitHub secrets for deployment
+          REQUIRED_SECRETS=(
+            "MAIN_SERVER_SSH_KEY"
+            "MAIN_SERVER_IP"
+            "MAIN_SERVER_SSH_USER"
+            "MAIN_SERVER_DEPLOY_PATH"
+            "VAULT_URL"
+            "VAULT_TOKEN"
+          )
+          
+          MISSING_SECRETS=()
+          
+          # Check GitHub secrets
+          echo "🔍 Checking GitHub secrets..."
+          for secret in "${REQUIRED_SECRETS[@]}"; do
+            secret_value="${!secret}"
+            if [[ -z "$secret_value" ]]; then
+              MISSING_SECRETS+=("$secret")
+              echo "  ❌ $secret: MISSING"
+            else
+              # Mask sensitive values in output
+              if [[ "$secret" == *"KEY"* ]] || [[ "$secret" == *"TOKEN"* ]]; then
+                echo "  ✅ $secret: SET (hidden)"
+              else
+                echo "  ✅ $secret: SET"
+              fi
+            fi
+          done
+          
+          if [[ ${#MISSING_SECRETS[@]} -gt 0 ]]; then
+            echo ""
+            echo "❌ ERROR: Missing required GitHub secrets:"
+            printf '   - %s\n' "${MISSING_SECRETS[@]}"
+            exit 1
+          fi
+          
+          echo ""
+          echo "========================================="
+          echo "  ✅ All secrets validated!"
+          echo "========================================="
+          echo "GitHub Secrets: ${#REQUIRED_SECRETS[@]} validated"
+          echo "========================================="
+
       - name: Deploy to Production Server via SSH
         env:
           CONTAINERVER: ${{ needs.build-containers-common.outputs.containerver }}
