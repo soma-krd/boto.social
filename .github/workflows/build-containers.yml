@@ -199,7 +199,7 @@ jobs:
           VAULT_URL="${{ secrets.VAULT_URL }}"
           VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
           VAULT_SECRET_PATH="boto/data/production"
-          NETWORK_NAME="${{ secrets.network_name }}"
+          NETWORK_NAME="${{ secrets.NETWORK_NAME }}"
           
           # Deploy via SSH with heredoc (prevents variable expansion issues)
           ssh -i ~/.ssh/deploy_key \
@@ -283,7 +283,7 @@ jobs:
               --name "$NEW_CONTAINER" \
               --restart unless-stopped \
               --network "$NETWORK_NAME" \
-              --env-file .env \
+              --env-file "$DEPLOY_PATH/.env" \
               -p 3000:3000 \
               -p 4200:4200 \
               -v "$DEPLOY_PATH/uploads:/uploads" \
