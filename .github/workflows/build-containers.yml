@@ -125,6 +125,7 @@ jobs:
           MAIN_SERVER_SSH_PORT: ${{ secrets.MAIN_SERVER_SSH_PORT }}
           MAIN_SERVER_SSH_USER: ${{ secrets.MAIN_SERVER_SSH_USER }}
           MAIN_SERVER_DEPLOY_PATH: ${{ secrets.MAIN_SERVER_DEPLOY_PATH }}
+          NETWORK_NAME: ${{ secrets.NETWORK_NAME }}
           VAULT_URL: ${{ secrets.VAULT_URL }}
           VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
         run: |
@@ -140,6 +141,7 @@ jobs:
             "MAIN_SERVER_SSH_PORT"
             "MAIN_SERVER_SSH_USER"
             "MAIN_SERVER_DEPLOY_PATH"
+            "NETWORK_NAME"
             "VAULT_URL"
             "VAULT_TOKEN"
           )
@@ -197,6 +199,7 @@ jobs:
           VAULT_URL="${{ secrets.VAULT_URL }}"
           VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
           VAULT_SECRET_PATH="boto/data/production"
+          NETWORK_NAME="${{ secrets.network_name }}"
           
           # Deploy via SSH with heredoc (prevents variable expansion issues)
           ssh -i ~/.ssh/deploy_key \
@@ -207,7 +210,8 @@ jobs:
               "$DEPLOY_PATH" \
               "$VAULT_URL" \
               "$VAULT_TOKEN" \
-              "$VAULT_SECRET_PATH" <<'DEPLOY_SCRIPT'
+              "$VAULT_SECRET_PATH" \
+              "$NETWORK_NAME" <<'DEPLOY_SCRIPT'
             set -euo pipefail
             
             # Read arguments passed from GitHub Actions
@@ -216,6 +220,7 @@ jobs:
             VAULT_URL="$3"
             VAULT_TOKEN="$4"
             VAULT_SECRET_PATH="$5"
+            NETWORK_NAME="$6"
             
             IMAGE="ghcr.io/soma-krd/boto.social:${IMAGE_TAG}"
             APP_NAME="boto-app"
@@ -277,6 +282,7 @@ jobs:
             docker run -d \
               --name "$NEW_CONTAINER" \
               --restart unless-stopped \
+              --network "$NETWORK_NAME" \
               --env-file .env \
               -p 3000:3000 \
               -p 4200:4200 \
