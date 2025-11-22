@@ -186,6 +186,10 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.MAIN_SERVER_SSH_PORT }} -H ${{ secrets.MAIN_SERVER_IP }} >> ~/.ssh/known_hosts
 
+      - name: SCP docker-compose.prod.yaml
+        run: |
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.MAIN_SERVER_SSH_PORT }} docker-compose.prod.yaml ${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }}:/home/soma/boto/
+
       - name: Deploy to Production Server via SSH
         env:
           CONTAINERVER: ${{ needs.build-containers-common.outputs.containerver }}
@@ -196,7 +200,6 @@ jobs:
 
           # Prepare variables
           IMAGE_TAG="${{ env.CONTAINERVER }}"
-          DEPLOY_PATH="${{ secrets.MAIN_SERVER_DEPLOY_PATH }}"
           VAULT_URL="${{ secrets.VAULT_URL }}"
           VAULT_TOKEN="${{ secrets.VAULT_TOKEN }}"
           VAULT_SECRET_PATH="boto/data/production"
@@ -208,7 +211,6 @@ jobs:
               ${{ secrets.MAIN_SERVER_SSH_USER }}@${{ secrets.MAIN_SERVER_IP }} \
               bash -s -- \
               "$IMAGE_TAG" \
-              "$DEPLOY_PATH" \
               "$VAULT_URL" \
               "$VAULT_TOKEN" \
               "$VAULT_SECRET_PATH" \
@@ -217,12 +219,12 @@ jobs:
 
             # Read arguments passed from GitHub Actions
             IMAGE_TAG="$1"
-            DEPLOY_PATH="$2"
-            VAULT_URL="$3"
-            VAULT_TOKEN="$4"
-            VAULT_SECRET_PATH="$5"
-            NETWORK_NAME="$6"
+            VAULT_URL="$2"
+            VAULT_TOKEN="$3"
+            VAULT_SECRET_PATH="$4"
+            NETWORK_NAME="$5"
 
+            DEPLOY_PATH="/home/soma/boto"
             IMAGE="ghcr.io/soma-krd/boto.social:${IMAGE_TAG}"
             APP_NAME="boto-app"
             NEW_CONTAINER="${APP_NAME}-new"
@@ -278,30 +280,39 @@ jobs:
             echo "✅ Secrets fetched and .env created (keys: $(grep -c '^[^#]' .env))"
             
             # Step 2: Prepare Docker Compose
-            echo "==> Step 2/7: Preparing Docker Compose..."
-            echo "Updating docker-compose.dev.yaml placeholder to ${IMAGE_TAG}"
-            sed -i "s|placeholder|${IMAGE_TAG}|g" docker-compose.dev.yaml
+            echo "==> Step 2/8: Preparing Docker Compose..."
+            echo "Updating docker-compose.prod.yaml placeholder to ${IMAGE_TAG}"
+            sed -i "s|placeholder|${IMAGE_TAG}|g" docker-compose.prod.yaml
             echo "✅ Compose file updated"
 
             # Step 3: Pull latest image
-            echo "==> Step 3/7: Pulling Docker image..."
+            echo "==> Step 3/8: Pulling Docker image..."
             echo "Pulling image: ghcr.io/soma-krd/boto.social:${IMAGE_TAG}"
-            docker compose -f docker-compose.dev.yaml pull boto-app
+            docker pull "$IMAGE"
             echo "✅ Image pulled"
 
             # Step 4: Start new container
-            echo "==> Step 4/7: Starting new container..."
-            docker compose -f docker-compose.dev.yaml up -d boto-app
-            echo "✅ New container started"
+            echo "==> Step 4/8: Starting new container..."
+            if docker compose -f docker-compose.prod.yaml up -d boto-app; then
+              echo "✅ Compose up successful"
+            else
+              echo "⚠️  Compose failed, falling back to docker run"
+              # Stop any existing container
+              docker stop boto-app || true
+              docker rm boto-app || true
+              # Run with docker run
+              docker run -d --name boto-app --restart unless-stopped --env-file .env -v /home/soma/boto/uploads:/uploads -v /home/soma/boto/logs:/app/logs --network soma_somanet "$IMAGE"
+              echo "✅ Docker run successful"
+            fi
             docker ps -f name=boto-app --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
             # Step 5: Wait for container to initialize
-            echo "==> Step 5/7: Waiting for application to initialize..."
+            echo "==> Step 5/8: Waiting for application to initialize..."
             sleep 15
             echo "Wait complete"
 
             # Step 6: Run migrations
-            echo "==> Step 6/7: Running database migrations..."
+            echo "==> Step 6/8: Running database migrations..."
             if docker exec boto-app sh -c "pnpm run prisma-db-push"; then
               echo "✅ Migrations completed successfully"
             else
@@ -367,8 +378,9 @@ jobs:
 
             # Rollback
             echo "Rolling back - stopping failed container"
-            docker compose -f docker-compose.dev.yaml stop boto-app || echo "Stop failed"
-            docker compose -f docker-compose.dev.yaml rm -f boto-app || echo "Remove failed"
+            docker compose -f docker-compose.prod.yaml down || true
+            docker stop boto-app || true
+            docker rm boto-app || true
 
             # Restore old .env if exists
             if [ -f .env.backup.* ]; then
