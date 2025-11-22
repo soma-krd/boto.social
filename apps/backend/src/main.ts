@@ -16,7 +16,7 @@ import { HttpExceptionFilter } from '@boto/nestjs-libraries/services/exception.f
 import { ConfigurationChecker } from '@boto/helpers/configuration/configuration.checker';
 import { startMcp } from '@boto/nestjs-libraries/chat/start.mcp';
 
-async function bootstrap() {
+async function start() {
   const app = await NestFactory.create(AppModule, {
     rawBody: true,
     cors: {
@@ -80,8 +80,8 @@ function checkConfiguration() {
 
     Logger.warn('Configuration issues found: ' + checker.getIssuesCount());
   } else {
-    Logger.log('Configuration check completed without any issues.');
+    Logger.log('Configuration check completed without any issues');
   }
 }
 
-bootstrap();
+start();
