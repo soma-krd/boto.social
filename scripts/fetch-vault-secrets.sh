@@ -78,7 +78,12 @@ authenticate_approle() {
     
     if [[ -z "$VAULT_TOKEN" ]]; then
         log_error "Failed to extract token from AppRole authentication response"
-        echo "Response: $response"
+        # Don't log the full response as it may contain sensitive data
+        if echo "$response" | grep -q '"errors"'; then
+            log_error "Vault returned errors (check AppRole credentials)"
+        else
+            log_error "Invalid response format from Vault"
+        fi
         exit 1
     fi
     
@@ -115,7 +120,10 @@ fetch_secrets() {
     if command -v jq &> /dev/null; then
         if [ "$(echo "$response" | jq -r '.data.data')" == "null" ]; then
             log_error "Error: No data found at Vault path ${VAULT_SECRET_PATH}"
-            echo "Vault Response: $response"
+            # Check for errors without exposing full response
+            if echo "$response" | jq -e '.errors' >/dev/null 2>&1; then
+                log_error "Vault returned errors (check permissions and path)"
+            fi
             exit 1
         fi
     fi
@@ -145,7 +153,8 @@ convert_to_env() {
         
         if [[ -z "$parsed" ]]; then
             log_error "Failed to parse secrets with jq"
-            log_error "Response: $json_response"
+            # Don't log the full response as it contains sensitive data
+            log_error "Invalid or empty response from Vault"
             exit 1
         fi
         
@@ -162,7 +171,8 @@ convert_to_env() {
         
         if [[ -z "$secrets" ]]; then
             log_error "Failed to extract secrets from Vault response"
-            log_error "Response: $json_response"
+            # Don't log the full response as it contains sensitive data
+            log_error "Invalid response format from Vault"
             exit 1
         fi
         

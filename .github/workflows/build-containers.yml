@@ -128,7 +128,7 @@ jobs:
           VAULT_URL: ${{ secrets.VAULT_URL }}
           VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           
           echo "=== VALIDATING DEPLOYMENT SECRETS ==="
           echo ""
@@ -181,7 +181,7 @@ jobs:
         env:
           CONTAINERVER: ${{ needs.build-containers-common.outputs.containerver }}
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           
           echo "=== DEPLOYING BOTO TO PRODUCTION ==="
           
@@ -208,7 +208,7 @@ jobs:
               "$VAULT_URL" \
               "$VAULT_TOKEN" \
               "$VAULT_SECRET_PATH" <<'DEPLOY_SCRIPT'
-            set -euxo pipefail
+            set -euo pipefail
             
             # Read arguments passed from GitHub Actions
             IMAGE_TAG="$1"
@@ -236,7 +236,12 @@ jobs:
             
             if [ -z "$SECRETS_JSON" ] || [ "$(echo "$SECRETS_JSON" | jq -r '.data.data')" == "null" ]; then
               echo "❌ Error: Failed to fetch secrets from Vault at path ${VAULT_SECRET_PATH}"
-              echo "Vault Response: $SECRETS_JSON"
+              # Check if response contains errors (without exposing secrets)
+              if echo "$SECRETS_JSON" | jq -e '.errors' >/dev/null 2>&1; then
+                echo "Vault returned errors (check Vault permissions and path)"
+              else
+                echo "Vault returned empty or invalid response"
+              fi
               exit 1
             fi
             
