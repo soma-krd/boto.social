@@ -293,7 +293,7 @@ jobs:
 
             # Step 4: Start new container
             echo "==> Step 4/8: Starting new container..."
-            if docker compose -f docker-compose.prod.yaml up -d boto-app; then
+            if docker compose -f docker-compose.prod.yaml up -d; then
               echo "✅ Compose up successful"
             else
               echo "⚠️  Compose failed, falling back to docker run"
@@ -320,26 +320,21 @@ jobs:
             fi
 
             # Step 7: Health check
-            echo "==> Step 7/7: Performing health checks..."
+            echo "==> Step 7/7: Performing health checks using docker-compose..."
 
-            BACKEND_URL="http://localhost:3000"
-            echo "Health check URL: Backend=$BACKEND_URL"
+            echo "Waiting for both boto-app and boto-postgres to be healthy..."
+            timeout=300
+            elapsed=0
 
-            for i in {1..30}; do
-              echo "Health check attempt $i/30"
+            while [ $elapsed -lt $timeout ]; do
+              # Get health status using docker-compose ps
+              health_status=$(docker-compose -f docker-compose.prod.yaml ps --format json | jq -r '.[] | select(.Service == "boto-app" or .Service == "boto-postgres") | "\(.Service):\(.Health)"')
 
-              # Check if container is still running
-              if ! docker ps -q -f name="^boto-app$" | grep -q .; then
-                echo "❌ Container boto-app stopped unexpectedly"
-                echo "Container logs:"
-                docker logs --tail 50 boto-app || true
-                exit 1
-              fi
+              app_healthy=$(echo "$health_status" | grep -c "boto-app:healthy" || true)
+              postgres_healthy=$(echo "$health_status" | grep -c "boto-postgres:healthy" || true)
 
-              # Check backend health
-              if docker exec boto-app curl -fs "$BACKEND_URL" >/dev/null 2>&1; then
-                echo "✅ Backend health check passed"
-                echo "✅ New container is healthy (Backend)"
+              if [ "$app_healthy" -eq 1 ] && [ "$postgres_healthy" -eq 1 ]; then
+                echo "✅ Both services are healthy"
 
                 # Cleanup old images
                 echo "Cleaning up old Docker images..."
@@ -355,19 +350,21 @@ jobs:
 
                 exit 0
               else
-                echo "❌ Backend health check failed"
+                echo "Waiting... Current status:"
+                echo "$health_status"
               fi
 
-              echo "Attempt $i/30: Waiting for health check..."
-              sleep 2
+              sleep 10
+              elapsed=$((elapsed + 10))
             done
 
             # Health check failed
-            echo "❌ Health check failed after 30 attempts"
+            echo "❌ Health check failed after $timeout seconds"
             echo "Container status:"
-            docker ps -f name=boto-app --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            docker-compose -f docker-compose.prod.yaml ps --format "table {{.Name}}\t{{.Service}}\t{{.Status}}\t{{.Ports}}"
             echo "Container logs:"
-            docker logs --tail 100 boto-app
+            docker-compose -f docker-compose.prod.yaml logs --tail 100 boto-app
+            docker-compose -f docker-compose.prod.yaml logs --tail 100 boto-postgres
 
             # Rollback
             echo "Rolling back - stopping failed container"
