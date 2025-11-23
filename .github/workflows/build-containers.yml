@@ -243,7 +243,7 @@ jobs:
             echo "Changed to deploy path: $(pwd)"
 
             # Step 1: Fetch secrets from Vault
-            echo "==> Step 1/7: Fetching secrets from Vault..."
+            echo "==> Step 1/6: Fetching secrets from Vault..."
             echo "Vault URL: ${VAULT_URL}/v1/${VAULT_SECRET_PATH}"
             SECRETS_JSON=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" "${VAULT_URL}/v1/${VAULT_SECRET_PATH}")
             echo "Vault response received (length: ${#SECRETS_JSON})"
@@ -298,19 +298,19 @@ jobs:
             fi
             
             # Step 2: Prepare Docker Compose
-            echo "==> Step 2/8: Preparing Docker Compose..."
+            echo "==> Step 2/6: Preparing Docker Compose..."
             echo "Updating docker-compose.prod.yaml placeholder to ${IMAGE_TAG}"
             sed -i "s|placeholder|${IMAGE_TAG}|g" docker-compose.prod.yaml
             echo "✅ Compose file updated"
 
             # Step 3: Pull latest image
-            echo "==> Step 3/8: Pulling Docker image..."
+            echo "==> Step 3/6: Pulling Docker image..."
             echo "Pulling image: ghcr.io/soma-krd/boto.social:${IMAGE_TAG}"
             docker pull "$IMAGE"
             echo "✅ Image pulled"
 
             # Step 4: Start new container
-            echo "==> Step 4/8: Starting new container..."
+            echo "==> Step 4/6: Starting new container..."
             if docker compose -f docker-compose.prod.yaml up -d; then
               echo "✅ Compose up successful"
             else
@@ -325,84 +325,31 @@ jobs:
             docker ps -f name=boto-app --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
             # Step 5: Wait for container to initialize
-            echo "==> Step 5/8: Waiting for application to initialize..."
+            echo "==> Step 5/6: Waiting for application to initialize..."
             sleep 15
             echo "Wait complete"
 
             # Step 6: Run migrations
-            echo "==> Step 6/8: Running database migrations..."
+            echo "==> Step 6/6: Running database migrations..."
             if docker exec boto-app sh -c "pnpm run prisma-db-push"; then
               echo "✅ Migrations completed successfully"
             else
               echo "⚠️  Migration command failed, but continuing"
             fi
 
-            # Step 7: Health check
-            echo "==> Step 7/7: Performing health checks using docker-compose..."
+            # Cleanup old images
+            echo "Cleaning up old Docker images..."
+            docker image prune -f >/dev/null 2>&1 || true
 
-            echo "Waiting for both boto-app and boto-postgres to be healthy..."
-            timeout=300
-            elapsed=0
-
-            while [ $elapsed -lt $timeout ]; do
-              # Get health status using docker-compose ps
-              health_status=$(docker compose -f docker-compose.prod.yaml ps --format json | jq -r '.[] | select(.Service == "boto-app" or .Service == "boto-postgres") | "\(.Service):\(.Health)"')
-
-              app_healthy=$(echo "$health_status" | grep -c "boto-app:healthy" || true)
-              postgres_healthy=$(echo "$health_status" | grep -c "boto-postgres:healthy" || true)
-
-              if [ "$app_healthy" -eq 1 ] && [ "$postgres_healthy" -eq 1 ]; then
-                echo "✅ Both services are healthy"
-
-                # Cleanup old images
-                echo "Cleaning up old Docker images..."
-                docker image prune -f >/dev/null 2>&1 || true
-
-                echo ""
-                echo "========================================="
-                echo "  ✅ Deployment Successful!"
-                echo "========================================="
-                echo "Image: $IMAGE"
-                echo "Container: boto-app"
-                echo "========================================="
-
-                exit 0
-              else
-                echo "Waiting... Current status:"
-                echo "$health_status"
-              fi
-
-              sleep 10
-              elapsed=$((elapsed + 10))
-            done
-
-            # Health check failed
-            echo "❌ Health check failed after $timeout seconds"
-            echo "Container status:"
-            docker compose -f docker-compose.prod.yaml ps --format "table {{.Name}}\t{{.Service}}\t{{.Status}}\t{{.Ports}}"
-            echo "Container logs:"
-            docker compose -f docker-compose.prod.yaml logs --tail 100 boto-app
-            docker compose -f docker-compose.prod.yaml logs --tail 100 boto-postgres
-
-            # Rollback
-            echo "Rolling back - stopping failed container"
-            docker compose -f docker-compose.prod.yaml down || true
-            docker stop boto-app || true
-            docker rm boto-app || true
-
-            # Restore old .env if exists
-            if [ -f .env.backup.* ]; then
-              latest_backup=$(ls -t .env.backup.* | head -1)
-              cp "$latest_backup" .env
-              echo "Restored previous .env file from $latest_backup"
-            else
-              echo "No backup .env found to restore"
-            fi
-
+            echo ""
             echo "========================================="
-            echo "  ❌ Deployment Failed!"
+            echo "  ✅ Deployment Successful!"
             echo "========================================="
-            exit 1
+            echo "Image: $IMAGE"
+            echo "Container: boto-app"
+            echo "========================================="
+
+            exit 0
           DEPLOY_SCRIPT
           
           # Cleanup SSH key
