@@ -278,6 +278,24 @@ jobs:
 
             chmod 600 .env
             echo "✅ Secrets fetched and .env created (keys: $(grep -c '^[^#]' .env))"
+
+            # Parse DATABASE_URL to set POSTGRES_* variables for docker-compose
+            DATABASE_URL=$(echo "$SECRETS_JSON" | jq -r '.data.data.DATABASE_URL')
+            if [ -n "$DATABASE_URL" ] && [ "$DATABASE_URL" != "null" ]; then
+              # Parse postgresql://user:pass@host:port/db
+              POSTGRES_USER=$(echo "$DATABASE_URL" | sed 's|postgresql://\([^:]*\):.*|\1|')
+              POSTGRES_PASSWORD=$(echo "$DATABASE_URL" | sed 's|postgresql://[^:]*:\([^@]*\)@.*|\1|')
+              POSTGRES_DB=$(echo "$DATABASE_URL" | sed 's|.*/\([^/]*\)$|\1|')
+              export POSTGRES_USER
+              export POSTGRES_PASSWORD
+              export POSTGRES_DB
+              echo "✅ Parsed DATABASE_URL and set POSTGRES_* variables"
+              echo "  POSTGRES_USER: $POSTGRES_USER"
+              echo "  POSTGRES_DB: $POSTGRES_DB"
+            else
+              echo "❌ DATABASE_URL not found in vault secrets"
+              exit 1
+            fi
             
             # Step 2: Prepare Docker Compose
             echo "==> Step 2/8: Preparing Docker Compose..."
