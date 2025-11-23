@@ -346,7 +346,7 @@ jobs:
 
             while [ $elapsed -lt $timeout ]; do
               # Get health status using docker-compose ps
-              health_status=$(docker-compose -f docker-compose.prod.yaml ps --format json | jq -r '.[] | select(.Service == "boto-app" or .Service == "boto-postgres") | "\(.Service):\(.Health)"')
+              health_status=$(docker compose -f docker-compose.prod.yaml ps --format json | jq -r '.[] | select(.Service == "boto-app" or .Service == "boto-postgres") | "\(.Service):\(.Health)"')
 
               app_healthy=$(echo "$health_status" | grep -c "boto-app:healthy" || true)
               postgres_healthy=$(echo "$health_status" | grep -c "boto-postgres:healthy" || true)
@@ -379,10 +379,10 @@ jobs:
             # Health check failed
             echo "❌ Health check failed after $timeout seconds"
             echo "Container status:"
-            docker-compose -f docker-compose.prod.yaml ps --format "table {{.Name}}\t{{.Service}}\t{{.Status}}\t{{.Ports}}"
+            docker compose -f docker-compose.prod.yaml ps --format "table {{.Name}}\t{{.Service}}\t{{.Status}}\t{{.Ports}}"
             echo "Container logs:"
-            docker-compose -f docker-compose.prod.yaml logs --tail 100 boto-app
-            docker-compose -f docker-compose.prod.yaml logs --tail 100 boto-postgres
+            docker compose -f docker-compose.prod.yaml logs --tail 100 boto-app
+            docker compose -f docker-compose.prod.yaml logs --tail 100 boto-postgres
 
             # Rollback
             echo "Rolling back - stopping failed container"
