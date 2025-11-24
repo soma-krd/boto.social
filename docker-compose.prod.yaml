@@ -51,9 +51,6 @@ services:
     volumes:
       - /home/soma/boto/uploads:/uploads
       - /home/soma/boto/logs:/app/logs
-    ports:
-      - "3000:3000"
-      - "4200:4200"
     networks:
       - soma_somanet
     depends_on:
