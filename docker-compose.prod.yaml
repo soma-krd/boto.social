@@ -60,10 +60,6 @@ services:
       boto-postgres:
         condition: service_healthy
     deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '2.0'
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -75,6 +71,29 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: boto-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVERS_JSON: |
+        [
+          {
+            "Name": "Boto PostgreSQL",
+            "Group": "Servers",
+            "Host": "boto-postgres",
+            "Port": 5432,
+            "Username": "${POSTGRES_USER}",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "${POSTGRES_DB}"
+          }
+        ]
+    networks:
+      - soma_somanet
+    depends_on:
+      - boto-postgres
 
 networks:
   soma_somanet:
