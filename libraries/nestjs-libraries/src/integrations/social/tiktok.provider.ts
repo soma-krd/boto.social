@@ -13,6 +13,7 @@ import { TikTokDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/
 import { timer } from '@boto/helpers/utils/timer';
 import { Integration } from '@prisma/client';
 import { Rules } from '@boto/nestjs-libraries/chat/rules.description.decorator';
+import { makeId } from '@boto/nestjs-libraries/services/make.is';
 
 @Rules(
   'TikTok can have one video or one picture or multiple pictures, it cannot be without an attachment'
@@ -390,6 +391,13 @@ export class TiktokProvider extends SocialAbstract implements SocialProvider {
       ).json();
 
       const { status, publicaly_available_post_id } = post.data;
+
+      if (status === 'SEND_TO_USER_INBOX') {
+        return {
+          url: 'https://www.tiktok.com/tiktokstudio/content?tab=post',
+          id: Math.floor(Math.random() * 1000000 + 100000),
+        };
+      }
 
       if (status === 'PUBLISH_COMPLETE') {
         return {
