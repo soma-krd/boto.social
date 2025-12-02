@@ -9,6 +9,7 @@ import { GetUserFromRequest } from '@boto/nestjs-libraries/user/user.from.reques
 import { NotificationService } from '@boto/nestjs-libraries/database/prisma/notifications/notification.service';
 import { Request } from 'express';
 import { Nowpayments } from '@boto/nestjs-libraries/crypto/nowpayments';
+import { AuthService } from '@boto/helpers/auth/auth.service';
 
 @ApiTags('Billing')
 @Controller('/billing')
@@ -28,6 +29,20 @@ export class BillingController {
     return {
       status: await this._stripeService.checkSubscription(org.id, body),
     };
+  }
+
+  @Get('/check-discount')
+  async checkDiscount(@GetOrgFromRequest() org: Organization) {
+    return {
+      offerCoupon: !(await this._stripeService.checkDiscount(org.paymentId))
+        ? false
+        : AuthService.signJWT({ discount: true }),
+    };
+  }
+
+  @Post('/apply-discount')
+  async applyDiscount(@GetOrgFromRequest() org: Organization) {
+    await this._stripeService.applyDiscount(org.paymentId);
   }
 
   @Post('/finish-trial')
