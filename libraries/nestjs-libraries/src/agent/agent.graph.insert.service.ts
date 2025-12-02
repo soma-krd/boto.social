@@ -10,7 +10,7 @@ import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts
 
 const model = new ChatOpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'sk-proj-',
-  baseURL: process.env.OPENAI_BASE_URL,
+  configuration: { baseURL: process.env.OPENAI_BASE_URL },
   model: 'gpt-4o-2024-08-06',
   temperature: 0,
 });

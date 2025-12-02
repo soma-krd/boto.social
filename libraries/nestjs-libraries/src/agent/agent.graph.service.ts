@@ -23,14 +23,14 @@ const toolNode = new ToolNode(tools);
 
 const model = new ChatOpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'sk-proj-',
-  baseURL: process.env.OPENAI_BASE_URL,
+  configuration: { baseURL: process.env.OPENAI_BASE_URL },
   model: 'gpt-4.1',
   temperature: 0.7,
 });
 
 const dalle = new DallEAPIWrapper({
   apiKey: process.env.OPENAI_API_KEY || 'sk-proj-',
-  baseURL: process.env.OPENAI_BASE_URL,
+  baseUrl: process.env.OPENAI_BASE_URL,
   model: 'dall-e-3',
 });
 
