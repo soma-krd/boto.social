@@ -6,6 +6,7 @@ import { z } from 'zod';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'sk-proj-',
+  baseURL: process.env.OPENAI_BASE_URL,
 });
 
 const PicturePrompt = z.object({
