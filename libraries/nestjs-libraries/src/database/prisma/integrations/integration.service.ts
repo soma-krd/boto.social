@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IntegrationRepository } from '@boto/nestjs-libraries/database/prisma/integrations/integration.repository';
 import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
+=======
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { IntegrationRepository } from '@boto/nestjs-libraries/database/prisma/integrations/integration.repository';
+import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
+>>>>>>> main
 import {
   AnalyticsData,
   AuthTokenDetails,
@@ -19,6 +25,7 @@ import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/clien
 import { difference, uniq } from 'lodash';
 import utc from 'dayjs/plugin/utc';
 import { AutopostRepository } from '@boto/nestjs-libraries/database/prisma/autopost/autopost.repository';
+import { RefreshIntegrationService } from '@boto/nestjs-libraries/integrations/refresh.integration.service';
 
 dayjs.extend(utc);
 
@@ -30,7 +37,9 @@ export class IntegrationService {
     private _autopostsRepository: AutopostRepository,
     private _integrationManager: IntegrationManager,
     private _notificationService: NotificationService,
-    private _workerServiceProducer: BullMqClient
+    private _workerServiceProducer: BullMqClient,
+    @Inject(forwardRef(() => RefreshIntegrationService))
+    private _refreshIntegrationService: RefreshIntegrationService
   ) {}
 
   async changeActiveCron(orgId: string) {
@@ -184,7 +193,9 @@ export class IntegrationService {
       orgId,
       `Could not refresh your ${integration.providerIdentifier} channel ${err}`,
       `Could not refresh your ${integration.providerIdentifier} channel ${err}. Please go back to the system and connect it again ${process.env.FRONTEND_URL}/launches`,
-      true
+      true,
+      false,
+      'info'
     );
   }
 
@@ -333,39 +344,16 @@ export class IntegrationService {
       dayjs(getIntegration?.tokenExpiration).isBefore(dayjs()) ||
       forceRefresh
     ) {
-      const { accessToken, expiresIn, refreshToken, additionalSettings } =
-        await new Promise<AuthTokenDetails>((res) => {
-          return integrationProvider
-            .refreshToken(getIntegration.refreshToken!)
-            .then((r) => res(r))
-            .catch(() => {
-              res({
-                error: '',
-                accessToken: '',
-                id: '',
-                name: '',
-                picture: '',
-                username: '',
-                additionalSettings: undefined,
-              });
-            });
-        });
+      const data = await this._refreshIntegrationService.refresh(
+        getIntegration
+      );
+      if (!data) {
+        return [];
+      }
+
+      const { accessToken } = data;
 
       if (accessToken) {
-        await this.createOrUpdateIntegration(
-          additionalSettings,
-          !!integrationProvider.oneTimeToken,
-          getIntegration.organizationId,
-          getIntegration.name,
-          getIntegration.picture!,
-          'social',
-          getIntegration.internalId,
-          getIntegration.providerIdentifier,
-          accessToken,
-          refreshToken,
-          expiresIn
-        );
-
         getIntegration.token = accessToken;
 
         if (integrationProvider.refreshWait) {
@@ -464,51 +452,13 @@ export class IntegrationService {
       dayjs(getIntegration?.tokenExpiration).isBefore(dayjs()) ||
       forceRefresh
     ) {
-      const { accessToken, expiresIn, refreshToken, additionalSettings } =
-        await new Promise<AuthTokenDetails>((res) => {
-          getSocialIntegration
-            .refreshToken(getIntegration.refreshToken!)
-            .then((r) => res(r))
-            .catch(() =>
-              res({
-                accessToken: '',
-                expiresIn: 0,
-                refreshToken: '',
-                id: '',
-                name: '',
-                username: '',
-                picture: '',
-                additionalSettings: undefined,
-              })
-            );
-        });
-
-      if (!accessToken) {
-        await this.refreshNeeded(
-          getIntegration.organizationId,
-          getIntegration.id
-        );
-
-        await this.informAboutRefreshError(
-          getIntegration.organizationId,
-          getIntegration
-        );
-        return {};
-      }
-
-      await this.createOrUpdateIntegration(
-        additionalSettings,
-        !!getSocialIntegration.oneTimeToken,
-        getIntegration.organizationId,
-        getIntegration.name,
-        getIntegration.picture!,
-        'social',
-        getIntegration.internalId,
-        getIntegration.providerIdentifier,
-        accessToken,
-        refreshToken,
-        expiresIn
+      const data = await this._refreshIntegrationService.refresh(
+        getIntegration
       );
+      if (!data) {
+        return;
+      }
+      const { accessToken } = data;
 
       getIntegration.token = accessToken;
 

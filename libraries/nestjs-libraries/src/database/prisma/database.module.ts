@@ -41,6 +41,7 @@ import { ThirdPartyRepository } from '@boto/nestjs-libraries/database/prisma/thi
 import { ThirdPartyService } from '@boto/nestjs-libraries/database/prisma/third-party/third-party.service';
 import { VideoManager } from '@boto/nestjs-libraries/videos/video.manager';
 import { FalService } from '@boto/nestjs-libraries/openai/fal.service';
+import { RefreshIntegrationService } from '@boto/nestjs-libraries/integrations/refresh.integration.service';
 
 @Global()
 @Module({
@@ -80,6 +81,7 @@ import { FalService } from '@boto/nestjs-libraries/openai/fal.service';
     ItemUserService,
     MessagesService,
     IntegrationManager,
+    RefreshIntegrationService,
     ExtractContentService,
     OpenaiService,
     FalService,

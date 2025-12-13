@@ -3,6 +3,7 @@ import { UsersRepository } from '@boto/nestjs-libraries/database/prisma/users/us
 import { Provider } from '@prisma/client';
 import { ItemsDto } from '@boto/nestjs-libraries/dtos/marketplace/items.dto';
 import { UserDetailDto } from '@boto/nestjs-libraries/dtos/users/user.details.dto';
+import { EmailNotificationsDto } from '@boto/nestjs-libraries/dtos/users/email-notifications.dto';
 import { OrganizationRepository } from '@boto/nestjs-libraries/database/prisma/organizations/organization.repository';
 
 @Injectable()
@@ -54,5 +55,13 @@ export class UsersService {
 
   changePersonal(userId: string, body: UserDetailDto) {
     return this._usersRepository.changePersonal(userId, body);
+  }
+
+  getEmailNotifications(userId: string) {
+    return this._usersRepository.getEmailNotifications(userId);
+  }
+
+  updateEmailNotifications(userId: string, body: EmailNotificationsDto) {
+    return this._usersRepository.updateEmailNotifications(userId, body);
   }
 }
