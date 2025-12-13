@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { IntegrationRepository } from '@boto/nestjs-libraries/database/prisma/integrations/integration.repository';
-import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
-=======
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IntegrationRepository } from '@boto/nestjs-libraries/database/prisma/integrations/integration.repository';
 import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
->>>>>>> main
 import {
   AnalyticsData,
   AuthTokenDetails,
