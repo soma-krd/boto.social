@@ -1,11 +1,11 @@
 'use client';
 
 import { useCallback } from 'react';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { useVariables } from '@boto/react/helpers/variable.context';
-import { setCookie } from '@boto/frontend/components/layout/layout.context';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { setCookie } from '@gitroom/frontend/components/layout/layout.context';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 export const LogoutComponent = () => {
   const fetch = useFetch();
   const { isGeneral, isSecured } = useVariables();

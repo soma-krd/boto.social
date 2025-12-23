@@ -1,9 +1,9 @@
 'use client';
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
 import { ReactTags } from 'react-tag-autocomplete';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 export const MediumTags: FC<{
   name: string;

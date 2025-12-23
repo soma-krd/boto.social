@@ -1,16 +1,16 @@
 'use client';
 
 import clsx from 'clsx';
-import ImageWithFallback from '@boto/react/helpers/image.with.fallback';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { ThirdPartyListComponent } from '@boto/frontend/components/third-parties/third-party.list.component';
+import ImageWithFallback from '@gitroom/react/helpers/image.with.fallback';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { ThirdPartyListComponent } from '@gitroom/frontend/components/third-parties/third-party.list.component';
 import React, { FC, useCallback, useState } from 'react';
 import useSWR from 'swr';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { useToaster } from '@boto/react/toaster/toaster';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { useToaster } from '@gitroom/react/toaster/toaster';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
 import useCookie from 'react-use-cookie';
-import { SVGLine } from '@boto/frontend/components/launches/launches.component';
+import { SVGLine } from '@gitroom/frontend/components/launches/launches.component';
 
 export const ThirdPartyMenuComponent: FC<{
   reload: () => void;

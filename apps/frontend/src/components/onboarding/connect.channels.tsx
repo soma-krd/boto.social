@@ -1,26 +1,26 @@
 'use client';
 
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
 import { orderBy } from 'lodash';
-import { useUser } from '@boto/frontend/components/layout/user.context';
+import { useUser } from '@gitroom/frontend/components/layout/user.context';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { Menu } from '@boto/frontend/components/launches/menu/menu';
+import { Menu } from '@gitroom/frontend/components/launches/menu/menu';
 import {
   ApiModal,
   CustomVariables,
-} from '@boto/frontend/components/launches/add.provider.component';
+} from '@gitroom/frontend/components/launches/add.provider.component';
 import { useRouter } from 'next/navigation';
-import { useVariables } from '@boto/react/helpers/variable.context';
-import { useToaster } from '@boto/react/toaster/toaster';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { useToaster } from '@gitroom/react/toaster/toaster';
 import { Integration } from '@prisma/client';
-import { web3List } from '@boto/frontend/components/launches/web3/web3.list';
-import { timer } from '@boto/helpers/utils/timer';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { ModalWrapperComponent } from '@boto/frontend/components/new-launch/modal.wrapper.component';
+import { web3List } from '@gitroom/frontend/components/launches/web3/web3.list';
+import { timer } from '@gitroom/helpers/utils/timer';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { ModalWrapperComponent } from '@gitroom/frontend/components/new-launch/modal.wrapper.component';
 export const ConnectChannels: FC = () => {
   const fetch = useFetch();
   const { isGeneral } = useVariables();

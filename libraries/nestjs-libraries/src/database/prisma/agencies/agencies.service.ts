@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AgenciesRepository } from '@boto/nestjs-libraries/database/prisma/agencies/agencies.repository';
+import { AgenciesRepository } from '@gitroom/nestjs-libraries/database/prisma/agencies/agencies.repository';
 import { User } from '@prisma/client';
-import { CreateAgencyDto } from '@boto/nestjs-libraries/dtos/agencies/create.agency.dto';
-import { NotificationService } from '@boto/nestjs-libraries/database/prisma/notifications/notification.service';
+import { CreateAgencyDto } from '@gitroom/nestjs-libraries/dtos/agencies/create.agency.dto';
+import { NotificationService } from '@gitroom/nestjs-libraries/database/prisma/notifications/notification.service';
 
 @Injectable()
 export class AgenciesService {
@@ -85,7 +85,7 @@ export class AgenciesService {
   async createAgency(user: User, body: CreateAgencyDto) {
     const agency = await this._agenciesRepository.createAgency(user, body);
     await this._notificationService.sendEmail(
-      'nevo@boto.social',
+      'hi@boto.social',
       'New agency created',
       `
 <html lang="en">

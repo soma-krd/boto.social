@@ -1,4 +1,4 @@
-import { useVariables } from '@boto/react/helpers/variable.context';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
 export const ChromeExtensionComponent = () => {
   const { billingEnabled } = useVariables();
   if (!billingEnabled) {

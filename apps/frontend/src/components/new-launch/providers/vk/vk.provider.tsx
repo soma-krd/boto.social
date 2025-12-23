@@ -4,7 +4,7 @@
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
 export default withProvider({
   postComment: PostComment.POST,
   minimumCharacters: [],

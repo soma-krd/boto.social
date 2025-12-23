@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 export const GithubProvider = () => {
   const fetch = useFetch();
   const t = useT();
@@ -11,7 +11,7 @@ export const GithubProvider = () => {
   return (
     <div
       onClick={gotoLogin}
-      className={`cursor-pointer bg-white h-[44px] rounded-[4px] flex justify-center items-center text-customColor16 gap-[4px]`}
+      className={`cursor-pointer flex-1 bg-white h-[52px] rounded-[10px] flex justify-center items-center text-customColor16 gap-[10px]`}
     >
       <div>
         <svg

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from '@boto/nestjs-libraries/database/prisma/users/users.repository';
+import { UsersRepository } from '@gitroom/nestjs-libraries/database/prisma/users/users.repository';
 import { Provider } from '@prisma/client';
-import { ItemsDto } from '@boto/nestjs-libraries/dtos/marketplace/items.dto';
-import { UserDetailDto } from '@boto/nestjs-libraries/dtos/users/user.details.dto';
-import { EmailNotificationsDto } from '@boto/nestjs-libraries/dtos/users/email-notifications.dto';
-import { OrganizationRepository } from '@boto/nestjs-libraries/database/prisma/organizations/organization.repository';
+import { ItemsDto } from '@gitroom/nestjs-libraries/dtos/marketplace/items.dto';
+import { UserDetailDto } from '@gitroom/nestjs-libraries/dtos/users/user.details.dto';
+import { EmailNotificationsDto } from '@gitroom/nestjs-libraries/dtos/users/email-notifications.dto';
+import { OrganizationRepository } from '@gitroom/nestjs-libraries/database/prisma/organizations/organization.repository';
 
 @Injectable()
 export class UsersService {

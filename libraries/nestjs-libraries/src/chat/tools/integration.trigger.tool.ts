@@ -1,17 +1,17 @@
-import { AgentToolInterface } from '@boto/nestjs-libraries/chat/agent.tool.interface';
+import { AgentToolInterface } from '@gitroom/nestjs-libraries/chat/agent.tool.interface';
 import { createTool } from '@mastra/core/tools';
 import { z } from 'zod';
 import { Injectable } from '@nestjs/common';
 import {
   IntegrationManager,
   socialIntegrationList,
-} from '@boto/nestjs-libraries/integrations/integration.manager';
+} from '@gitroom/nestjs-libraries/integrations/integration.manager';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
-import { IntegrationService } from '@boto/nestjs-libraries/database/prisma/integrations/integration.service';
-import { RefreshToken } from '@boto/nestjs-libraries/integrations/social.abstract';
-import { timer } from '@boto/helpers/utils/timer';
-import { checkAuth } from '@boto/nestjs-libraries/chat/auth.context';
-import { RefreshIntegrationService } from '@boto/nestjs-libraries/integrations/refresh.integration.service';
+import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
+import { RefreshToken } from '@gitroom/nestjs-libraries/integrations/social.abstract';
+import { timer } from '@gitroom/helpers/utils/timer';
+import { checkAuth } from '@gitroom/nestjs-libraries/chat/auth.context';
+import { RefreshIntegrationService } from '@gitroom/nestjs-libraries/integrations/refresh.integration.service';
 
 @Injectable()
 export class IntegrationTriggerTool implements AgentToolInterface {

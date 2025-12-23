@@ -1,7 +1,7 @@
-import { ioRedis } from '@boto/nestjs-libraries/redis/redis.service';
+import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
 import Bottleneck from 'bottleneck';
-import { timer } from '@boto/helpers/utils/timer';
-import { BadBody } from '@boto/nestjs-libraries/integrations/social.abstract';
+import { timer } from '@gitroom/helpers/utils/timer';
+import { BadBody } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 
 const connection = new Bottleneck.IORedisConnection({
   client: ioRedis,

@@ -1,11 +1,11 @@
 import { Ability, AbilityBuilder, AbilityClass } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { pricing } from '@boto/nestjs-libraries/database/prisma/subscriptions/pricing';
-import { SubscriptionService } from '@boto/nestjs-libraries/database/prisma/subscriptions/subscription.service';
-import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts.service';
-import { IntegrationService } from '@boto/nestjs-libraries/database/prisma/integrations/integration.service';
+import { pricing } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/pricing';
+import { SubscriptionService } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/subscription.service';
+import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
+import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
 import dayjs from 'dayjs';
-import { WebhooksService } from '@boto/nestjs-libraries/database/prisma/webhooks/webhooks.service';
+import { WebhooksService } from '@gitroom/nestjs-libraries/database/prisma/webhooks/webhooks.service';
 import { AuthorizationActions, Sections } from './permission.exception.class';
 
 export type AppAbility = Ability<[AuthorizationActions, Sections]>;

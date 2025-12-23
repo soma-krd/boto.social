@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getCookieUrlFromDomain } from '@boto/helpers/subdomain/subdomain.management';
-import { internalFetch } from '@boto/helpers/utils/internal.fetch';
+import { getCookieUrlFromDomain } from '@gitroom/helpers/subdomain/subdomain.management';
+import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
 import acceptLanguage from 'accept-language';
 import {
   cookieName,
   fallbackLng,
   headerName,
   languages,
-} from '@boto/react/translation/i18n.config';
+} from '@gitroom/react/translation/i18n.config';
 acceptLanguage.languages(languages);
 
 // This function can be marked `async` if using `await` inside
@@ -35,10 +35,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/auth/login-required`, nextUrl.href));
   }
 
+  // Allow public access to these paths without authentication
   if (
+    nextUrl.pathname === '/' ||
     nextUrl.pathname.startsWith('/uploads/') ||
     nextUrl.pathname.startsWith('/p/') ||
-    nextUrl.pathname.startsWith('/icons/')
+    nextUrl.pathname.startsWith('/icons/') ||
+    nextUrl.pathname.startsWith('/privacy-policy') ||
+    nextUrl.pathname.startsWith('/home/videos/') ||
+    nextUrl.pathname.startsWith('/home/svgs/') ||
+    nextUrl.pathname.startsWith('/home/images/') ||
+    nextUrl.pathname.startsWith('/terms-of-service')
   ) {
     return topResponse;
   }
@@ -133,15 +140,6 @@ export async function middleware(request: NextRequest) {
       }
       return redirect;
     }
-    if (nextUrl.pathname === '/') {
-      return NextResponse.redirect(
-        new URL(
-          !!process.env.IS_GENERAL ? '/launches' : `/analytics`,
-          nextUrl.href
-        )
-      );
-    }
-
     return topResponse;
   } catch (err) {
     console.log('err', err);

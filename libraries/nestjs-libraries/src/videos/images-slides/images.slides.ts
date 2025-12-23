@@ -1,19 +1,19 @@
-import { OpenaiService } from '@boto/nestjs-libraries/openai/openai.service';
+import { OpenaiService } from '@gitroom/nestjs-libraries/openai/openai.service';
 import {
   ExposeVideoFunction,
   URL,
   Video,
   VideoAbstract,
-} from '@boto/nestjs-libraries/videos/video.interface';
+} from '@gitroom/nestjs-libraries/videos/video.interface';
 import { chunk } from 'lodash';
 import Transloadit from 'transloadit';
-import { UploadFactory } from '@boto/nestjs-libraries/upload/upload.factory';
+import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
 import { Readable } from 'stream';
 import { parseBuffer } from 'music-metadata';
 import { stringifySync } from 'subtitle';
 
 import pLimit from 'p-limit';
-import { FalService } from '@boto/nestjs-libraries/openai/fal.service';
+import { FalService } from '@gitroom/nestjs-libraries/openai/fal.service';
 import { IsString } from 'class-validator';
 import { JSONSchema } from 'class-validator-jsonschema';
 const limit = pLimit(2);

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Select } from '@boto/react/form/select';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { Select } from '@gitroom/react/form/select';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 const list = [
   {
     value: 1,

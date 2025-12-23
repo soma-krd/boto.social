@@ -3,9 +3,9 @@
 import { FC, useEffect, useState } from 'react';
 import { HttpStatusCode } from 'axios';
 import { useRouter } from 'next/navigation';
-import { Redirect } from '@boto/frontend/components/layout/redirect';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { Redirect } from '@gitroom/frontend/components/layout/redirect';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import dayjs from 'dayjs';
 
 export const ContinueIntegration: FC<{

@@ -1,11 +1,11 @@
 'use client';
 
-import { StarsAndForks } from '@boto/frontend/components/analytics/stars.and.forks';
+import { StarsAndForks } from '@gitroom/frontend/components/analytics/stars.and.forks';
 import { FC, useCallback } from 'react';
-import { StarsTableComponent } from '@boto/frontend/components/analytics/stars.table.component';
+import { StarsTableComponent } from '@gitroom/frontend/components/analytics/stars.table.component';
 import useSWR from 'swr';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { LoadingComponent } from '@boto/frontend/components/layout/loading';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
 export const AnalyticsComponent: FC = () => {
   const fetch = useFetch();
   const load = useCallback(async (path: string) => {

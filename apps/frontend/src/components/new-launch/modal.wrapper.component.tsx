@@ -1,7 +1,7 @@
 import { FC, ReactNode, useEffect, useRef } from 'react';
-import { useModals } from '@boto/frontend/components/layout/new-modal';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 export const ModalWrapperComponent: FC<{
   title: string;

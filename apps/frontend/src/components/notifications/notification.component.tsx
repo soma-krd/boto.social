@@ -1,12 +1,12 @@
 'use client';
 
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
 import { FC, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import { useClickAway } from '@uidotdev/usehooks';
 import ReactLoading from 'react-loading';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 function replaceLinks(text: string) {
   const urlRegex =
     /(\bhttps?:\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;

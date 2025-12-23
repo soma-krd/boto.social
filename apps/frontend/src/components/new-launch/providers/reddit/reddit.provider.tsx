@@ -4,22 +4,22 @@ import { FC, useCallback } from 'react';
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { useIntegration } from '@boto/frontend/components/launches/helpers/use.integration';
-import { Subreddit } from '@boto/frontend/components/new-launch/providers/reddit/subreddit';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { useIntegration } from '@gitroom/frontend/components/launches/helpers/use.integration';
+import { Subreddit } from '@gitroom/frontend/components/new-launch/providers/reddit/subreddit';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
 import { useFieldArray, useWatch } from 'react-hook-form';
-import { Button } from '@boto/react/form/button';
+import { Button } from '@gitroom/react/form/button';
 import {
   RedditSettingsDto,
   RedditSettingsValueDto,
-} from '@boto/nestjs-libraries/dtos/posts/providers-settings/reddit.dto';
+} from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/reddit.dto';
 import clsx from 'clsx';
-import { useMediaDirectory } from '@boto/react/helpers/use.media.directory';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
+import { useMediaDirectory } from '@gitroom/react/helpers/use.media.directory';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
 import Image from 'next/image';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useFormatting } from '@boto/frontend/components/launches/helpers/use.formatting';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFormatting } from '@gitroom/frontend/components/launches/helpers/use.formatting';
 const RenderRedditComponent: FC<{
   type: string;
   images?: Array<{

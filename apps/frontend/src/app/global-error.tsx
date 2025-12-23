@@ -2,7 +2,7 @@
 import * as Sentry from '@sentry/nextjs';
 import NextError from 'next/error';
 import { useEffect } from 'react';
-import { useVariables } from '@boto/react/helpers/variable.context';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
 
 export default function GlobalError({
   error,

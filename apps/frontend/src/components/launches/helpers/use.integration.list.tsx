@@ -1,6 +1,6 @@
 'use client';
 
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 

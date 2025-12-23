@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/nextjs';
-import { useVariables } from '@boto/react/helpers/variable.context';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
 
 export const AttachToFeedbackIcon: FC = () => {
   const { sentryDsn } = useVariables();

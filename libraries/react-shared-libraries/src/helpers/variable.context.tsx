@@ -2,6 +2,7 @@
 
 import { createContext, FC, ReactNode, useContext, useEffect } from 'react';
 interface VariableContextInterface {
+  stripeClient: string;
   billingEnabled: boolean;
   isGeneral: boolean;
   genericOauth: boolean;
@@ -26,8 +27,9 @@ interface VariableContextInterface {
   sentryDsn: string;
 }
 const VariableContext = createContext({
+  stripeClient: '',
   billingEnabled: false,
-  isGeneral: true,
+  isGeneral: false,
   genericOauth: false,
   oauthLogoUrl: '',
   oauthDisplayName: '',

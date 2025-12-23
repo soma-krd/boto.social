@@ -3,12 +3,12 @@
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { ListmonkDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/listmonk.dto';
-import { Input } from '@boto/react/form/input';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
-import { SelectList } from '@boto/frontend/components/new-launch/providers/listmonk/select.list';
-import { SelectTemplates } from '@boto/frontend/components/new-launch/providers/listmonk/select.templates';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { ListmonkDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/listmonk.dto';
+import { Input } from '@gitroom/react/form/input';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+import { SelectList } from '@gitroom/frontend/components/new-launch/providers/listmonk/select.list';
+import { SelectTemplates } from '@gitroom/frontend/components/new-launch/providers/listmonk/select.templates';
 
 const SettingsComponent = () => {
   const form = useSettings();

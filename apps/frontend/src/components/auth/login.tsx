@@ -1,20 +1,20 @@
 'use client';
 
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import Link from 'next/link';
-import { Button } from '@boto/react/form/button';
-import { Input } from '@boto/react/form/input';
+import { Button } from '@gitroom/react/form/button';
+import { Input } from '@gitroom/react/form/input';
 import { useMemo, useState } from 'react';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { LoginUserDto } from '@boto/nestjs-libraries/dtos/auth/login.user.dto';
-import { GithubProvider } from '@boto/frontend/components/auth/providers/github.provider';
-import { OauthProvider } from '@boto/frontend/components/auth/providers/oauth.provider';
-import { GoogleProvider } from '@boto/frontend/components/auth/providers/google.provider';
-import { useVariables } from '@boto/react/helpers/variable.context';
-import { FarcasterProvider } from '@boto/frontend/components/auth/providers/farcaster.provider';
-import WalletProvider from '@boto/frontend/components/auth/providers/wallet.provider';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { LoginUserDto } from '@gitroom/nestjs-libraries/dtos/auth/login.user.dto';
+import { GithubProvider } from '@gitroom/frontend/components/auth/providers/github.provider';
+import { OauthProvider } from '@gitroom/frontend/components/auth/providers/oauth.provider';
+import { GoogleProvider } from '@gitroom/frontend/components/auth/providers/google.provider';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { FarcasterProvider } from '@gitroom/frontend/components/auth/providers/farcaster.provider';
+import WalletProvider from '@gitroom/frontend/components/auth/providers/wallet.provider';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 type Inputs = {
   email: string;
   password: string;
@@ -55,70 +55,104 @@ export function Login() {
   };
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div>
-          <h1 className="text-3xl font-bold text-start mb-4 cursor-pointer">
-            {t('sign_in', 'Sign In')}
-          </h1>
-        </div>
-        {isGeneral && genericOauth ? (
-          <OauthProvider />
-        ) : !isGeneral ? (
-          <GithubProvider />
-        ) : (
-          <div className="gap-[5px] flex flex-col">
-            <GoogleProvider />
-            {!!neynarClientId && <FarcasterProvider />}
-            {billingEnabled && <WalletProvider />}
+      <form className="flex-1 flex" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col flex-1">
+          <div>
+            <h1 className="text-[40px] font-[500] -tracking-[0.8px] text-start cursor-pointer">
+              {t('sign_in', 'Sign In')}
+            </h1>
           </div>
-        )}
-        <div className="h-[20px] mb-[24px] mt-[24px] relative">
-          <div className="absolute w-full h-[1px] bg-fifth top-[50%] -translate-y-[50%]" />
-          <div
-            className={`absolute z-[1] justify-center items-center w-full start-0 top-0 flex`}
-          >
-            <div className="bg-customColor15 px-[16px]">{t('or', 'OR')}</div>
+          <div className="text-[14px] mt-[32px] mb-[12px]">
+            {t('continue_with', 'Continue With')}
           </div>
-        </div>
-
-        <div className="text-textColor">
-          <Input
-            label="Email"
-            translationKey="label_email"
-            {...form.register('email')}
-            type="email"
-            placeholder="Email Address"
-          />
-          <Input
-            label="Password"
-            translationKey="label_password"
-            {...form.register('password')}
-            autoComplete="off"
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-        <div className="text-center mt-6">
-          <div className="w-full flex">
-            <Button
-              type="submit"
-              className="flex-1 rounded-[4px]"
-              loading={loading}
-            >
-              {t('sign_in_1', 'Sign in')}
-            </Button>
+          <div className="flex flex-col">
+            {isGeneral && genericOauth ? (
+              <OauthProvider />
+            ) : !isGeneral ? (
+              <div className="gap-[8px] flex">
+                <GithubProvider />
+                <GoogleProvider />
+              </div>
+            ) : (
+              <div className="gap-[8px] flex">
+                <GoogleProvider />
+                {!!neynarClientId && <FarcasterProvider />}
+                {billingEnabled && <WalletProvider />}
+              </div>
+            )}
+            <div className="h-[20px] mb-[24px] mt-[24px] relative">
+              <div className="absolute w-full h-[1px] bg-fifth top-[50%] -translate-y-[50%]" />
+              <div
+                className={`absolute z-[1] justify-center items-center w-full start-0 -top-[4px] flex`}
+              >
+                <div className="px-[16px]">or</div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-[12px]">
+              <div className="text-textColor">
+                <Input
+                  label="Email"
+                  translationKey="label_email"
+                  {...form.register('email')}
+                  type="email"
+                  placeholder="Email Address"
+                />
+                <Input
+                  label="Password"
+                  translationKey="label_password"
+                  {...form.register('password')}
+                  autoComplete="off"
+                  type="password"
+                  placeholder="Password"
+                />
+              </div>
+              <div className="text-center mt-6">
+                <div className="w-full flex">
+                  <Button
+                    type="submit"
+                    className="flex-1 rounded-[10px] !h-[52px]"
+                    loading={loading}
+                  >
+                    {t('sign_in_1', 'Sign in')}
+                  </Button>
+                </div>
+                <p className="mt-4 text-sm">
+                  {t('don_t_have_an_account', "Don't Have An Account?")}&nbsp;
+                  <Link href="/auth" className="underline cursor-pointer">
+                    {t('sign_up', 'Sign Up')}
+                  </Link>
+                </p>
+                <p className="mt-4 text-sm">
+                  <Link
+                    href="/auth/forgot"
+                    className="underline hover:font-bold cursor-pointer"
+                  >
+                    {t('forgot_password', 'Forgot password')}
+                  </Link>
+                </p>
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <p className="text-[12px] text-white/50">
+                    {t('by_signing_in_you_agree_to_our', 'By signing in you agree to our')}&nbsp;
+                    <Link
+                      href="/terms-of-service"
+                      className="underline hover:text-white/70 cursor-pointer transition-colors"
+                      target="_blank"
+                    >
+                      {t('terms_of_service', 'Terms of Service')}
+                    </Link>
+                    &nbsp;{t('and', 'and')}&nbsp;
+                    <Link
+                      href="/privacy-policy"
+                      className="underline hover:text-white/70 cursor-pointer transition-colors"
+                      target="_blank"
+                    >
+                      {t('privacy_policy', 'Privacy Policy')}
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="mt-4 text-sm">
-            {t('don_t_have_an_account', "Don't Have An Account?")}&nbsp;
-            <Link href="/auth" className="underline cursor-pointer">
-              {t('sign_up', 'Sign Up')}
-            </Link>
-          </p>
-          <p className="mt-4 text-sm text-red-600">
-            <Link href="/auth/forgot" className="underline cursor-pointer">
-              {t('forgot_password', 'Forgot password')}
-            </Link>
-          </p>
         </div>
       </form>
     </FormProvider>

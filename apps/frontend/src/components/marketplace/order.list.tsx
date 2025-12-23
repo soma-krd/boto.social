@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 export const OrderList: FC<{
   type: 'seller' | 'buyer';
 }> = (props) => {

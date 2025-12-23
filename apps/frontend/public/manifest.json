@@ -1,0 +1,33 @@
+{
+  "name": "Boto - Social Media Management",
+  "short_name": "Boto",
+  "description": "AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E0E0E",
+  "theme_color": "#6366F1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/boto-fav.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["productivity", "social", "business"],
+  "lang": "en",
+  "dir": "ltr"
+}
+

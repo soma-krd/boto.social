@@ -2,12 +2,12 @@
 
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useModals } from '@boto/frontend/components/layout/new-modal';
-import { Button } from '@boto/react/form/button';
-import { ConnectChannels } from '@boto/frontend/components/onboarding/connect.channels';
-import { useVariables } from '@boto/react/helpers/variable.context';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { ModalWrapperComponent } from '@boto/frontend/components/new-launch/modal.wrapper.component';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { Button } from '@gitroom/react/form/button';
+import { ConnectChannels } from '@gitroom/frontend/components/onboarding/connect.channels';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { ModalWrapperComponent } from '@gitroom/frontend/components/new-launch/modal.wrapper.component';
 
 const Welcome: FC = () => {
   const { isGeneral } = useVariables();

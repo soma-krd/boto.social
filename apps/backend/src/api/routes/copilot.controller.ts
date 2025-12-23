@@ -14,15 +14,15 @@ import {
   copilotRuntimeNodeHttpEndpoint,
   copilotRuntimeNextJSAppRouterEndpoint,
 } from '@copilotkit/runtime';
-import { GetOrgFromRequest } from '@boto/nestjs-libraries/user/org.from.request';
+import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
 import { Organization } from '@prisma/client';
-import { SubscriptionService } from '@boto/nestjs-libraries/database/prisma/subscriptions/subscription.service';
+import { SubscriptionService } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/subscription.service';
 import { MastraAgent } from '@ag-ui/mastra';
-import { MastraService } from '@boto/nestjs-libraries/chat/mastra.service';
+import { MastraService } from '@gitroom/nestjs-libraries/chat/mastra.service';
 import { Request, Response } from 'express';
 import { RuntimeContext } from '@mastra/core/di';
-import { CheckPolicies } from '@boto/backend/services/auth/permissions/permissions.ability';
-import { AuthorizationActions, Sections } from '@boto/backend/services/auth/permissions/permission.exception.class';
+import { CheckPolicies } from '@gitroom/backend/services/auth/permissions/permissions.ability';
+import { AuthorizationActions, Sections } from '@gitroom/backend/services/auth/permissions/permission.exception.class';
 
 export type ChannelsContext = {
   integrations: string;

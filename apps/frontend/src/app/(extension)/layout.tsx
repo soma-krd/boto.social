@@ -2,12 +2,12 @@ export const dynamic = 'force-dynamic';
 import '../global.scss';
 import 'react-tooltip/dist/react-tooltip.css';
 import '@copilotkit/react-ui/styles.css';
-import LayoutContext from '@boto/frontend/components/layout/layout.context';
+import LayoutContext from '@gitroom/frontend/components/layout/layout.context';
 import { ReactNode } from 'react';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import clsx from 'clsx';
-import { VariableContextComponent } from '@boto/react/helpers/variable.context';
-import UtmSaver from '@boto/helpers/utils/utm.saver';
+import { VariableContextComponent } from '@gitroom/react/helpers/variable.context';
+import UtmSaver from '@gitroom/helpers/utils/utm.saver';
 
 const jakartaSans = Plus_Jakarta_Sans({
   weight: ['600', '500'],
@@ -21,12 +21,15 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={clsx(jakartaSans.className, 'dark text-primary !bg-primary')}>
+      <body
+        className={clsx(jakartaSans.className, 'dark text-primary !bg-primary')}
+      >
         <VariableContextComponent
           language="en"
           storageProvider={
             process.env.STORAGE_PROVIDER! as 'local' | 'cloudflare'
           }
+          stripeClient=""
           environment={process.env.NODE_ENV!}
           backendUrl={process.env.NEXT_PUBLIC_BACKEND_URL!}
           plontoKey={process.env.NEXT_PUBLIC_POLOTNO!}

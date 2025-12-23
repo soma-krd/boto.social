@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
-import { SubscriptionService } from '@boto/nestjs-libraries/database/prisma/subscriptions/subscription.service';
-import { StripeService } from '@boto/nestjs-libraries/services/stripe.service';
-import { GetOrgFromRequest } from '@boto/nestjs-libraries/user/org.from.request';
+import { SubscriptionService } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/subscription.service';
+import { StripeService } from '@gitroom/nestjs-libraries/services/stripe.service';
+import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
 import { Organization, User } from '@prisma/client';
-import { BillingSubscribeDto } from '@boto/nestjs-libraries/dtos/billing/billing.subscribe.dto';
+import { BillingSubscribeDto } from '@gitroom/nestjs-libraries/dtos/billing/billing.subscribe.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { GetUserFromRequest } from '@boto/nestjs-libraries/user/user.from.request';
-import { NotificationService } from '@boto/nestjs-libraries/database/prisma/notifications/notification.service';
+import { GetUserFromRequest } from '@gitroom/nestjs-libraries/user/user.from.request';
+import { NotificationService } from '@gitroom/nestjs-libraries/database/prisma/notifications/notification.service';
 import { Request } from 'express';
-import { Nowpayments } from '@boto/nestjs-libraries/crypto/nowpayments';
-import { AuthService } from '@boto/helpers/auth/auth.service';
+import { Nowpayments } from '@gitroom/nestjs-libraries/crypto/nowpayments';
+import { AuthService } from '@gitroom/helpers/auth/auth.service';
 
 @ApiTags('Billing')
 @Controller('/billing')
@@ -60,6 +60,23 @@ export class BillingController {
     return {
       finished: !org.isTrailing,
     };
+  }
+
+  @Post('/embedded')
+  embedded(
+    @GetOrgFromRequest() org: Organization,
+    @GetUserFromRequest() user: User,
+    @Body() body: BillingSubscribeDto,
+    @Req() req: Request
+  ) {
+    const uniqueId = req?.cookies?.track;
+    return this._stripeService.embedded(
+      uniqueId,
+      org.id,
+      user.id,
+      body,
+      org.allowTrial
+    );
   }
 
   @Post('/subscribe')

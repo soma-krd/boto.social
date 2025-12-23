@@ -2,13 +2,13 @@
 
 import { EventEmitter } from 'events';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { TopTitle } from '@boto/frontend/components/launches/helpers/top.title.component';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { Input } from '@boto/react/form/input';
-import { Button } from '@boto/react/form/button';
-import { useToaster } from '@boto/react/toaster/toaster';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useLaunchStore } from '@boto/frontend/components/new-launch/store';
+import { TopTitle } from '@gitroom/frontend/components/launches/helpers/top.title.component';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { Input } from '@gitroom/react/form/input';
+import { Button } from '@gitroom/react/form/button';
+import { useToaster } from '@gitroom/react/toaster/toaster';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
 const postUrlEmitter = new EventEmitter();
 export const ShowLinkedinCompany = () => {
   const [showPostSelector, setShowPostSelector] = useState(false);

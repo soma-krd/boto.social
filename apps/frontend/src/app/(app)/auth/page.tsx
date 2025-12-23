@@ -1,11 +1,11 @@
-import { internalFetch } from '@boto/helpers/utils/internal.fetch';
+import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
 export const dynamic = 'force-dynamic';
-import { Register } from '@boto/frontend/components/auth/register';
+import { Register } from '@gitroom/frontend/components/auth/register';
 import { Metadata } from 'next';
-import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
+import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
 import Link from 'next/link';
-import { getT } from '@boto/react/translation/get.translation.service.backend';
-import { LoginWithOidc } from '@boto/frontend/components/auth/login.with.oidc';
+import { getT } from '@gitroom/react/translation/get.translation.service.backend';
+import { LoginWithOidc } from '@gitroom/frontend/components/auth/login.with.oidc';
 export const metadata: Metadata = {
   title: `${isGeneralServerSide() ? 'Boto' : 'boto'} Register`,
   description: '',

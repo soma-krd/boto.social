@@ -3,16 +3,16 @@ import {
   PostDetails,
   PostResponse,
   SocialProvider,
-} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
-import { RedditSettingsDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/reddit.dto';
-import { timer } from '@boto/helpers/utils/timer';
+} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+import { RedditSettingsDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/reddit.dto';
+import { timer } from '@gitroom/helpers/utils/timer';
 import { groupBy } from 'lodash';
-import { SocialAbstract } from '@boto/nestjs-libraries/integrations/social.abstract';
+import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { lookup } from 'mime-types';
 import axios from 'axios';
 import WebSocket from 'ws';
-import { Tool } from '@boto/nestjs-libraries/integrations/tool.decorator';
+import { Tool } from '@gitroom/nestjs-libraries/integrations/tool.decorator';
 
 // @ts-ignore
 global.WebSocket = WebSocket;

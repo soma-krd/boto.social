@@ -5,12 +5,12 @@ This is the NodeJS SDK for [Boto](https://boto.social).
 You can start by installing the package:
 
 ```bash
-npm install @boto/node
+npm install @gitroom/node
 ```
 
 ## Usage
 ```typescript
-import Boto from '@boto/node';
+import Boto from '@gitroom/node';
 const boto = new Boto('your api key', 'your self-hosted instance (optional)');
 ```
 

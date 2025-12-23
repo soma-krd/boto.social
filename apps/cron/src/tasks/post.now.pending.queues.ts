@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { PostsService } from '@boto/nestjs-libraries/database/prisma/posts/posts.service';
-import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
+import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
+import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
 
 @Injectable()
 export class PostNowPendingQueues {

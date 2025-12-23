@@ -3,13 +3,13 @@ import {
   PostDetails,
   PostResponse,
   SocialProvider,
-} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
-import { SocialAbstract } from '@boto/nestjs-libraries/integrations/social.abstract';
+} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
+import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import dayjs from 'dayjs';
 import { Integration } from '@prisma/client';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
-import { DevToSettingsDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/dev.to.settings.dto';
-import { Tool } from '@boto/nestjs-libraries/integrations/tool.decorator';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+import { DevToSettingsDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/dev.to.settings.dto';
+import { Tool } from '@gitroom/nestjs-libraries/integrations/tool.decorator';
 
 export class DevToProvider extends SocialAbstract implements SocialProvider {
   override maxConcurrentJob = 3; // Dev.to has moderate publishing limits

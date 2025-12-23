@@ -1,11 +1,11 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Integration } from '@prisma/client';
-import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
-import { IntegrationService } from '@boto/nestjs-libraries/database/prisma/integrations/integration.service';
+import { IntegrationManager } from '@gitroom/nestjs-libraries/integrations/integration.manager';
+import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
 import {
   AuthTokenDetails,
   SocialProvider,
-} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
+} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
 
 @Injectable()
 export class RefreshIntegrationService {

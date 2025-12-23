@@ -1,9 +1,9 @@
-import { PrismaRepository } from '@boto/nestjs-libraries/database/prisma/prisma.service';
+import { PrismaRepository } from '@gitroom/nestjs-libraries/database/prisma/prisma.service';
 import { Role, SubscriptionTier } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { AuthService } from '@boto/helpers/auth/auth.service';
-import { CreateOrgUserDto } from '@boto/nestjs-libraries/dtos/auth/create.org.user.dto';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
+import { AuthService } from '@gitroom/helpers/auth/auth.service';
+import { CreateOrgUserDto } from '@gitroom/nestjs-libraries/dtos/auth/create.org.user.dto';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
 
 @Injectable()
 export class OrganizationRepository {

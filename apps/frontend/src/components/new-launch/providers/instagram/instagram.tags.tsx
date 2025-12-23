@@ -1,11 +1,11 @@
 'use client';
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
 import { ReactTags } from 'react-tag-autocomplete';
-import { useIntegration } from '@boto/frontend/components/launches/helpers/use.integration';
+import { useIntegration } from '@gitroom/frontend/components/launches/helpers/use.integration';
 import clsx from 'clsx';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 export const InstagramCollaboratorsTags: FC<{
   name: string;

@@ -1,4 +1,4 @@
-import { EmailInterface } from '@boto/nestjs-libraries/emails/email.interface';
+import { EmailInterface } from '@gitroom/nestjs-libraries/emails/email.interface';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({

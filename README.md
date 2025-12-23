@@ -57,7 +57,7 @@
   <a href="https://docs.boto.social/public-api">Public API</a><br />
 </p>
 <p align="center">
-  <a href="https://www.npmjs.com/package/@boto/node">NodeJS SDK</a>
+  <a href="https://www.npmjs.com/package/@gitroom/node">NodeJS SDK</a>
   ·
   <a href="https://www.npmjs.com/package/n8n-nodes-boto">N8N custom node</a>
   ·
