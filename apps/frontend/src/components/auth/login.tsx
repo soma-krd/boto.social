@@ -130,6 +130,26 @@ export function Login() {
                     {t('forgot_password', 'Forgot password')}
                   </Link>
                 </p>
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <p className="text-[12px] text-white/50">
+                    {t('by_signing_in_you_agree_to_our', 'By signing in you agree to our')}&nbsp;
+                    <Link
+                      href="/terms-of-service"
+                      className="underline hover:text-white/70 cursor-pointer transition-colors"
+                      target="_blank"
+                    >
+                      {t('terms_of_service', 'Terms of Service')}
+                    </Link>
+                    &nbsp;{t('and', 'and')}&nbsp;
+                    <Link
+                      href="/privacy-policy"
+                      className="underline hover:text-white/70 cursor-pointer transition-colors"
+                      target="_blank"
+                    >
+                      {t('privacy_policy', 'Privacy Policy')}
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
