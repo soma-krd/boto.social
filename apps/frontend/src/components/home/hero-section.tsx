@@ -125,11 +125,11 @@ export function HeroSection() {
             muted
             playsInline
             className="w-full h-auto"
-            poster="/home/images/boto-v.jpeg"
+            poster="/home/images/tool-planning.png"
           >
             <source src="/home/videos/hero.webm" type="video/webm" />
             <Image
-              src="/home/images/boto-v.jpeg"
+              src="/home/images/tool-planning.png"
               alt="App screenshot"
               width={1200}
               height={675}

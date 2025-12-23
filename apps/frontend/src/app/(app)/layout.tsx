@@ -1,4 +1,5 @@
 import { SentryComponent } from '@gitroom/frontend/components/layout/sentry.component';
+import type { Metadata, Viewport } from 'next';
 
 export const dynamic = 'force-dynamic';
 import '../global.scss';
@@ -18,6 +19,47 @@ import { FacebookComponent } from '@gitroom/frontend/components/layout/facebook.
 import { headers } from 'next/headers';
 import { headerName } from '@gitroom/react/translation/i18n.config';
 import { HtmlComponent } from '@gitroom/frontend/components/layout/html.component';
+
+const siteUrl = process.env.FRONTEND_URL || 'https://boto.social';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0E0E0E' },
+  ],
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Boto - AI-Powered Social Media Management',
+    template: '%s | Boto',
+  },
+  description: 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms with team collaboration and analytics.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/logo.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/boto-fav.png',
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Boto',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    'msapplication-TileColor': '#6366F1',
+  },
+};
 // import dynamicLoad from 'next/dynamic';
 // const SetTimezone = dynamicLoad(
 //   () => import('@gitroom/frontend/components/layout/set.timezone'),
