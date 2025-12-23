@@ -35,11 +35,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/auth/login-required`, nextUrl.href));
   }
 
+  // Allow public access to these paths without authentication
   if (
+    nextUrl.pathname === '/' ||
     nextUrl.pathname.startsWith('/uploads/') ||
     nextUrl.pathname.startsWith('/p/') ||
     nextUrl.pathname.startsWith('/icons/') ||
     nextUrl.pathname.startsWith('/privacy-policy') ||
+    nextUrl.pathname.startsWith('/home/videos/') ||
+    nextUrl.pathname.startsWith('/home/svgs/') ||
+    nextUrl.pathname.startsWith('/home/images/') ||
     nextUrl.pathname.startsWith('/terms-of-service')
   ) {
     return topResponse;
@@ -135,15 +140,6 @@ export async function middleware(request: NextRequest) {
       }
       return redirect;
     }
-    if (nextUrl.pathname === '/') {
-      return NextResponse.redirect(
-        new URL(
-          !!process.env.IS_GENERAL ? '/launches' : `/analytics`,
-          nextUrl.href
-        )
-      );
-    }
-
     return topResponse;
   } catch (err) {
     console.log('err', err);
