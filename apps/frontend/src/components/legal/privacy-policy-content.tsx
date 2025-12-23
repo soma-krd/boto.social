@@ -2,17 +2,17 @@
 
 export function PrivacyPolicyContent() {
   return (
-    <div className="w-full max-w-none">
+    <div className="w-full max-w-none text-white">
       <div className="prose prose-invert prose-lg max-w-none 
-        prose-headings:text-white prose-headings:font-semibold
+        prose-headings:!text-white prose-headings:font-semibold
         prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-white/10
-        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-white
-        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3 prose-h4:text-white
-        prose-p:text-white prose-p:leading-relaxed
-        prose-li:text-white prose-li:marker:text-violet-400
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:!text-white
+        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3 prose-h4:!text-white
+        prose-p:!text-white prose-p:leading-relaxed
+        prose-li:!text-white prose-li:marker:text-violet-400
         prose-ul:space-y-2
-        prose-a:text-violet-400 prose-a:no-underline hover:prose-a:text-violet-300 prose-a:transition-colors
-        prose-strong:text-white">
+        prose-a:!text-violet-400 prose-a:no-underline hover:prose-a:!text-violet-300 prose-a:transition-colors
+        prose-strong:!text-white">
         
         <p className="text-lg leading-relaxed">
           At Boto (&ldquo;Company,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), we are committed to protecting the privacy and security of our users&apos; personal information. This Privacy Policy outlines how we collect, use, and safeguard the personal information collected on our website. By accessing or using our website, registering for the Website, and providing your personal information, you agree to the terms and conditions of this Privacy Policy.

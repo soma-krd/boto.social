@@ -70,7 +70,7 @@ export function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-10 mt-8">
+        <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto mb-10 mt-8">
           Everything you need to manage your social media posts, build an
           audience, capture leads, and grow your business faster with AI
         </p>

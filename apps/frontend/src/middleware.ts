@@ -45,6 +45,9 @@ export async function middleware(request: NextRequest) {
     nextUrl.pathname.startsWith('/home/videos/') ||
     nextUrl.pathname.startsWith('/home/svgs/') ||
     nextUrl.pathname.startsWith('/home/images/') ||
+    nextUrl.pathname.startsWith('/boto.svg') ||
+    nextUrl.pathname.startsWith('/sitemap.xml') ||
+    nextUrl.pathname.startsWith('/robots.txt') ||
     nextUrl.pathname.startsWith('/terms-of-service')
   ) {
     return topResponse;

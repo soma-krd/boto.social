@@ -79,7 +79,7 @@ export function FAQSection() {
               </button>
               <div className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'}`}>
                 <div className="px-6 pb-5">
-                  <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
+                  <p className="text-white/80 leading-relaxed">{faq.answer}</p>
                 </div>
               </div>
             </div>

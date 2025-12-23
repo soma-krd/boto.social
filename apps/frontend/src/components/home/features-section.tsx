@@ -80,7 +80,7 @@ export function FeaturesSection() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Who is it for?
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-12">
+          <p className="text-white/80 max-w-2xl mx-auto mb-12">
             Whether you&apos;re a creator, business, or agency, we have the tools you need.
           </p>
 
@@ -100,7 +100,7 @@ export function FeaturesSection() {
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{item.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                <p className="text-white/70 text-sm leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -134,7 +134,7 @@ export function FeaturesSection() {
                     feature.title
                   )}
                 </h3>
-                <p className="text-gray-400 text-lg leading-relaxed">
+                <p className="text-white/80 text-lg leading-relaxed">
                   {feature.description}
                 </p>
               </div>
