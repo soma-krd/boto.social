@@ -236,9 +236,6 @@ jobs:
             echo "========================================="
             echo "Image: $IMAGE"
             echo "Deploy Path: $DEPLOY_PATH"
-            echo "Vault URL: $VAULT_URL"
-            echo "Vault Path: $VAULT_SECRET_PATH"
-            echo "Network: $NETWORK_NAME"
             echo ""
 
             cd "$DEPLOY_PATH"
@@ -246,13 +243,11 @@ jobs:
 
             # Step 1: Fetch secrets from Vault
             echo "==> Step 1/6: Fetching secrets from Vault..."
-            echo "Vault URL: ${VAULT_URL}/v1/${VAULT_SECRET_PATH}"
             SECRETS_JSON=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" "${VAULT_URL}/v1/${VAULT_SECRET_PATH}")
             echo "Vault response received (length: ${#SECRETS_JSON})"
 
             if [ -z "$SECRETS_JSON" ] || [ "$(echo "$SECRETS_JSON" | jq -r '.data.data')" == "null" ]; then
-              echo "❌ Error: Failed to fetch secrets from Vault at path ${VAULT_SECRET_PATH}"
-              echo "Raw response: $SECRETS_JSON"
+              echo "❌ Error: Failed to fetch secrets from Vault"
               # Check if response contains errors (without exposing secrets)
               if echo "$SECRETS_JSON" | jq -e '.errors' >/dev/null 2>&1; then
                 echo "Vault returned errors (check Vault permissions and path)"
@@ -291,9 +286,6 @@ jobs:
               export POSTGRES_USER
               export POSTGRES_PASSWORD
               export POSTGRES_DB
-              echo "✅ Parsed DATABASE_URL and set POSTGRES_* variables"
-              echo "  POSTGRES_USER: $POSTGRES_USER"
-              echo "  POSTGRES_DB: $POSTGRES_DB"
             else
               echo "❌ DATABASE_URL not found in vault secrets"
               exit 1

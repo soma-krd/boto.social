@@ -2,16 +2,16 @@
 
 export function TermsOfServiceContent() {
   return (
-    <div className="w-full max-w-none">
+    <div className="w-full max-w-none text-white">
       <div className="prose prose-invert prose-lg max-w-none 
-        prose-headings:text-white prose-headings:font-semibold
+        prose-headings:!text-white prose-headings:font-semibold
         prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b prose-h2:border-white/10
-        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-white
-        prose-p:text-white prose-p:leading-relaxed
-        prose-li:text-white prose-li:marker:text-fuchsia-400
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:!text-white
+        prose-p:!text-white prose-p:leading-relaxed
+        prose-li:!text-white prose-li:marker:text-fuchsia-400
         prose-ul:space-y-2
-        prose-a:text-fuchsia-400 prose-a:no-underline hover:prose-a:text-fuchsia-300 prose-a:transition-colors
-        prose-strong:text-white">
+        prose-a:!text-fuchsia-400 prose-a:no-underline hover:prose-a:!text-fuchsia-300 prose-a:transition-colors
+        prose-strong:!text-white">
         
         <p className="text-lg leading-relaxed">
           Welcome to the Boto website (the &ldquo;Site&rdquo;). By accessing or using the Site, you agree to comply with and be bound by the following terms and conditions (&ldquo;Terms of Service&rdquo;).

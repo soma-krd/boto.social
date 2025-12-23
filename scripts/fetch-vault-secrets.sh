@@ -128,7 +128,6 @@ fetch_secrets() {
         fi
     fi
     
-    echo "$response"
 }
 
 # Convert JSON secrets to .env format
@@ -188,8 +187,6 @@ convert_to_env() {
             fi
         done < <(echo "$secrets" | tr ',' '\n')
     fi
-    
-    echo -e "$env_content"
 }
 
 # Write .env file

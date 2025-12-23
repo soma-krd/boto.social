@@ -29,7 +29,7 @@ const sitemapLinks = {
   resources: {
     title: 'Resources',
     links: [
-      { label: 'GitHub', href: 'https://github.com/soma-krd/boto', external: true },
+      { label: 'GitHub', href: 'https://github.com/soma-krd/boto.social', external: true },
       { label: 'soma.krd', href: 'https://soma.krd', external: true },
     ],
   },
@@ -43,10 +43,10 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 lg:max-w-xs">
-            <p className="text-gray-500 text-sm leading-relaxed mb-4">
+            <p className="text-white/70 text-sm leading-relaxed mb-4">
               AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.
             </p>
-            <p className="text-gray-600 text-xs">
+            <p className="text-white/60 text-xs">
               Forked from{' '}
               <a
                 href="https://postiz.com"
@@ -73,7 +73,7 @@ export function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-500 hover:text-white transition-colors text-sm flex items-center gap-1"
+                        className="text-white/70 hover:text-white transition-colors text-sm flex items-center gap-1"
                       >
                         {link.label}
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -83,7 +83,7 @@ export function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-gray-500 hover:text-white transition-colors text-sm"
+                        className="text-white/70 hover:text-white transition-colors text-sm"
                       >
                         {link.label}
                       </Link>
@@ -111,13 +111,13 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 text-sm">
+            <p className="text-white/70 text-sm">
               © {new Date().getFullYear()} Boto Social. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
               <Link
                 href="/sitemap.xml"
-                className="text-gray-500 hover:text-white transition-colors text-sm"
+                className="text-white/70 hover:text-white transition-colors text-sm"
               >
                 Sitemap
               </Link>
