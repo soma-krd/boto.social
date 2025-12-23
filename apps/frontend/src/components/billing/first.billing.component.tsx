@@ -116,8 +116,8 @@ export const FirstBillingComponent = () => {
             {t('billing_who_use', 'who use')}
             {'\n'}
             {t(
-              'billing_postiz_grow_social',
-              'Postiz To Grow Their Social Presence'
+              'billing_boto_grow_social',
+              'Boto To Grow Their Social Presence'
             )}
           </div>
 

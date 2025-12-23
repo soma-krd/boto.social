@@ -22,9 +22,6 @@ import { FarcasterProvider } from '@gitroom/frontend/components/auth/providers/f
 import dynamic from 'next/dynamic';
 import { WalletUiProvider } from '@gitroom/frontend/components/auth/providers/placeholder/wallet.ui.provider';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { useModals } from '@gitroom/frontend/components/layout/new-modal';
-import { PrivacyPolicyContent } from '@gitroom/frontend/components/legal/privacy-policy-content';
-import { TermsOfServiceContent } from '@gitroom/frontend/components/legal/terms-of-service-content';
 const WalletProvider = dynamic(
   () => import('@gitroom/frontend/components/auth/providers/wallet.provider'),
   {
@@ -91,7 +88,6 @@ export function RegisterAfter({
   provider: string;
 }) {
   const t = useT();
-  const modal = useModals();
   const { isGeneral, genericOauth, neynarClientId, billingEnabled } =
     useVariables();
   const [loading, setLoading] = useState(false);
@@ -112,30 +108,6 @@ export function RegisterAfter({
     },
   });
   const fetchData = useFetch();
-  
-  const openPrivacyModal = () => {
-    modal.openModal({
-      title: t('privacy_policy', 'Privacy Policy'),
-      withCloseButton: true,
-      classNames: {
-        modal: 'w-[100%] max-w-[1400px]',
-      },
-      size: '80%',
-      children: <PrivacyPolicyContent />,
-    });
-  };
-
-  const openTermsModal = () => {
-    modal.openModal({
-      title: t('terms_of_service', 'Terms of Service'),
-      withCloseButton: true,
-      classNames: {
-        modal: 'w-[100%] max-w-[1400px]',
-      },
-      size: '80%',
-      children: <TermsOfServiceContent />,
-    });
-  };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -241,22 +213,23 @@ export function RegisterAfter({
                   'By registering you agree to our'
                 )}
                 &nbsp;
-                <a
-                  href={`https://postiz.com/terms`}
-                  className="underline hover:font-bold"
-                  rel="nofollow"
+                <Link
+                  href="/terms-of-service"
+                  className="underline hover:font-bold cursor-pointer"
+                  target="_blank"
                 >
                   {t('terms_of_service', 'Terms of Service')}
-                </a>
+                </Link>
                 &nbsp;
-                {t('and', 'and')}&nbsp;
-                <a
-                  href={`https://postiz.com/privacy`}
-                  rel="nofollow"
-                  className="underline hover:font-bold"
+                {t('and', 'and')}
+                &nbsp;
+                <Link
+                  href="/privacy-policy"
+                  className="underline hover:font-bold cursor-pointer"
+                  target="_blank"
                 >
                   {t('privacy_policy', 'Privacy Policy')}
-                </a>
+                </Link>
                 &nbsp;
               </div>
               <div className="text-center mt-6">
