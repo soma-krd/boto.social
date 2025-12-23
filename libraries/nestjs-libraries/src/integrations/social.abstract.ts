@@ -1,5 +1,5 @@
-import { timer } from '@boto/helpers/utils/timer';
-import { concurrency } from '@boto/helpers/utils/concurrency.service';
+import { timer } from '@gitroom/helpers/utils/timer';
+import { concurrency } from '@gitroom/helpers/utils/concurrency.service';
 import { Integration } from '@prisma/client';
 
 export class RefreshToken {

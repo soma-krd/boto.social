@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
 import { useShallow } from 'zustand/react/shallow';
 import React, {
   createContext,
@@ -11,7 +11,7 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { Button } from '@boto/react/form/button';
+import { Button } from '@gitroom/react/form/button';
 import { useHotkeys } from 'react-hotkeys-hook';
 import clsx from 'clsx';
 import { EventEmitter } from 'events';
@@ -287,8 +287,9 @@ export const DecisionModal: FC<{
   description: string;
   approveLabel: string;
   cancelLabel: string;
+  onlyApprove: boolean;
   resolution: (value: boolean) => void;
-}> = ({ description, cancelLabel, approveLabel, resolution }) => {
+}> = ({ description, cancelLabel, approveLabel, resolution, onlyApprove }) => {
   const { closeCurrent } = useModals();
   return (
     <div className="flex flex-col">
@@ -302,14 +303,16 @@ export const DecisionModal: FC<{
         >
           {approveLabel}
         </Button>
-        <Button
-          onClick={() => {
-            resolution(false);
-            closeCurrent();
-          }}
-        >
-          {cancelLabel}
-        </Button>
+        {!onlyApprove && (
+          <Button
+            onClick={() => {
+              resolution(false);
+              closeCurrent();
+            }}
+          >
+            {cancelLabel}
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -348,6 +351,7 @@ export const useDecisionModal = () => {
     ({
       title = 'Are you sure?',
       description = 'Are you sure you want to close this modal?' as any,
+      onlyApprove = false,
       approveLabel = 'Yes',
       cancelLabel = 'No',
       newRes = undefined as any,
@@ -359,6 +363,7 @@ export const useDecisionModal = () => {
           onClose: () => res(false),
           children: (
             <DecisionModal
+              onlyApprove={onlyApprove}
               resolution={(value) => (newRes ? newRes(value) : res(value))}
               description={description}
               approveLabel={approveLabel}

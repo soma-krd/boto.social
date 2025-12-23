@@ -4,25 +4,25 @@ import React, {
   FC, MouseEventHandler, useCallback, useLayoutEffect, useMemo, useRef, useState
 } from 'react';
 import { useClickOutside } from '@mantine/hooks';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
-import { useToaster } from '@boto/react/toaster/toaster';
-import { useModals } from '@boto/frontend/components/layout/new-modal';
-import { TimeTable } from '@boto/frontend/components/launches/time.table';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { useToaster } from '@gitroom/react/toaster/toaster';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { TimeTable } from '@gitroom/frontend/components/launches/time.table';
 import {
   Integrations,
   useCalendar,
-} from '@boto/frontend/components/launches/calendar.context';
-import { BotPicture } from '@boto/frontend/components/launches/bot.picture';
-import { CustomerModal } from '@boto/frontend/components/launches/customer.modal';
+} from '@gitroom/frontend/components/launches/calendar.context';
+import { BotPicture } from '@gitroom/frontend/components/launches/bot.picture';
+import { CustomerModal } from '@gitroom/frontend/components/launches/customer.modal';
 import { Integration } from '@prisma/client';
-import { SettingsModal } from '@boto/frontend/components/launches/settings.modal';
-import { CustomVariables } from '@boto/frontend/components/launches/add.provider.component';
+import { SettingsModal } from '@gitroom/frontend/components/launches/settings.modal';
+import { CustomVariables } from '@gitroom/frontend/components/launches/add.provider.component';
 import { useRouter } from 'next/navigation';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { AddEditModal } from '@boto/frontend/components/new-launch/add.edit.modal';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { AddEditModal } from '@gitroom/frontend/components/new-launch/add.edit.modal';
 import dayjs from 'dayjs';
-import { ModalWrapperComponent } from '@boto/frontend/components/new-launch/modal.wrapper.component';
+import { ModalWrapperComponent } from '@gitroom/frontend/components/new-launch/modal.wrapper.component';
 import copy from 'copy-to-clipboard';
 
 export const Menu: FC<{

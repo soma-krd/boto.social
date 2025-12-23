@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { WebhooksRepository } from '@boto/nestjs-libraries/database/prisma/webhooks/webhooks.repository';
-import { WebhooksDto } from '@boto/nestjs-libraries/dtos/webhooks/webhooks.dto';
-import { ioRedis } from '@boto/nestjs-libraries/redis/redis.service';
-import { BullMqClient } from '@boto/nestjs-libraries/bull-mq-transport-new/client';
-import { PostsRepository } from '@boto/nestjs-libraries/database/prisma/posts/posts.repository';
+import { WebhooksRepository } from '@gitroom/nestjs-libraries/database/prisma/webhooks/webhooks.repository';
+import { WebhooksDto } from '@gitroom/nestjs-libraries/dtos/webhooks/webhooks.dto';
+import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
+import { BullMqClient } from '@gitroom/nestjs-libraries/bull-mq-transport-new/client';
+import { PostsRepository } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.repository';
 
 @Injectable()
 export class WebhooksService {

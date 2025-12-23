@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { Button } from '@boto/react/form/button';
+import { Button } from '@gitroom/react/form/button';
 import { FC, useCallback, useEffect, useState } from 'react';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { deleteDialog } from '@boto/react/helpers/delete.dialog';
-import { Input } from '@boto/react/form/input';
-import { useToaster } from '@boto/react/toaster/toaster';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
+import { Input } from '@gitroom/react/form/input';
+import { useToaster } from '@gitroom/react/toaster/toaster';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 const ConnectedComponent: FC<{
   id: string;
   login: string;

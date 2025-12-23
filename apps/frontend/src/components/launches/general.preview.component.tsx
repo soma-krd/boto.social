@@ -1,12 +1,12 @@
-import { useIntegration } from '@boto/frontend/components/launches/helpers/use.integration';
-import { useMediaDirectory } from '@boto/react/helpers/use.media.directory';
+import { useIntegration } from '@gitroom/frontend/components/launches/helpers/use.integration';
+import { useMediaDirectory } from '@gitroom/react/helpers/use.media.directory';
 import clsx from 'clsx';
-import { VideoOrImage } from '@boto/react/helpers/video.or.image';
+import { VideoOrImage } from '@gitroom/react/helpers/video.or.image';
 import { FC } from 'react';
-import { textSlicer } from '@boto/helpers/utils/count.length';
+import { textSlicer } from '@gitroom/helpers/utils/count.length';
 import Image from 'next/image';
-import { useLaunchStore } from '@boto/frontend/components/new-launch/store';
-import { stripHtmlValidation } from '@boto/helpers/utils/strip.html.validation';
+import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
+import { stripHtmlValidation } from '@gitroom/helpers/utils/strip.html.validation';
 
 export const GeneralPreviewComponent: FC<{
   maximumCharacters?: number;

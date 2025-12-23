@@ -11,16 +11,16 @@ import {
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { TikTokDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/tiktok.dto';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
-import { Select } from '@boto/react/form/select';
-import { useCustomProviderFunction } from '@boto/frontend/components/launches/helpers/use.custom.provider.function';
-import { Checkbox } from '@boto/react/form/checkbox';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { TikTokDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/tiktok.dto';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+import { Select } from '@gitroom/react/form/select';
+import { useCustomProviderFunction } from '@gitroom/frontend/components/launches/helpers/use.custom.provider.function';
+import { Checkbox } from '@gitroom/react/form/checkbox';
 import clsx from 'clsx';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useIntegration } from '@boto/frontend/components/launches/helpers/use.integration';
-import { Input } from '@boto/react/form/input';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useIntegration } from '@gitroom/frontend/components/launches/helpers/use.integration';
+import { Input } from '@gitroom/react/form/input';
 
 const CheckTikTokValidity: FC<{
   picture: string;

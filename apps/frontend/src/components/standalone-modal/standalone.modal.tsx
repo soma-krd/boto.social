@@ -3,11 +3,11 @@
 import 'reflect-metadata';
 import { FC, useCallback } from 'react';
 import useSWR from 'swr';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import { AddEditModal } from '@boto/frontend/components/new-launch/add.edit.modal';
-import { newDayjs } from '@boto/frontend/components/layout/set.timezone';
+import { AddEditModal } from '@gitroom/frontend/components/new-launch/add.edit.modal';
+import { newDayjs } from '@gitroom/frontend/components/layout/set.timezone';
 export const StandaloneModal: FC = () => {
   const fetch = useFetch();
   const params = useParams<{ platform: string }>();

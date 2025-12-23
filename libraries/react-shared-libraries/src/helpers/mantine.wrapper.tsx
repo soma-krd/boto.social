@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import {
   DecisionEverywhere,
   ModalManager,
-} from '@boto/frontend/components/layout/new-modal';
+} from '@gitroom/frontend/components/layout/new-modal';
 export const MantineWrapper = (props: { children: ReactNode }) => {
   return (
     <ModalManager>

@@ -1,4 +1,4 @@
-import { ProvidersInterface } from '@boto/backend/services/auth/providers.interface';
+import { ProvidersInterface } from '@gitroom/backend/services/auth/providers.interface';
 
 export class OauthProvider implements ProvidersInterface {
   private readonly authUrl: string;

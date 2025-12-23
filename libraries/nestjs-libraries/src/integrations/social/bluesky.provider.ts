@@ -3,13 +3,13 @@ import {
   PostDetails,
   PostResponse,
   SocialProvider,
-} from '@boto/nestjs-libraries/integrations/social/social.integrations.interface';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
+} from '@gitroom/nestjs-libraries/integrations/social/social.integrations.interface';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
 import {
   BadBody,
   RefreshToken,
   SocialAbstract,
-} from '@boto/nestjs-libraries/integrations/social.abstract';
+} from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import {
   BskyAgent,
   RichText,
@@ -20,13 +20,13 @@ import {
 } from '@atproto/api';
 import dayjs from 'dayjs';
 import { Integration } from '@prisma/client';
-import { AuthService } from '@boto/helpers/auth/auth.service';
+import { AuthService } from '@gitroom/helpers/auth/auth.service';
 import sharp from 'sharp';
-import { Plug } from '@boto/helpers/decorators/plug.decorator';
-import { timer } from '@boto/helpers/utils/timer';
+import { Plug } from '@gitroom/helpers/decorators/plug.decorator';
+import { timer } from '@gitroom/helpers/utils/timer';
 import axios from 'axios';
-import { stripHtmlValidation } from '@boto/helpers/utils/strip.html.validation';
-import { Rules } from '@boto/nestjs-libraries/chat/rules.description.decorator';
+import { stripHtmlValidation } from '@gitroom/helpers/utils/strip.html.validation';
+import { Rules } from '@gitroom/nestjs-libraries/chat/rules.description.decorator';
 
 async function reduceImageBySize(url: string, maxSizeKB = 976) {
   try {

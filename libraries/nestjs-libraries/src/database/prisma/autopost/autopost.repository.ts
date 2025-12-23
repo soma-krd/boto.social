@@ -1,7 +1,7 @@
-import { PrismaRepository } from '@boto/nestjs-libraries/database/prisma/prisma.service';
+import { PrismaRepository } from '@gitroom/nestjs-libraries/database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { AutopostDto } from '@boto/nestjs-libraries/dtos/autopost/autopost.dto';
+import { AutopostDto } from '@gitroom/nestjs-libraries/dtos/autopost/autopost.dto';
 
 @Injectable()
 export class AutopostRepository {

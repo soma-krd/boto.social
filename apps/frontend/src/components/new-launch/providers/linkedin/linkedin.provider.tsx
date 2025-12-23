@@ -3,11 +3,11 @@
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { Checkbox } from '@boto/react/form/checkbox';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
-import { LinkedinDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/linkedin.dto';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { Checkbox } from '@gitroom/react/form/checkbox';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+import { LinkedinDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/linkedin.dto';
 
 const LinkedInSettings = () => {
   const t = useT();

@@ -4,13 +4,13 @@ import { FC } from 'react';
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { YoutubeSettingsDto } from '@boto/nestjs-libraries/dtos/posts/providers-settings/youtube.settings.dto';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
-import { Input } from '@boto/react/form/input';
-import { MediumTags } from '@boto/frontend/components/new-launch/providers/medium/medium.tags';
-import { MediaComponent } from '@boto/frontend/components/media/media.component';
-import { Select } from '@boto/react/form/select';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { YoutubeSettingsDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/youtube.settings.dto';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+import { Input } from '@gitroom/react/form/input';
+import { MediumTags } from '@gitroom/frontend/components/new-launch/providers/medium/medium.tags';
+import { MediaComponent } from '@gitroom/frontend/components/media/media.component';
+import { Select } from '@gitroom/react/form/select';
 const type = [
   {
     label: 'Public',

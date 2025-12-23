@@ -4,11 +4,11 @@ import { FC } from 'react';
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { Input } from '@boto/react/form/input';
-import { useSettings } from '@boto/frontend/components/launches/helpers/use.values';
-import { WordpressPostType } from '@boto/frontend/components/new-launch/providers/wordpress/wordpress.post.type';
-import { MediaComponent } from '@boto/frontend/components/media/media.component';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { Input } from '@gitroom/react/form/input';
+import { useSettings } from '@gitroom/frontend/components/launches/helpers/use.values';
+import { WordpressPostType } from '@gitroom/frontend/components/new-launch/providers/wordpress/wordpress.post.type';
+import { MediaComponent } from '@gitroom/frontend/components/media/media.component';
 
 const WordpressSettings: FC = () => {
   const form = useSettings();

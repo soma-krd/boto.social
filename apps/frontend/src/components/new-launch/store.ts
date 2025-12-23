@@ -2,11 +2,11 @@
 
 import { create } from 'zustand';
 import dayjs from 'dayjs';
-import { Integrations } from '@boto/frontend/components/launches/calendar.context';
+import { Integrations } from '@gitroom/frontend/components/launches/calendar.context';
 import { createRef, RefObject } from 'react';
 import { arrayMoveImmutable } from 'array-move';
-import { PostComment } from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { newDayjs } from '@boto/frontend/components/layout/set.timezone';
+import { PostComment } from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { newDayjs } from '@gitroom/frontend/components/layout/set.timezone';
 
 interface Values {
   id: string;

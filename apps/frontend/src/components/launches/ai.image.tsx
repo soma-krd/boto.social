@@ -1,10 +1,10 @@
-import { Button } from '@boto/react/form/button';
+import { Button } from '@gitroom/react/form/button';
 import { FC, useCallback, useState } from 'react';
 import clsx from 'clsx';
 import Loading from 'react-loading';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useLaunchStore } from '@boto/frontend/components/new-launch/store';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
 const list = [
   'Realistic',
   'Cartoon',

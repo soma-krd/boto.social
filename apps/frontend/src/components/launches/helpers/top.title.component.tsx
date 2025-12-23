@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 import clsx from 'clsx';
 
 export const TopTitle: FC<{

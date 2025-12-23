@@ -1,11 +1,11 @@
 'use client';
 
 import { FC } from 'react';
-import { StarsAndForksInterface } from '@boto/frontend/components/analytics/stars.and.forks.interface';
-import { Chart } from '@boto/frontend/components/analytics/chart';
-import { UtcToLocalDateRender } from '@boto/react/helpers/utc.date.render';
+import { StarsAndForksInterface } from '@gitroom/frontend/components/analytics/stars.and.forks.interface';
+import { Chart } from '@gitroom/frontend/components/analytics/chart';
+import { UtcToLocalDateRender } from '@gitroom/react/helpers/utc.date.render';
 import clsx from 'clsx';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 export const StarsAndForks: FC<StarsAndForksInterface> = (props) => {
   const { list } = props;
   const t = useT();

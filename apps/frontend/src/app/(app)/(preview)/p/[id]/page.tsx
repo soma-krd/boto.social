@@ -1,20 +1,20 @@
-import { internalFetch } from '@boto/helpers/utils/internal.fetch';
+import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
-import { isGeneralServerSide } from '@boto/helpers/utils/is.general.server.side';
+import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CommentsComponents } from '@boto/frontend/components/preview/comments.components';
+import { CommentsComponents } from '@gitroom/frontend/components/preview/comments.components';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { VideoOrImage } from '@boto/react/helpers/video.or.image';
-import { CopyClient } from '@boto/frontend/components/preview/copy.client';
-import { getT } from '@boto/react/translation/get.translation.service.backend';
+import { VideoOrImage } from '@gitroom/react/helpers/video.or.image';
+import { CopyClient } from '@gitroom/frontend/components/preview/copy.client';
+import { getT } from '@gitroom/react/translation/get.translation.service.backend';
 import dynamicLoad from 'next/dynamic';
 
 const RenderPreviewDate = dynamicLoad(
   () =>
-    import('@boto/frontend/components/preview/render.preview.date').then(
+    import('@gitroom/frontend/components/preview/render.preview.date').then(
       (mod) => mod.RenderPreviewDate
     ),
   { ssr: false }

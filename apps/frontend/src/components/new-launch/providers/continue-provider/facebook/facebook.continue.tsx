@@ -3,9 +3,9 @@
 import { FC, useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 import clsx from 'clsx';
-import { Button } from '@boto/react/form/button';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useCustomProviderFunction } from '@boto/frontend/components/launches/helpers/use.custom.provider.function';
+import { Button } from '@gitroom/react/form/button';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useCustomProviderFunction } from '@gitroom/frontend/components/launches/helpers/use.custom.provider.function';
 
 export const FacebookContinue: FC<{
   onSave: (data: any) => Promise<void>;

@@ -9,15 +9,15 @@
     "target": "es2020",
     "baseUrl": "/Users/nevodavid/Projects/boto",
     "paths": {
-      "@boto/backend/*": ["apps/backend/src/*"],
-      "@boto/cron/*": ["apps/cron/src/*"],
-      "@boto/frontend/*": ["apps/frontend/src/*"],
-      "@boto/helpers/*": ["libraries/helpers/src/*"],
-      "@boto/nestjs-libraries/*": ["libraries/nestjs-libraries/src/*"],
-      "@boto/react/*": ["libraries/react-shared-libraries/src/*"],
-      "@boto/plugins/*": ["libraries/plugins/src/*"],
-      "@boto/workers/*": ["apps/workers/src/*"],
-      "@boto/extension/*": ["apps/extension/src/*"]
+      "@gitroom/backend/*": ["apps/backend/src/*"],
+      "@gitroom/cron/*": ["apps/cron/src/*"],
+      "@gitroom/frontend/*": ["apps/frontend/src/*"],
+      "@gitroom/helpers/*": ["libraries/helpers/src/*"],
+      "@gitroom/nestjs-libraries/*": ["libraries/nestjs-libraries/src/*"],
+      "@gitroom/react/*": ["libraries/react-shared-libraries/src/*"],
+      "@gitroom/plugins/*": ["libraries/plugins/src/*"],
+      "@gitroom/workers/*": ["apps/workers/src/*"],
+      "@gitroom/extension/*": ["apps/extension/src/*"]
     },
     "keepClassNames": true,
     "transform": {

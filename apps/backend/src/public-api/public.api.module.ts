@@ -1,15 +1,15 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthService } from '@boto/backend/services/auth/auth.service';
-import { StripeService } from '@boto/nestjs-libraries/services/stripe.service';
-import { PoliciesGuard } from '@boto/backend/services/auth/permissions/permissions.guard';
-import { PermissionsService } from '@boto/backend/services/auth/permissions/permissions.service';
-import { IntegrationManager } from '@boto/nestjs-libraries/integrations/integration.manager';
-import { UploadModule } from '@boto/nestjs-libraries/upload/upload.module';
-import { OpenaiService } from '@boto/nestjs-libraries/openai/openai.service';
-import { ExtractContentService } from '@boto/nestjs-libraries/openai/extract.content.service';
-import { CodesService } from '@boto/nestjs-libraries/services/codes.service';
-import { PublicIntegrationsController } from '@boto/backend/public-api/routes/v1/public.integrations.controller';
-import { PublicAuthMiddleware } from '@boto/backend/services/auth/public.auth.middleware';
+import { AuthService } from '@gitroom/backend/services/auth/auth.service';
+import { StripeService } from '@gitroom/nestjs-libraries/services/stripe.service';
+import { PoliciesGuard } from '@gitroom/backend/services/auth/permissions/permissions.guard';
+import { PermissionsService } from '@gitroom/backend/services/auth/permissions/permissions.service';
+import { IntegrationManager } from '@gitroom/nestjs-libraries/integrations/integration.manager';
+import { UploadModule } from '@gitroom/nestjs-libraries/upload/upload.module';
+import { OpenaiService } from '@gitroom/nestjs-libraries/openai/openai.service';
+import { ExtractContentService } from '@gitroom/nestjs-libraries/openai/extract.content.service';
+import { CodesService } from '@gitroom/nestjs-libraries/services/codes.service';
+import { PublicIntegrationsController } from '@gitroom/backend/public-api/routes/v1/public.integrations.controller';
+import { PublicAuthMiddleware } from '@gitroom/backend/services/auth/public.auth.middleware';
 
 const authenticatedController = [PublicIntegrationsController];
 @Module({

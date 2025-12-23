@@ -11,15 +11,15 @@ import React, {
 import { useForm, FormProvider } from 'react-hook-form';
 import { IsOptional } from 'class-validator';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { useLaunchStore } from '@boto/frontend/components/new-launch/store';
+import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
 import { useShallow } from 'zustand/react/shallow';
-import { GeneralPreviewComponent } from '@boto/frontend/components/launches/general.preview.component';
-import { IntegrationContext } from '@boto/frontend/components/launches/helpers/use.integration';
-import { Button } from '@boto/react/form/button';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { GeneralPreviewComponent } from '@gitroom/frontend/components/launches/general.preview.component';
+import { IntegrationContext } from '@gitroom/frontend/components/launches/helpers/use.integration';
+import { Button } from '@gitroom/react/form/button';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
-import { InternalChannels } from '@boto/frontend/components/launches/internal.channels';
+import { InternalChannels } from '@gitroom/frontend/components/launches/internal.channels';
 import { capitalize } from 'lodash';
 import clsx from 'clsx';
 

@@ -13,8 +13,8 @@ import {
   InputProps,
   UserMessageProps,
 } from '@copilotkit/react-ui/dist/components/chat/props';
-import { Input } from '@boto/frontend/components/agents/agent.input';
-import { useModals } from '@boto/frontend/components/layout/new-modal';
+import { Input } from '@gitroom/frontend/components/agents/agent.input';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
 import {
   CopilotKit,
   useCopilotAction,
@@ -23,15 +23,15 @@ import {
 import {
   MediaPortal,
   PropertiesContext,
-} from '@boto/frontend/components/agents/agent';
-import { useVariables } from '@boto/react/helpers/variable.context';
+} from '@gitroom/frontend/components/agents/agent';
+import { useVariables } from '@gitroom/react/helpers/variable.context';
 import { useParams } from 'next/navigation';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { TextMessage } from '@copilotkit/runtime-client-gql';
-import { AddEditModal } from '@boto/frontend/components/new-launch/add.edit.modal';
+import { AddEditModal } from '@gitroom/frontend/components/new-launch/add.edit.modal';
 import dayjs from 'dayjs';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
-import { ExistingDataContextProvider } from '@boto/frontend/components/launches/helpers/use.existing.data';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+import { ExistingDataContextProvider } from '@gitroom/frontend/components/launches/helpers/use.existing.data';
 
 export const AgentChat: FC = () => {
   const { backendUrl } = useVariables();

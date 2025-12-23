@@ -1,5 +1,5 @@
 import { ToolAction } from '@mastra/core/dist/tools/types';
-import { getAuth } from '@boto/nestjs-libraries/chat/async.storage';
+import { getAuth } from '@gitroom/nestjs-libraries/chat/async.storage';
 
 export const checkAuth: ToolAction['execute'] = async (
   { runtimeContext },

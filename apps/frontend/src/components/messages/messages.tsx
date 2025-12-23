@@ -28,7 +28,7 @@ export interface Message {
   updatedAt: string;
   deletedAt: any;
 }
-import { Textarea } from '@boto/react/form/textarea';
+import { Textarea } from '@gitroom/react/form/textarea';
 import clsx from 'clsx';
 import useSWR from 'swr';
 import {
@@ -42,19 +42,19 @@ import {
   useState,
 } from 'react';
 import { useParams } from 'next/navigation';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { reverse } from 'lodash';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { AddMessageDto } from '@boto/nestjs-libraries/dtos/messages/add.message';
-import { makeId } from '@boto/nestjs-libraries/services/make.is';
-import { useUser } from '@boto/frontend/components/layout/user.context';
-import { OrderTopActions } from '@boto/frontend/components/marketplace/order.top.actions';
-import { MarketplaceProvider } from '@boto/frontend/components/marketplace/marketplace.provider';
-import { SpecialMessage } from '@boto/frontend/components/marketplace/special.message';
-import { usePageVisibility } from '@boto/react/helpers/use.is.visible';
-import { useT } from '@boto/react/translation/get.transation.service.client';
-import { newDayjs } from '@boto/frontend/components/layout/set.timezone';
+import { AddMessageDto } from '@gitroom/nestjs-libraries/dtos/messages/add.message';
+import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
+import { useUser } from '@gitroom/frontend/components/layout/user.context';
+import { OrderTopActions } from '@gitroom/frontend/components/marketplace/order.top.actions';
+import { MarketplaceProvider } from '@gitroom/frontend/components/marketplace/marketplace.provider';
+import { SpecialMessage } from '@gitroom/frontend/components/marketplace/special.message';
+import { usePageVisibility } from '@gitroom/react/helpers/use.is.visible';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { newDayjs } from '@gitroom/frontend/components/layout/set.timezone';
 export const Message: FC<{
   message: Message;
   seller: SellerBuyer;

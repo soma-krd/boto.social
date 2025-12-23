@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect } from 'react';
 import { clsx } from 'clsx';
 import { useFormContext } from 'react-hook-form';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 export const Total: FC<{
   name: string;
   customOnChange?: () => void;

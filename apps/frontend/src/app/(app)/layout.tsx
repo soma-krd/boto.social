@@ -1,26 +1,26 @@
-import { SentryComponent } from '@boto/frontend/components/layout/sentry.component';
+import { SentryComponent } from '@gitroom/frontend/components/layout/sentry.component';
 
 export const dynamic = 'force-dynamic';
 import '../global.scss';
 import 'react-tooltip/dist/react-tooltip.css';
 import '@copilotkit/react-ui/styles.css';
-import LayoutContext from '@boto/frontend/components/layout/layout.context';
+import LayoutContext from '@gitroom/frontend/components/layout/layout.context';
 import { ReactNode } from 'react';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import PlausibleProvider from 'next-plausible';
 import clsx from 'clsx';
-import { VariableContextComponent } from '@boto/react/helpers/variable.context';
+import { VariableContextComponent } from '@gitroom/react/helpers/variable.context';
 import { Fragment } from 'react';
-import { PHProvider } from '@boto/react/helpers/posthog';
-import UtmSaver from '@boto/helpers/utils/utm.saver';
-import { ToltScript } from '@boto/frontend/components/layout/tolt.script';
-import { FacebookComponent } from '@boto/frontend/components/layout/facebook.component';
+import { PHProvider } from '@gitroom/react/helpers/posthog';
+import UtmSaver from '@gitroom/helpers/utils/utm.saver';
+import { ToltScript } from '@gitroom/frontend/components/layout/tolt.script';
+import { FacebookComponent } from '@gitroom/frontend/components/layout/facebook.component';
 import { headers } from 'next/headers';
-import { headerName } from '@boto/react/translation/i18n.config';
-import { HtmlComponent } from '@boto/frontend/components/layout/html.component';
+import { headerName } from '@gitroom/react/translation/i18n.config';
+import { HtmlComponent } from '@gitroom/frontend/components/layout/html.component';
 // import dynamicLoad from 'next/dynamic';
 // const SetTimezone = dynamicLoad(
-//   () => import('@boto/frontend/components/layout/set.timezone'),
+//   () => import('@gitroom/frontend/components/layout/set.timezone'),
 //   {
 //     ssr: false,
 //   }
@@ -52,6 +52,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           environment={process.env.NODE_ENV!}
           backendUrl={process.env.NEXT_PUBLIC_BACKEND_URL!}
           plontoKey={process.env.NEXT_PUBLIC_POLOTNO!}
+          stripeClient={process.env.STRIPE_PUBLISHABLE_KEY!}
           billingEnabled={!!process.env.STRIPE_PUBLISHABLE_KEY}
           discordUrl={process.env.NEXT_PUBLIC_DISCORD_SUPPORT!}
           frontEndUrl={process.env.FRONTEND_URL!}

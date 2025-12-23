@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { SignatureRepository } from '@boto/nestjs-libraries/database/prisma/signatures/signature.repository';
-import { SignatureDto } from '@boto/nestjs-libraries/dtos/signature/signature.dto';
+import { SignatureRepository } from '@gitroom/nestjs-libraries/database/prisma/signatures/signature.repository';
+import { SignatureDto } from '@gitroom/nestjs-libraries/dtos/signature/signature.dto';
 
 @Injectable()
 export class SignatureService {

@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { TopTitle } from '@boto/frontend/components/launches/helpers/top.title.component';
-import { LoadingComponent } from '@boto/frontend/components/layout/loading';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
-import { timer } from '@boto/helpers/utils/timer';
-import { Button } from '@boto/react/form/button';
+import { TopTitle } from '@gitroom/frontend/components/launches/helpers/top.title.component';
+import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { timer } from '@gitroom/helpers/utils/timer';
+import { Button } from '@gitroom/react/form/button';
 
 export const FinishTrial: FC<{ close: () => void }> = (props) => {
   const [finished, setFinished] = useState(false);

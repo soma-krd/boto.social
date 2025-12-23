@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
-import { Slider } from '@boto/react/form/slider';
-import { useToaster } from '@boto/react/toaster/toaster';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+import { Slider } from '@gitroom/react/form/slider';
+import { useToaster } from '@gitroom/react/toaster/toaster';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 interface EmailNotifications {
   sendSuccessEmails: boolean;

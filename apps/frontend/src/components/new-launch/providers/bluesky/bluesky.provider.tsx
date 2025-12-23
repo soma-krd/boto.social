@@ -3,8 +3,8 @@
 import {
   PostComment,
   withProvider,
-} from '@boto/frontend/components/new-launch/providers/high.order.provider';
-import { ThreadFinisher } from '@boto/frontend/components/new-launch/finisher/thread.finisher';
+} from '@gitroom/frontend/components/new-launch/providers/high.order.provider';
+import { ThreadFinisher } from '@gitroom/frontend/components/new-launch/finisher/thread.finisher';
 
 const SettingsComponent = () => {
   return <ThreadFinisher />;

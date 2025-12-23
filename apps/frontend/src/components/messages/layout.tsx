@@ -3,15 +3,15 @@
 import { FC, ReactNode, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import useSWR from 'swr';
-import { useFetch } from '@boto/helpers/utils/custom.fetch';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { useParams, useRouter } from 'next/navigation';
 import {
   MarketplaceProvider,
   Root2,
-} from '@boto/frontend/components/marketplace/marketplace.provider';
-import { useUser } from '@boto/frontend/components/layout/user.context';
-import { Button } from '@boto/react/form/button';
-import { useT } from '@boto/react/translation/get.transation.service.client';
+} from '@gitroom/frontend/components/marketplace/marketplace.provider';
+import { useUser } from '@gitroom/frontend/components/layout/user.context';
+import { Button } from '@gitroom/react/form/button';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 const Card: FC<{
   message: Root2;
 }> = (props) => {
