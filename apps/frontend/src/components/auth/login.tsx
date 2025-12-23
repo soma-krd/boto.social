@@ -69,7 +69,10 @@ export function Login() {
             {isGeneral && genericOauth ? (
               <OauthProvider />
             ) : !isGeneral ? (
-              <GithubProvider />
+              <div className="gap-[8px] flex">
+                <GithubProvider />
+                <GoogleProvider />
+              </div>
             ) : (
               <div className="gap-[8px] flex">
                 <GoogleProvider />

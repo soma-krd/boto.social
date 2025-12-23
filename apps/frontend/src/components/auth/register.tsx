@@ -156,7 +156,10 @@ export function RegisterAfter({
           <div className="flex flex-col">
             {!isAfterProvider &&
               (!isGeneral ? (
-                <GithubProvider />
+                <div className="gap-[8px] flex">
+                  <GithubProvider />
+                  <GoogleProvider />
+                </div>
               ) : (
                 <div className="gap-[8px] flex">
                   {genericOauth && isGeneral ? (
@@ -174,9 +177,7 @@ export function RegisterAfter({
                 <div
                   className={`absolute z-[1] justify-center items-center w-full start-0 -top-[4px] flex`}
                 >
-                  <div className="px-[16px]">
-                    or
-                  </div>
+                  <div className="px-[16px]">or</div>
                 </div>
               </div>
             )}

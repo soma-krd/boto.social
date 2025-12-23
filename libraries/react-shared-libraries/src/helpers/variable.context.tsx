@@ -29,7 +29,7 @@ interface VariableContextInterface {
 const VariableContext = createContext({
   stripeClient: '',
   billingEnabled: false,
-  isGeneral: true,
+  isGeneral: false,
   genericOauth: false,
   oauthLogoUrl: '',
   oauthDisplayName: '',
