@@ -91,9 +91,9 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // If the url is /auth and the cookie exists, redirect to /
+  // If the url is /auth and the cookie exists, redirect to dashboard
   if (nextUrl.href.indexOf('/auth') > -1 && authCookie) {
-    return NextResponse.redirect(new URL(`/${url}`, nextUrl.href));
+    return NextResponse.redirect(new URL(`/launches${url}`, nextUrl.href));
   }
   if (nextUrl.href.indexOf('/auth') > -1 && !authCookie) {
     if (org) {
