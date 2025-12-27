@@ -510,7 +510,7 @@ checksums:
     billing_join_over: 6e1c237241ba00ddbb07fd603344c5c3
     billing_entrepreneurs_count: 05164f2ca2e8e20de3f63977c07d39fe
     billing_who_use: 63bdc59ef443e193eca87889e83ea07a
-    billing_boto_grow_social: 3cf5ab166df9cb65e17b9a039ccbbbad
+    billing_postiz_grow_social: 3cf5ab166df9cb65e17b9a039ccbbbad
     billing_no_risk_trial: 6e5c60d9ddf3affa8ba8870272f9f9ab
     billing_pay_nothing_7_days: 2db15615cad39981069b65e6a0852b18
     billing_cancel_anytime: f69ae39eec3fb9eb6114481d67c8481e
@@ -532,7 +532,7 @@ checksums:
     billing_ai_videos_per_month: c786199d8dc9bded54fab8f92c350b19
     billing_billing_address: 48980a775bfc7292b0c4f9b74b4d352e
     billing_payment: 95142d3fd8b6a6f551aba771842e9c11
-    billing_powered_by_stripe: c7c2723003ae04f17ae0c5bee195aeb6
+    billing_powered_by_stripe: f2767a22c2cd93d4e8fe5c5d6ee05ad1
     billing_your_7_day_trial_is: 4b59fb559f5fd520668974e909e3479c
     billing_100_percent_free: 6616fd6ee152264c06dd2537f6347e66
     billing_ending: f66133a14aa7d86ea2453df97de12cd5

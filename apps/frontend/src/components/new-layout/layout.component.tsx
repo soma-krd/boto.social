@@ -35,14 +35,13 @@ import { TopMenu } from '@gitroom/frontend/components/layout/top.menu';
 import { LanguageComponent } from '@gitroom/frontend/components/layout/language.component';
 import { ChromeExtensionComponent } from '@gitroom/frontend/components/layout/chrome.extension.component';
 import NotificationComponent from '@gitroom/frontend/components/notifications/notification.component';
-import { BillingAfter } from '@gitroom/frontend/components/new-layout/billing.after';
 import { OrganizationSelector } from '@gitroom/frontend/components/layout/organization.selector';
 import { PreConditionComponent } from '@gitroom/frontend/components/layout/pre-condition.component';
 import { AttachToFeedbackIcon } from '@gitroom/frontend/components/new-layout/sentry.feedback.component';
 import { FirstBillingComponent } from '@gitroom/frontend/components/billing/first.billing.component';
 
 const jakartaSans = Plus_Jakarta_Sans({
-  weight: ['600', '500'],
+  weight: ['600', '500', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin'],
 });
