@@ -75,6 +75,7 @@ export function Login() {
               </div>
             ) : (
               <div className="gap-[8px] flex">
+                <GithubProvider />
                 <GoogleProvider />
                 {!!neynarClientId && <FarcasterProvider />}
                 {billingEnabled && <WalletProvider />}

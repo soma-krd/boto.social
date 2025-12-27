@@ -165,7 +165,10 @@ export function RegisterAfter({
                   {genericOauth && isGeneral ? (
                     <OauthProvider />
                   ) : (
-                    <GoogleProvider />
+                     <>
+                      <GithubProvider />
+                      <GoogleProvider />
+                      </>
                   )}
                   {!!neynarClientId && <FarcasterProvider />}
                   {billingEnabled && <WalletProvider />}
