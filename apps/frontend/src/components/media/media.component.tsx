@@ -46,6 +46,8 @@ import {
   VerticalDividerIcon,
   NoMediaIcon,
 } from '@gitroom/frontend/components/ui/icons';
+import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
+import { useShallow } from 'zustand/react/shallow';
 const Polonto = dynamic(
   () => import('@gitroom/frontend/components/launches/polonto')
 );
@@ -432,7 +434,7 @@ export const MediaBox: FC<{
                     onClick={addRemoveSelected(media)}
                   >
                     {!!selected.find((p: any) => p.id === media.id) ? (
-                      <div className="flex justify-center items-center text-[14px] font-[500] w-[24px] h-[24px] rounded-full bg-[#612BD3] absolute -bottom-[10px] -end-[10px]">
+                      <div className="text-white flex justify-center items-center text-[14px] font-[500] w-[24px] h-[24px] rounded-full bg-[#612BD3] absolute -bottom-[10px] -end-[10px]">
                         {selected.findIndex((z: any) => z.id === media.id) + 1}
                       </div>
                     ) : (
@@ -492,6 +494,7 @@ export const MediaBox: FC<{
 export const MultiMediaComponent: FC<{
   label: string;
   description: string;
+  mediaNotAvailable?: boolean;
   dummy: boolean;
   allData: {
     content: string;
@@ -535,6 +538,7 @@ export const MultiMediaComponent: FC<{
     dummy,
     toolBar,
     information,
+    mediaNotAvailable,
   } = props;
   const user = useUser();
   const modals = useModals();
@@ -686,8 +690,8 @@ export const MultiMediaComponent: FC<{
             </ReactSortable>
           )}
         </div>
-        {!dummy && (
-          <div className="flex gap-[8px] px-[12px] border-t border-newColColor w-full b1 text-textColor">
+        <div className="flex gap-[8px] px-[12px] border-t border-newColColor w-full b1 text-textColor">
+          {!mediaNotAvailable && (
             <div className="flex py-[10px] b2 items-center gap-[4px]">
               <div
                 onClick={showModal}
@@ -725,21 +729,23 @@ export const MultiMediaComponent: FC<{
                 </>
               )}
             </div>
+          )}
+          {!mediaNotAvailable && (
             <div className="text-newColColor h-full flex items-center">
               <VerticalDividerIcon />
             </div>
-            {!!toolBar && (
-              <div className="flex py-[10px] b2 items-center gap-[4px]">
-                {toolBar}
-              </div>
-            )}
-            {information && (
-              <div className="flex-1 justify-end flex py-[10px] b2 items-center gap-[4px]">
-                {information}
-              </div>
-            )}
-          </div>
-        )}
+          )}
+          {!!toolBar && (
+            <div className="flex py-[10px] b2 items-center gap-[4px]">
+              {toolBar}
+            </div>
+          )}
+          {information && (
+            <div className="flex-1 justify-end flex py-[10px] b2 items-center gap-[4px]">
+              {information}
+            </div>
+          )}
+        </div>
       </div>
       <div className="text-[12px] text-red-400">{error}</div>
     </>
@@ -778,16 +784,28 @@ export const MediaComponent: FC<{
       setCurrentMedia(settings);
     }
   }, []);
-  const [modal, setShowModal] = useState(false);
-  const [mediaModal, setMediaModal] = useState(false);
   const [currentMedia, setCurrentMedia] = useState(value);
+  const modals = useModals();
   const mediaDirectory = useMediaDirectory();
-  const closeDesignModal = useCallback(() => {
-    setMediaModal(false);
-  }, [modal]);
+
   const showDesignModal = useCallback(() => {
-    setMediaModal(true);
-  }, [modal]);
+    modals.openModal({
+      title: 'Media Editor',
+      askClose: false,
+      closeOnEscape: true,
+      fullScreen: true,
+      size: 'calc(100% - 80px)',
+      height: 'calc(100% - 80px)',
+      children: (close) => (
+        <Polonto
+          width={width}
+          height={height}
+          setMedia={changeMedia}
+          closeModal={close}
+        />
+      ),
+    });
+  }, []);
   const changeMedia = useCallback((m: { path: string; id: string }[]) => {
     setCurrentMedia(m[0]);
     onChange({
@@ -798,8 +816,18 @@ export const MediaComponent: FC<{
     });
   }, []);
   const showModal = useCallback(() => {
-    setShowModal(!modal);
-  }, [modal]);
+    modals.openModal({
+      title: 'Media Library',
+      askClose: false,
+      closeOnEscape: true,
+      fullScreen: true,
+      size: 'calc(100% - 80px)',
+      height: 'calc(100% - 80px)',
+      children: (close) => (
+        <MediaBox setMedia={changeMedia} closeModal={close} type={type} />
+      ),
+    });
+  }, []);
   const clearMedia = useCallback(() => {
     setCurrentMedia(undefined);
     onChange({
@@ -811,17 +839,6 @@ export const MediaComponent: FC<{
   }, [value]);
   return (
     <div className="flex flex-col gap-[8px]">
-      {modal && (
-        <MediaBox setMedia={changeMedia} closeModal={showModal} type={type} />
-      )}
-      {mediaModal && !!user?.tier?.ai && (
-        <Polonto
-          width={width}
-          height={height}
-          setMedia={changeMedia}
-          closeModal={closeDesignModal}
-        />
-      )}
       <div className="text-[14px]">{label}</div>
       <div className="text-[12px]">{description}</div>
       {!!currentMedia && (
