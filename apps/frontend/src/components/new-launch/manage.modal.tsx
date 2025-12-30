@@ -1,6 +1,13 @@
 'use client';
 
-import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  FC,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { AddEditModalProps } from '@gitroom/frontend/components/new-launch/add.edit.modal';
 import clsx from 'clsx';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
@@ -32,6 +39,7 @@ import {
   TrashIcon,
   DropdownArrowSmallIcon,
 } from '@gitroom/frontend/components/ui/icons';
+import { useHasScroll } from '@gitroom/frontend/components/ui/is.scroll.hook';
 
 function countCharacters(text: string, type: string): number {
   if (type !== 'x') {
@@ -91,9 +99,22 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
 
     const currentIntegration = integrations.find((p) => p.id === current)!;
 
-    return `${currentIntegration.name} (${capitalize(
-      currentIntegration.identifier.split('-').shift()
-    )})`;
+    return (
+      <div className="flex items-center gap-[10px]">
+        <div className="relative">
+          <img
+            src={`/icons/platforms/${currentIntegration.identifier}.png`}
+            className="w-[20px] h-[20px] rounded-[4px]"
+            alt={currentIntegration.identifier}
+          />
+          <SettingsIcon
+            size={15}
+            className="text-white absolute -end-[5px] -bottom-[5px]"
+          />
+        </div>
+        <div>{currentIntegration.name} Settings</div>
+      </div>
+    );
   }, [current]);
 
   const changeCustomer = useCallback(
@@ -198,7 +219,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
             );
             item.preview();
             setLoading(false);
-            setShowSettings(true);
+            setShowSettings(false);
             return;
           }
         }
@@ -333,7 +354,9 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               Create Post
             </div>
             <div className="flex-1 flex flex-col gap-[16px]">
-              <div className="flex-1 relative">
+              <div
+                className={clsx('flex-1 relative', showSettings && 'hidden')}
+              >
                 <div
                   id="social-content"
                   className="gap-[32px] flex flex-col pr-[8px] pt-[20px] pl-[20px] absolute top-0 left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
@@ -370,10 +393,11 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                 id="wrapper-settings"
                 className={clsx(
                   'pb-[20px] px-[20px] select-none',
-                  current === 'global' && 'hidden'
+                  current === 'global' && 'hidden',
+                  showSettings && 'flex-1 flex pt-[20px]'
                 )}
               >
-                <div className="bg-newSettings flex flex-col rounded-[12px] gap-[12px]">
+                <div className="bg-newSettings flex-1 flex flex-col rounded-[12px] gap-[12px] overflow-hidden">
                   <div
                     onClick={() => setShowSettings(!showSettings)}
                     className={clsx(
@@ -381,23 +405,27 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                       showSettings ? '!rounded-b-none' : ''
                     )}
                   >
-                    <div className="flex">
-                      <SettingsIcon className="text-white" />
-                    </div>
                     <div className="flex-1 text-[14px] font-[600] text-white">
-                      {currentIntegrationText} Settings
+                      {currentIntegrationText}
                     </div>
                     <div>
-                      <ChevronDownIcon rotated={showSettings} className="text-white" />
+                      <ChevronDownIcon
+                        rotated={showSettings}
+                        className="text-white"
+                      />
                     </div>
                   </div>
                   <div
-                    id="social-settings"
                     className={clsx(
-                      !showSettings && 'hidden',
-                      'px-[12px] pb-[12px] text-[14px] text-textColor font-[500] max-h-[400px] overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner'
+                      !showSettings ? 'hidden' : 'flex-1',
+                      'text-[14px] text-textColor font-[500] relative'
                     )}
-                  />
+                  >
+                    <div
+                      id="social-settings"
+                      className="px-[12px] pb-[12px] absolute left-0 top-0 w-full h-full overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-newBgColorInner scrollbar-track-newColColor"
+                    />
+                  </div>
                   <style>
                     {`#social-settings [data-id="${current}"] {display: block !important;}`}
                   </style>
@@ -413,9 +441,12 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               </div>
             </div>
             <div className="flex-1 relative">
-              <div className="absolute top-0 p-[20px] left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner">
+              <Scrollable
+                scrollClasses="!pr-[20px]"
+                className="absolute top-0 p-[20px] pr-[8px] left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
+              >
                 <ShowAllProviders ref={ref} />
-              </div>
+              </Scrollable>
             </div>
           </div>
         </div>
@@ -438,7 +469,10 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
           </div>
           <div className="pr-[20px] flex items-center justify-end gap-[8px]">
             {existingData?.integration && (
-              <button onClick={deletePost} className="cursor-pointer flex text-[#FF3F3F] gap-[8px] items-center text-[15px] font-[600]">
+              <button
+                onClick={deletePost}
+                className="cursor-pointer flex text-[#FF3F3F] gap-[8px] items-center text-[15px] font-[600]"
+              >
                 <div>
                   <TrashIcon />
                 </div>
@@ -488,22 +522,26 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                       ? t('schedule', 'Schedule')
                       : t('update', 'Update')}
                   </div>
-                  <div className="flex justify-center items-center h-[20px] w-[20px] pt-[4px] arrow-change">
-                    <DropdownArrowSmallIcon className="group-hover:rotate-180 text-white" />
-                  </div>
+                  {!dummy && (
+                    <div className="flex justify-center items-center h-[20px] w-[20px] pt-[4px] arrow-change">
+                      <DropdownArrowSmallIcon className="group-hover:rotate-180 text-white" />
+                    </div>
+                  )}
                 </button>
 
-                <button
-                  onClick={schedule('now')}
-                  disabled={
-                    selectedIntegrations.length === 0 || loading || locked
-                  }
-                  className="disabled:cursor-not-allowed disabled:opacity-80 hidden group-hover:flex absolute bottom-[100%] -left-[12px] p-[12px] w-[206px] bg-newBgColorInner"
-                >
-                  <div className="text-white rounded-[8px] bg-[#D82D7E] h-[44px] w-full flex justify-center items-center post-now">
-                    Post Now
-                  </div>
-                </button>
+                {!dummy && (
+                  <button
+                    onClick={schedule('now')}
+                    disabled={
+                      selectedIntegrations.length === 0 || loading || locked
+                    }
+                    className="rounded-[8px] z-[300] disabled:cursor-not-allowed disabled:opacity-80 hidden group-hover:flex absolute bottom-[100%] -left-[12px] p-[12px] w-[206px] bg-newBgColorInner"
+                  >
+                    <div className="text-white rounded-[8px] bg-[#D82D7E] h-[44px] w-full flex justify-center items-center post-now">
+                      Post Now
+                    </div>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -528,6 +566,20 @@ After using the addPostFor{num} it will create a new addPostContentFor{num+ 1} f
           initial: 'Hi! I can help you to refine your social media posts.',
         }}
       />
+    </div>
+  );
+};
+
+const Scrollable: FC<{
+  className: string;
+  scrollClasses: string;
+  children: ReactNode;
+}> = ({ className, scrollClasses, children }) => {
+  const ref = useRef();
+  const hasScroll = useHasScroll(ref);
+  return (
+    <div className={clsx(className, hasScroll && scrollClasses)} ref={ref}>
+      {children}
     </div>
   );
 };
