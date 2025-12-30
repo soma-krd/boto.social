@@ -19,7 +19,6 @@ import { FacebookComponent } from '@gitroom/frontend/components/layout/facebook.
 import { headers } from 'next/headers';
 import { headerName } from '@gitroom/react/translation/i18n.config';
 import { HtmlComponent } from '@gitroom/frontend/components/layout/html.component';
-import { ModalManagerWrapper } from '@gitroom/frontend/components/layout/modal-manager-wrapper';
 
 const siteUrl = process.env.FRONTEND_URL || 'https://boto.social';
 
@@ -135,10 +134,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                 host={process.env.NEXT_PUBLIC_POSTHOG_HOST}
               >
                 <LayoutContext>
-                  <ModalManagerWrapper>
                     <UtmSaver />
                     {children}
-                  </ModalManagerWrapper>
                 </LayoutContext>
               </PHProvider>
             </Plausible>

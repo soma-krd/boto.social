@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { LanguageComponent } from '../layout/language.component';
 
 const getSitemapLinks = (t: any) => ({
   product: {
@@ -126,7 +125,6 @@ export function Footer() {
               >
                 {t('home_footer_sitemap', 'Sitemap')}
               </Link>
-              <LanguageComponent />
             </div>
           </div>
         </div>
