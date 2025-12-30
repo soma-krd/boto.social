@@ -2,40 +2,45 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { LanguageComponent } from '../layout/language.component';
 
-const sitemapLinks = {
+const getSitemapLinks = (t: any) => ({
   product: {
-    title: 'Product',
+    title: t('home_footer_section_product', 'Product'),
     links: [
-      { label: 'Home', href: '/' },
-      { label: 'Features', href: '/#features' },
+      { label: t('home_footer_link_home', 'Home'), href: '/' },
+      { label: t('home_footer_link_features', 'Features'), href: '/#features' },
     ],
   },
   account: {
-    title: 'Account',
+    title: t('home_footer_section_account', 'Account'),
     links: [
-      { label: 'Login', href: '/auth/login' },
-      { label: 'Register', href: '/auth/register' },
-      { label: 'Forgot Password', href: '/auth/forgot' },
+      { label: t('home_footer_link_login', 'Login'), href: '/auth/login' },
+      { label: t('home_footer_link_register', 'Register'), href: '/auth/register' },
+      { label: t('home_footer_link_forgot_password', 'Forgot Password'), href: '/auth/forgot' },
     ],
   },
   legal: {
-    title: 'Legal',
+    title: t('home_footer_section_legal', 'Legal'),
     links: [
-      { label: 'Privacy Policy', href: '/privacy-policy' },
-      { label: 'Terms of Service', href: '/terms-of-service' },
+      { label: t('home_footer_link_privacy_policy', 'Privacy Policy'), href: '/privacy-policy' },
+      { label: t('home_footer_link_terms_of_service', 'Terms of Service'), href: '/terms-of-service' },
     ],
   },
   resources: {
-    title: 'Resources',
+    title: t('home_footer_section_resources', 'Resources'),
     links: [
-      { label: 'GitHub', href: 'https://github.com/soma-krd/boto.social', external: true },
-      { label: 'soma.krd', href: 'https://soma.krd', external: true },
+      { label: t('home_footer_link_github', 'GitHub'), href: 'https://github.com/soma-krd/boto.social', external: true },
+      { label: t('home_footer_link_soma_krd', 'soma.krd'), href: 'https://soma.krd', external: true },
     ],
   },
-};
+});
 
 export function Footer() {
+  const t = useT();
+  const sitemapLinks = getSitemapLinks(t);
+
   return (
     <footer className="bg-[#0E0E0E] text-white">
       {/* Main Footer Content */}
@@ -44,10 +49,10 @@ export function Footer() {
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 lg:max-w-xs">
             <p className="text-white/70 text-sm leading-relaxed mb-4">
-              AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.
+              {t('home_footer_description', 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.')}
             </p>
             <p className="text-white/60 text-xs">
-              Forked from{' '}
+              {t('home_footer_forked_from', 'Forked from')}{' '}
               <a
                 href="https://postiz.com"
                 target="_blank"
@@ -112,15 +117,16 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/70 text-sm">
-              © {new Date().getFullYear()} Boto Social. All rights reserved.
+              {t('home_footer_copyright', '© {{year}} Boto Social. All rights reserved.', { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center gap-4">
               <Link
                 href="/sitemap.xml"
                 className="text-white/70 hover:text-white transition-colors text-sm"
               >
-                Sitemap
+                {t('home_footer_sitemap', 'Sitemap')}
               </Link>
+              <LanguageComponent />
             </div>
           </div>
         </div>

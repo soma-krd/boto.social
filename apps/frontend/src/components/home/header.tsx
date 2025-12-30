@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { LogoTextComponent } from '../ui/logo-text.component';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 export function HomeHeader() {
+  const t = useT();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -22,13 +24,13 @@ export function HomeHeader() {
               href="/auth"
               className="px-6 py-2.5 rounded-full border border-white/20 text-white text-sm font-medium hover:bg-white/5 transition-colors"
             >
-              Log In
+              {t('home_header_login', 'Log In')}
             </Link>
             <Link
               href="/auth/register"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-gray-100 transition-colors"
             >
-              Get Started
+              {t('home_header_get_started', 'Get Started')}
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -70,13 +72,13 @@ export function HomeHeader() {
                 href="/auth"
                 className="text-center px-6 py-2.5 rounded-full border border-white/20 text-white text-sm font-medium"
               >
-                Log In
+                {t('home_header_login', 'Log In')}
               </Link>
               <Link
                 href="/auth/register"
                 className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-sm font-medium"
               >
-                Get Started
+                {t('home_header_get_started', 'Get Started')}
                 <svg
                   className="w-4 h-4"
                   fill="none"

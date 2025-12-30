@@ -1,36 +1,34 @@
 'use client';
 
 import { useState } from 'react';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
-const faqs = [
+const getFaqs = (t: any) => [
   {
-    question: 'What social media platforms are supported?',
-    answer:
-      'We support a wide range of platforms including Instagram, YouTube, LinkedIn, Reddit, TikTok, Facebook, Pinterest, Threads, X (Twitter), Slack, Discord, Mastodon, Bluesky, Telegram, VK, Medium, Dev.to, WordPress, and more. Check our documentation for the full list of supported platforms.',
+    question: t('home_faq_question_1', 'What social media platforms are supported?'),
+    answer: t('home_faq_answer_1', 'We support a wide range of platforms including Instagram, YouTube, LinkedIn, Reddit, TikTok, Facebook, Pinterest, Threads, X (Twitter), Slack, Discord, Mastodon, Bluesky, Telegram, VK, Medium, Dev.to, WordPress, and more. Check our documentation for the full list of supported platforms.'),
   },
   {
-    question: 'Is this software free to use?',
-    answer:
-      'Yes! This is an open-source social media scheduling tool that you can self-host for free. You have full control over your data and can customize the platform to your needs.',
+    question: t('home_faq_question_2', 'Is this software free to use?'),
+    answer: t('home_faq_answer_2', 'Yes! This is an open-source social media scheduling tool that you can self-host for free. You have full control over your data and can customize the platform to your needs.'),
   },
   {
-    question: 'How does the AI content generation work?',
-    answer:
-      'Our AI agent helps you generate engaging social media content based on your prompts and preferences. It can create posts, suggest hashtags, and optimize your content for different platforms.',
+    question: t('home_faq_question_3', 'How does the AI content generation work?'),
+    answer: t('home_faq_answer_3', 'Our AI agent helps you generate engaging social media content based on your prompts and preferences. It can create posts, suggest hashtags, and optimize your content for different platforms.'),
   },
   {
-    question: 'Can I schedule posts in advance?',
-    answer:
-      'Absolutely! You can schedule posts for any future date and time across all your connected social media accounts. The calendar view makes it easy to plan your content strategy.',
+    question: t('home_faq_question_4', 'Can I schedule posts in advance?'),
+    answer: t('home_faq_answer_4', 'Absolutely! You can schedule posts for any future date and time across all your connected social media accounts. The calendar view makes it easy to plan your content strategy.'),
   },
   {
-    question: 'Is there team collaboration support?',
-    answer:
-      'Yes, you can invite team members to your organization and collaborate on content creation and scheduling. Different permission levels allow you to control who can do what.',
+    question: t('home_faq_question_5', 'Is there team collaboration support?'),
+    answer: t('home_faq_answer_5', 'Yes, you can invite team members to your organization and collaborate on content creation and scheduling. Different permission levels allow you to control who can do what.'),
   },
 ];
 
 export function FAQSection() {
+  const t = useT();
+  const faqs = getFaqs(t);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleFAQ = (index: number) => {
@@ -43,7 +41,7 @@ export function FAQSection() {
         {/* Section header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 italic">
-            Frequently asked questions
+            {t('home_faq_title', 'Frequently asked questions')}
           </h2>
         </div>
 

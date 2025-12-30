@@ -1,70 +1,71 @@
 'use client';
 
 import Image from 'next/image';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
-const targetAudience = [
+const getTargetAudience = (t: any) => [
   {
     icon: '/home/svgs/home.svg',
-    title: 'Creators',
-    description: 'Streamlined content creation and scheduling for consistent personal brand growth.',
+    title: t('home_features_creators_title', 'Creators'),
+    description: t('home_features_creators_description', 'Streamlined content creation and scheduling for consistent personal brand growth.'),
   },
   {
     icon: '/home/svgs/briefcase.svg',
-    title: 'Business',
-    description: 'Multi-platform posting, team collaboration, and data-driven marketing decisions.',
+    title: t('home_features_business_title', 'Business'),
+    description: t('home_features_business_description', 'Multi-platform posting, team collaboration, and data-driven marketing decisions.'),
   },
   {
     icon: '/home/svgs/briefcase.svg',
-    title: 'Agencies',
-    description: 'Manage multiple clients effortlessly with a unified platform for social media.',
+    title: t('home_features_agencies_title', 'Agencies'),
+    description: t('home_features_agencies_description', 'Manage multiple clients effortlessly with a unified platform for social media.'),
   },
 ];
 
-const features = [
+const getFeatures = (t: any) => [
   {
-    tag: 'PLANNING',
-    title: 'All the tools required for social media growth',
-    description: 'Boto provides the essential social media tools that your brand needs to succeed. With Boto, you have all the tools at your fingertips.',
+    tag: t('home_features_tag_planning', 'PLANNING'),
+    title: t('home_features_planning_title', 'All the tools required for social media growth'),
+    description: t('home_features_planning_description', 'Boto provides the essential social media tools that your brand needs to succeed. With Boto, you have all the tools at your fingertips.'),
     video: '/home/videos/1.mp4',
     poster: '/home/images/tool-planning.png',
     layout: 'left',
   },
   {
-    tag: 'AI AGENT',
-    title: 'Generate posts with our AI agent',
-    description: 'Let AI help you create engaging content for all your social media platforms. Save time and maintain consistency across channels.',
+    tag: t('home_features_tag_ai_agent', 'AI AGENT'),
+    title: t('home_features_ai_agent_title', 'Generate posts with our AI agent'),
+    description: t('home_features_ai_agent_description', 'Let AI help you create engaging content for all your social media platforms. Save time and maintain consistency across channels.'),
     video: '/home/videos/2.mp4',
     poster: '/home/images/tool-creating.png',
     layout: 'right',
   },
   {
-    tag: 'PLUGS',
-    title: 'Auto plug to your posts',
-    description: 'Auto-post, auto-like, auto-comment once you reach a specific milestone. So you can get the maximum engagement for your content.',
+    tag: t('home_features_tag_plugs', 'PLUGS'),
+    title: t('home_features_plugs_title', 'Auto plug to your posts'),
+    description: t('home_features_plugs_description', 'Auto-post, auto-like, auto-comment once you reach a specific milestone. So you can get the maximum engagement for your content.'),
     video: '/home/videos/3.mp4',
     poster: '/home/images/tool-organizing.png',
     layout: 'left',
   },
   {
-    tag: 'TEAM',
-    title: 'Invite your entire team',
-    description: 'All team members and clients can work together with different roles and permissions. Collaborate seamlessly on content.',
+    tag: t('home_features_tag_team', 'TEAM'),
+    title: t('home_features_team_title', 'Invite your entire team'),
+    description: t('home_features_team_description', 'All team members and clients can work together with different roles and permissions. Collaborate seamlessly on content.'),
     video: '/home/videos/4.mp4',
     poster: '/home/images/tool-improvement.png',
     layout: 'right',
   },
   {
-    tag: 'ANALYTICS',
-    title: 'See your best and worst performers',
-    description: 'Track your performance across all platforms. Get insights into engagement, reach, and growth with detailed analytics.',
+    tag: t('home_features_tag_analytics', 'ANALYTICS'),
+    title: t('home_features_analytics_title', 'See your best and worst performers'),
+    description: t('home_features_analytics_description', 'Track your performance across all platforms. Get insights into engagement, reach, and growth with detailed analytics.'),
     video: '/home/videos/5.mp4',
     poster: '/home/images/tool-analytics.png',
     layout: 'left',
   },
   {
-    tag: 'MARKETPLACE',
-    title: 'Connect with others for cross promotion',
-    description: 'Find and collaborate with other creators for cross-promotion opportunities. Grow your audience together.',
+    tag: t('home_features_tag_marketplace', 'MARKETPLACE'),
+    title: t('home_features_marketplace_title', 'Connect with others for cross promotion'),
+    description: t('home_features_marketplace_description', 'Find and collaborate with other creators for cross-promotion opportunities. Grow your audience together.'),
     video: '/home/videos/6.mp4',
     poster: '/home/images/design-media.png',
     layout: 'right',
@@ -72,16 +73,20 @@ const features = [
 ];
 
 export function FeaturesSection() {
+  const t = useT();
+  const targetAudience = getTargetAudience(t);
+  const features = getFeatures(t);
+
   return (
     <section className="py-24 px-4 bg-[#0E0E0E]">
       <div className="max-w-7xl mx-auto">
         {/* Who is it for section */}
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Who is it for?
+            {t('home_features_who_is_it_for', 'Who is it for?')}
           </h2>
           <p className="text-white/80 max-w-2xl mx-auto mb-12">
-            Whether you&apos;re a creator, business, or agency, we have the tools you need.
+            {t('home_features_who_is_it_for_subtitle', "Whether you're a creator, business, or agency, we have the tools you need.")}
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -121,14 +126,14 @@ export function FeaturesSection() {
                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
                   {index === 0 ? (
                     <>
-                      All the{' '}
+                      {t('home_features_planning_title_part1', 'All the')}{' '}
                       <span className="relative inline-block">
-                        tools required
+                        {t('home_features_planning_title_part2', 'tools required')}
                         <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 10" fill="none">
                           <path d="M0 5 Q50 0, 100 5 Q150 10, 200 5" stroke="#8B5CF6" strokeWidth="3" fill="none" strokeLinecap="round"/>
                         </svg>
                       </span>{' '}
-                      for social media growth
+                      {t('home_features_planning_title_part3', 'for social media growth')}
                     </>
                   ) : (
                     feature.title

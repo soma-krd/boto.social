@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 const socialPlatforms = [
   { name: 'Instagram', icon: 'instagram.png' },
@@ -25,6 +26,8 @@ const socialPlatforms = [
 ];
 
 export function HeroSection() {
+  const t = useT();
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start pt-32 pb-16 px-4 overflow-hidden">
       {/* Hand-drawn doodles - Left side */}
@@ -55,13 +58,13 @@ export function HeroSection() {
       <div className="max-w-5xl mx-auto text-center relative z-10">
         {/* Main headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-          Your{' '}
+          {t('home_hero_title_part1', 'Your')}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-            agentic social
+            {t('home_hero_title_part2', 'agentic social')}
           </span>
           <br />
           <span className="relative inline-block">
-            media scheduling tool
+            {t('home_hero_title_part3', 'media scheduling tool')}
             {/* Pink underline decoration */}
             <svg className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-48 h-4" viewBox="0 0 200 20" fill="none">
               <path d="M5 15 Q50 5, 100 12 Q150 19, 195 8" stroke="#EC4899" strokeWidth="3" fill="none" strokeLinecap="round"/>
@@ -71,8 +74,7 @@ export function HeroSection() {
 
         {/* Subtitle */}
         <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto mb-10 mt-8">
-          Everything you need to manage your social media posts, build an
-          audience, capture leads, and grow your business faster with AI
+          {t('home_hero_subtitle', 'Everything you need to manage your social media posts, build an audience, capture leads, and grow your business faster with AI')}
         </p>
 
         {/* Social platform icons */}
@@ -99,7 +101,7 @@ export function HeroSection() {
           href="/auth/register"
           className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-lg font-semibold hover:bg-gray-100 transition-all hover:scale-105 shadow-lg shadow-white/10"
         >
-          Get Started Free
+          {t('home_hero_cta', 'Get Started Free')}
           <svg
             className="w-5 h-5"
             fill="none"
