@@ -59,6 +59,28 @@ export const metadata: Metadata = {
   other: {
     'msapplication-TileColor': '#6366F1',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteUrl,
+    siteName: 'Boto',
+    title: 'Boto - AI-Powered Social Media Management',
+    description: 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.',
+    images: [
+      {
+        url: `${siteUrl}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Boto - Social Media Management Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Boto - AI-Powered Social Media Management',
+    description: 'AI-powered social media management and scheduling tool.',
+    images: [`${siteUrl}/og.png`],
+  },
 };
 // import dynamicLoad from 'next/dynamic';
 // const SetTimezone = dynamicLoad(
