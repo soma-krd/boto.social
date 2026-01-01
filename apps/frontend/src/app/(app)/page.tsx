@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     description: 'Everything you need to manage social media posts, build an audience, capture leads, and grow your business faster with AI. Schedule across 15+ platforms.',
     images: [
       {
-        url: `${siteUrl}/boto.svg`,
+        url: `${siteUrl}/og.png`,
         width: 1200,
         height: 630,
         alt: 'Boto - Social Media Management Platform',
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     title: 'Boto - AI-Powered Social Media Management & Scheduling',
     description: 'Everything you need to manage social media posts, build an audience, and grow your business faster with AI.',
     images: {
-      url: `${siteUrl}/boto.svg`,
+      url: `${siteUrl}/og.png`,
       alt: 'Boto - Social Media Management Platform',
     },
   },
@@ -158,7 +158,7 @@ export default function Home() {
       'Cross-promotion marketplace',
       'Auto-posting and engagement automation',
     ],
-    screenshot: `${siteUrl}/boto.svg`,
+    screenshot: `${siteUrl}/og.png`,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
