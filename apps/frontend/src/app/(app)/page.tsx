@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { HomePage } from '@gitroom/frontend/components/home/home-page';
 
 const siteUrl = process.env.FRONTEND_URL || 'https://boto.social';
+const facebookAppId = process.env.FACEBOOK_APP_ID;
 
 export const metadata: Metadata = {
   title: 'Boto - AI-Powered Social Media Management & Scheduling Tool',
@@ -91,6 +92,11 @@ export const metadata: Metadata = {
   },
   category: 'Technology',
   classification: 'Social Media Management Software',
+  ...(facebookAppId && {
+    other: {
+      'fb:app_id': facebookAppId,
+    },
+  }),
 };
 
 export default function Home() {

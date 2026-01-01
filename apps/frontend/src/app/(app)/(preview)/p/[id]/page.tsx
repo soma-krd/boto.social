@@ -22,9 +22,18 @@ const RenderPreviewDate = dynamicLoad(
 );
 
 dayjs.extend(utc);
+
+const facebookAppId = process.env.FACEBOOK_APP_ID;
+
 export const metadata: Metadata = {
   title: `${isGeneralServerSide() ? 'Boto' : 'boto'} Preview`,
   description: '',
+  openGraph: {
+    type: 'article',
+  },
+  other: facebookAppId ? {
+    'fb:app_id': facebookAppId,
+  } : undefined,
 };
 export default async function Auth({
   params: { id },
