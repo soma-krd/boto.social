@@ -21,7 +21,7 @@ export function HomeHeader() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4">
             <Link
-              href="/auth"
+              href="/auth/login"
               className="px-6 py-2.5 rounded-full border border-white/20 text-white text-sm font-medium hover:bg-white/5 transition-colors"
             >
               {t('home_header_login', 'Log In')}
