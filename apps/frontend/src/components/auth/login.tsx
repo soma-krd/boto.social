@@ -86,7 +86,7 @@ export function Login() {
               <div
                 className={`absolute z-[1] justify-center items-center w-full start-0 -top-[4px] flex`}
               >
-                <div className="px-[16px]">or</div>
+                <div className="px-[16px]">{t('or', 'or')}</div>
               </div>
             </div>
             <div className="flex flex-col gap-[12px]">
@@ -96,7 +96,7 @@ export function Login() {
                   translationKey="label_email"
                   {...form.register('email')}
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={t('email_address', 'Email Address')}
                 />
                 <Input
                   label="Password"
@@ -104,7 +104,7 @@ export function Login() {
                   {...form.register('password')}
                   autoComplete="off"
                   type="password"
-                  placeholder="Password"
+                  placeholder={t('label_password', 'Password')}
                 />
               </div>
               <div className="text-center mt-6">

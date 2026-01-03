@@ -119,7 +119,7 @@ Link: https://opencollective.com/boto
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=soma-krd/boto.social&type=Date)](https://www.star-history.com/#soma-krd/boto.social&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=soma-krd/boto.social&type=date&legend=top-left)](https://www.star-history.com/#soma-krd/boto.social&type=date&legend=top-left)
 
 ## License
 
