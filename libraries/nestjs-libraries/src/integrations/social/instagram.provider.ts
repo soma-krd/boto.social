@@ -672,6 +672,53 @@ export class InstagramProvider
     return '';
   }
 
+  async getPostEngagement(
+    postId: string,
+    accessToken: string,
+    type = 'graph.facebook.com'
+  ): Promise<{
+    reactions: { total: number };
+    comments: {
+      total: number;
+      data: Array<{
+        message: string;
+        from: { name: string };
+        created_time: string;
+      }>;
+    };
+    shares: { count: number };
+  }> {
+    // Fetch media insights and comments
+    const [mediaResponse, commentsResponse] = await Promise.all([
+      fetch(
+        `https://${type}/v20.0/${postId}?fields=like_count,comments_count&access_token=${accessToken}`
+      ),
+      fetch(
+        `https://${type}/v20.0/${postId}/comments?fields=text,from,timestamp&limit=10&access_token=${accessToken}`
+      ),
+    ]);
+
+    const mediaData = await mediaResponse.json();
+    const commentsData = await commentsResponse.json();
+
+    return {
+      reactions: {
+        total: mediaData.like_count || 0,
+      },
+      comments: {
+        total: mediaData.comments_count || 0,
+        data: (commentsData.data || []).map((c: any) => ({
+          message: c.text,
+          from: { name: c.from?.username || 'Unknown' },
+          created_time: c.timestamp,
+        })),
+      },
+      shares: {
+        count: 0, // Instagram doesn't expose share count via API
+      },
+    };
+  }
+
   async analytics(
     id: string,
     accessToken: string,

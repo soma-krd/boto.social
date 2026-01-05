@@ -78,8 +78,34 @@ export class PostsService {
       content
     );
 
+    // Get Facebook engagement if applicable
+    let engagement = null;
+    const firstPost = getPost[0];
+    if (
+      firstPost?.integration &&
+      firstPost.releaseId &&
+      firstPost.state === 'PUBLISHED'
+    ) {
+      const provider = this._integrationManager.getSocialIntegration(
+        firstPost.integration.providerIdentifier
+      );
+      if (provider?.getPostEngagement) {
+        try {
+          engagement = await provider.getPostEngagement(
+            firstPost.releaseId,
+            firstPost.integration.token
+          );
+        } catch (error) {
+          // Silently fail if engagement fetch fails
+          console.error('Failed to fetch engagement:', error);
+        }
+      }
+    }
+
     return {
       clicks: shortLinksTracking,
+      engagement,
+      provider: firstPost?.integration?.providerIdentifier || null,
     };
   }
 
