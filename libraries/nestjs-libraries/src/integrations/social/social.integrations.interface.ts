@@ -150,4 +150,19 @@ export interface SocialProvider
     accessToken: string,
     data: any
   ): Promise<FetchPageInformationResult>;
+  getPostEngagement?(
+    postId: string,
+    accessToken: string
+  ): Promise<{
+    reactions: { total: number };
+    comments: {
+      total: number;
+      data: Array<{
+        message: string;
+        from: { name: string };
+        created_time: string;
+      }>;
+    };
+    shares: { count: number };
+  }>;
 }

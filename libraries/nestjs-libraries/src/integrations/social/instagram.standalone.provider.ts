@@ -173,4 +173,12 @@ export class InstagramStandaloneProvider
       'graph.instagram.com'
     );
   }
+
+  async getPostEngagement(postId: string, accessToken: string) {
+    return instagramProvider.getPostEngagement(
+      postId,
+      accessToken,
+      'graph.instagram.com'
+    );
+  }
 }

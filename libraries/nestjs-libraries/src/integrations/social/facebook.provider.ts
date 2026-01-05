@@ -418,6 +418,37 @@ export class FacebookProvider extends SocialAbstract implements SocialProvider {
     ];
   }
 
+  async getPostEngagement(
+    postId: string,
+    accessToken: string
+  ): Promise<{
+    reactions: { total: number };
+    comments: { total: number; data: Array<{ message: string; from: { name: string }; created_time: string }> };
+    shares: { count: number };
+  }> {
+    const response = await fetch(
+      `https://graph.facebook.com/v20.0/${postId}?fields=comments.limit(10).summary(true){message,from,created_time},reactions.summary(true),shares&access_token=${accessToken}`
+    );
+    const data = await response.json();
+
+    return {
+      reactions: {
+        total: data.reactions?.summary?.total_count || 0,
+      },
+      comments: {
+        total: data.comments?.summary?.total_count || data.comments?.data?.length || 0,
+        data: (data.comments?.data || []).map((c: any) => ({
+          message: c.message,
+          from: { name: c.from?.name || 'Unknown' },
+          created_time: c.created_time,
+        })),
+      },
+      shares: {
+        count: data.shares?.count || 0,
+      },
+    };
+  }
+
   async analytics(
     id: string,
     accessToken: string,
