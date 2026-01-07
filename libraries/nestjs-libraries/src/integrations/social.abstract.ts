@@ -25,6 +25,8 @@ export class NotEnoughScopes {
 
 export abstract class SocialAbstract {
   abstract identifier: string;
+  constructor(public enable: boolean = false){}
+  
   maxConcurrentJob = 1;
 
   public handleErrors(

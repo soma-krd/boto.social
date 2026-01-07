@@ -31,33 +31,33 @@ import { ListmonkProvider } from '@gitroom/nestjs-libraries/integrations/social/
 import { GmbProvider } from '@gitroom/nestjs-libraries/integrations/social/gmb.provider';
 
 export const socialIntegrationList: SocialProvider[] = [
-  new XProvider(),
-  new LinkedinProvider(),
-  new LinkedinPageProvider(),
-  new RedditProvider(),
-  new InstagramProvider(),
-  new InstagramStandaloneProvider(),
-  new FacebookProvider(),
-  new ThreadsProvider(),
-  new YoutubeProvider(),
-  new GmbProvider(),
-  new TiktokProvider(),
-  new PinterestProvider(),
-  new DribbbleProvider(),
-  new DiscordProvider(),
-  new SlackProvider(),
-  new MastodonProvider(),
-  new BlueskyProvider(),
-  new LemmyProvider(),
-  new FarcasterProvider(),
-  new TelegramProvider(),
-  new NostrProvider(),
-  new VkProvider(),
-  new MediumProvider(),
-  new DevToProvider(),
-  new HashnodeProvider(),
-  new WordpressProvider(),
-  new ListmonkProvider(),
+  new XProvider(process.env.ENABLE_X == 'true'),
+  new LinkedinProvider(process.env.ENABLE_LINKEDIN == 'true'),
+  new LinkedinPageProvider(process.env.ENABLE_LINKEDIN_PAGE == 'true'),
+  new RedditProvider(process.env.ENABLE_REDDIT == 'true'),
+  new InstagramProvider(process.env.ENABLE_INSTAGRAM == 'true'),
+  new InstagramStandaloneProvider(process.env.ENABLE_INSTAGRAM_STANDALONE == 'true'),
+  new FacebookProvider(process.env.ENABLE_FACEBOOK == 'true'),
+  new ThreadsProvider(process.env.ENABLE_THREADS == 'true'),
+  new YoutubeProvider(process.env.ENABLE_YOUTUBE == 'true'),
+  new GmbProvider(process.env.ENABLE_GMB == 'true'),
+  new TiktokProvider(process.env.ENABLE_TIKTOK == 'true'),
+  new PinterestProvider(process.env.ENABLE_PINTEREST == 'true'),
+  new DribbbleProvider(process.env.ENABLE_DRIBBLE == 'true'),
+  new DiscordProvider(process.env.ENABLE_DISCORD == 'true'),
+  new SlackProvider(process.env.ENABLE_SLACK == 'true'),
+  new MastodonProvider(process.env.ENABLE_MASTODON == 'true'),
+  new BlueskyProvider(process.env.ENABLE_BLUESKY == 'true'),
+  new LemmyProvider(process.env.ENABLE_LEMMY == 'true'),
+  new FarcasterProvider(process.env.ENABLE_FARCASTER == 'true'),
+  new TelegramProvider(process.env.ENABLE_TELEGRAM == 'true'),
+  new NostrProvider(process.env.ENABLE_NOSTR == 'true'),
+  new VkProvider(process.env.ENABLE_VK == 'true'),
+  new MediumProvider(process.env.ENABLE_MEDIUM == 'true'),
+  new DevToProvider(process.env.ENABLE_DEVTO == 'true'),
+  new HashnodeProvider(process.env.ENABLE_HASHNODE == 'true'),
+  new WordpressProvider(process.env.ENABLE_WORDPRESS == 'true'),
+  new ListmonkProvider(process.env.ENABLE_LISTMONK == 'true'),
   // new MastodonCustomProvider(),
 ];
 
@@ -66,7 +66,7 @@ export class IntegrationManager {
   async getAllIntegrations() {
     return {
       social: await Promise.all(
-        socialIntegrationList.map(async (p) => ({
+        socialIntegrationList.filter(p => p.enable).map(async (p) => ({
           name: p.name,
           identifier: p.identifier,
           toolTip: p.toolTip,
@@ -87,7 +87,7 @@ export class IntegrationManager {
       methodName: string;
     }[];
   } {
-    return socialIntegrationList.reduce(
+    return socialIntegrationList.filter(p => p.enable).reduce(
       (all, current) => ({
         ...all,
         [current.identifier]:
@@ -101,7 +101,7 @@ export class IntegrationManager {
   getAllRulesDescription(): {
     [key: string]: string;
   } {
-    return socialIntegrationList.reduce(
+    return socialIntegrationList.filter(p => p.enable).reduce(
       (all, current) => ({
         ...all,
         [current.identifier]:
@@ -115,7 +115,7 @@ export class IntegrationManager {
   }
 
   getAllPlugs() {
-    return socialIntegrationList
+    return socialIntegrationList.filter(p => p.enable)
       .map((p) => {
         return {
           name: p.name,
@@ -137,7 +137,7 @@ export class IntegrationManager {
   }
 
   getInternalPlugs(providerName: string) {
-    const p = socialIntegrationList.find((p) => p.identifier === providerName)!;
+    const p = socialIntegrationList.filter(p => p.enable).find((p) => p.identifier === providerName)!;
     return {
       internalPlugs:
         (
@@ -150,7 +150,7 @@ export class IntegrationManager {
   }
 
   getAllowedSocialsIntegrations() {
-    return socialIntegrationList.map((p) => p.identifier);
+    return socialIntegrationList.filter(p => p.enable).map((p) => p.identifier);
   }
   getSocialIntegration(integration: string): SocialProvider {
     return socialIntegrationList.find((i) => i.identifier === integration)!;

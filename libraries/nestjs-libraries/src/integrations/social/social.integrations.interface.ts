@@ -125,6 +125,7 @@ export interface SocialProvider
   maxLength: (additionalSettings?: any) => number;
   isWeb3?: boolean;
   editor: 'normal' | 'markdown' | 'html';
+  enable: boolean;
   customFields?: () => Promise<
     {
       key: string;
