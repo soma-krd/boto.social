@@ -488,7 +488,12 @@ export class IntegrationsController {
       throw new HttpException('', 412);
     }
 
-    return this._integrationService.createOrUpdateIntegration(
+    const redirectUrl = await ioRedis.get(`redirectUrl:${body.state}`);
+    if (refresh) {
+      await ioRedis.del(`redirectUrl:${body.state}`);
+    }
+
+    const result = await this._integrationService.createOrUpdateIntegration(
       additionalSettings,
       !!integrationProvider.oneTimeToken,
       org.id,
@@ -512,6 +517,7 @@ export class IntegrationsController {
           )
         : undefined
     );
+    return { ...result, redirectUrl };
   }
 
   @Post('/disable')

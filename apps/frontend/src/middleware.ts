@@ -34,6 +34,11 @@ export async function middleware(request: NextRequest) {
   if (nextUrl.pathname.startsWith('/modal/') && !authCookie) {
     return NextResponse.redirect(new URL(`/auth/login-required`, nextUrl.href));
   }
+  
+  if (nextUrl.pathname.startsWith('/oauth/connect') && !authCookie) {
+    topResponse.headers.set('oauth-connect', 'true');
+    return NextResponse.redirect(`${(new URL(`/auth/login`, nextUrl.href)).toString()}?returnUrl=${nextUrl.toString()}`);
+  }
 
   // Allow public access to these paths without authentication
   if (
