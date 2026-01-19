@@ -18,6 +18,7 @@ import { IntegrationManager } from '@gitroom/nestjs-libraries/integrations/integ
 import { RefreshIntegrationService } from '@gitroom/nestjs-libraries/integrations/refresh.integration.service';
 import { RefreshToken } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
+import { CreatePostDto } from '@gitroom/nestjs-libraries/dtos/posts/create.post.dto';
 import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
 import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
 import {
@@ -130,7 +131,7 @@ export class PublicIntegrationsController {
   @CheckPolicies([AuthorizationActions.Create, Sections.POSTS_PER_MONTH])
   async createPost(
     @GetOrgFromRequest() org: Organization,
-    @Body() rawBody: any
+    @Body() rawBody: CreatePostDto
   ) {
     Sentry.metrics.count('public_api-request', 1);
     const body = await this._postsService.mapTypeToPost(
@@ -159,7 +160,6 @@ export class PublicIntegrationsController {
     Sentry.metrics.count('public_api-request', 1);
     return { connected: true };
   }
-
 
   @Get('/integrations/list')
   async getIntegrationList(@GetOrgFromRequest() org: Organization) {

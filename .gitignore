@@ -60,3 +60,5 @@ libraries/plugins/src/plugins.ts
 i18n.cache
 
 .cursorignore
+
+/apps/backend/uploads/**
