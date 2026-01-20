@@ -131,7 +131,7 @@ export class PublicIntegrationsController {
   @CheckPolicies([AuthorizationActions.Create, Sections.POSTS_PER_MONTH])
   async createPost(
     @GetOrgFromRequest() org: Organization,
-    @Body() rawBody: CreatePostDto
+    @Body() rawBody: any
   ) {
     Sentry.metrics.count('public_api-request', 1);
     const body = await this._postsService.mapTypeToPost(
@@ -414,5 +414,13 @@ export class PublicIntegrationsController {
       }
     }
     throw new Error('Function not found');
+  }
+
+  @Get('/:id/statistics')
+  async getStatistics(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    return this._postsService.getStatistics(org.id, id);
   }
 }
