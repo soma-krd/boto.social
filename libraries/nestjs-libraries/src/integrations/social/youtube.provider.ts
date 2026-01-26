@@ -50,7 +50,7 @@ const clientAndYoutube = () => {
 
 @Rules('YouTube must have on video attachment, it cannot be empty')
 export class YoutubeProvider extends SocialAbstract implements SocialProvider {
-  override maxConcurrentJob = 1; // YouTube has strict upload quotas
+  override maxConcurrentJob = 200; // YouTube has strict upload quotas
   identifier = 'youtube';
   name = 'YouTube';
   isBetweenSteps = true;
@@ -113,6 +113,21 @@ export class YoutubeProvider extends SocialAbstract implements SocialProvider {
         type: 'bad-body',
         value:
           'Your account is not verified, we have uploaded your video but we could not set the thumbnail. Please verify your account and try again.',
+      };
+    }
+
+    if (body.includes('Unauthorized')) {
+      return {
+        type: 'refresh-token',
+        value:
+          'Token expired or invalid, please reconnect your YouTube account.',
+      };
+    }
+
+    if (body.includes('UNAUTHENTICATED') || body.includes('invalid_grant')) {
+      return {
+        type: 'refresh-token',
+        value: 'Please re-authenticate your YouTube account',
       };
     }
 
@@ -219,10 +234,7 @@ export class YoutubeProvider extends SocialAbstract implements SocialProvider {
     }
   }
 
-  async fetchPageInformation(
-    accessToken: string,
-    data: { id: string }
-  ) {
+  async fetchPageInformation(accessToken: string, data: { id: string }) {
     const { client, youtube } = clientAndYoutube();
     client.setCredentials({ access_token: accessToken });
     const youtubeClient = youtube(client);
@@ -433,6 +445,73 @@ export class YoutubeProvider extends SocialAbstract implements SocialProvider {
 
       return acc;
     } catch (err) {
+      return [];
+    }
+  }
+
+  async postAnalytics(
+    integrationId: string,
+    accessToken: string,
+    postId: string,
+    date: number
+  ): Promise<AnalyticsData[]> {
+    const today = dayjs().format('YYYY-MM-DD');
+
+    try {
+      const { client, youtube } = clientAndYoutube();
+      client.setCredentials({ access_token: accessToken });
+      const youtubeClient = youtube(client);
+
+      // Fetch video statistics
+      const response = await youtubeClient.videos.list({
+        part: ['statistics', 'snippet'],
+        id: [postId],
+      });
+
+      const video = response.data.items?.[0];
+
+      if (!video || !video.statistics) {
+        return [];
+      }
+
+      const stats = video.statistics;
+      const result: AnalyticsData[] = [];
+
+      if (stats.viewCount !== undefined) {
+        result.push({
+          label: 'Views',
+          percentageChange: 0,
+          data: [{ total: String(stats.viewCount), date: today }],
+        });
+      }
+
+      if (stats.likeCount !== undefined) {
+        result.push({
+          label: 'Likes',
+          percentageChange: 0,
+          data: [{ total: String(stats.likeCount), date: today }],
+        });
+      }
+
+      if (stats.commentCount !== undefined) {
+        result.push({
+          label: 'Comments',
+          percentageChange: 0,
+          data: [{ total: String(stats.commentCount), date: today }],
+        });
+      }
+
+      if (stats.favoriteCount !== undefined) {
+        result.push({
+          label: 'Favorites',
+          percentageChange: 0,
+          data: [{ total: String(stats.favoriteCount), date: today }],
+        });
+      }
+
+      return result;
+    } catch (err) {
+      console.error('Error fetching YouTube post analytics:', err);
       return [];
     }
   }

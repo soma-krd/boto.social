@@ -195,7 +195,8 @@ export class IntegrationsController {
   async getIntegrationUrl(
     @Param('integration') integration: string,
     @Query('refresh') refresh: string,
-    @Query('externalUrl') externalUrl: string
+    @Query('externalUrl') externalUrl: string,
+    @Query('onboarding') onboarding: string
   ) {
     if (
       !this._integrationManager
@@ -225,6 +226,10 @@ export class IntegrationsController {
 
       if (refresh) {
         await ioRedis.set(`refresh:${state}`, refresh, 'EX', 300);
+      }
+
+      if (onboarding === 'true') {
+        await ioRedis.set(`onboarding:${state}`, 'true', 'EX', 300);
       }
 
       await ioRedis.set(`login:${state}`, codeVerifier, 'EX', 300);
@@ -409,6 +414,11 @@ export class IntegrationsController {
       await ioRedis.del(`refresh:${body.state}`);
     }
 
+    const onboarding = await ioRedis.get(`onboarding:${body.state}`);
+    if (onboarding) {
+      await ioRedis.del(`onboarding:${body.state}`);
+    }
+
     const {
       error,
       accessToken,
@@ -493,31 +503,43 @@ export class IntegrationsController {
       await ioRedis.del(`redirectUrl:${body.state}`);
     }
 
-    const result = await this._integrationService.createOrUpdateIntegration(
-      additionalSettings,
-      !!integrationProvider.oneTimeToken,
-      org.id,
-      validName.trim(),
-      picture,
-      'social',
-      String(id),
-      integration,
-      accessToken,
-      refreshToken,
-      expiresIn,
-      username,
-      refresh ? false : integrationProvider.isBetweenSteps,
-      body.refresh,
-      +body.timezone,
-      details
-        ? AuthService.fixedEncryption(details)
-        : integrationProvider.customFields
-        ? AuthService.fixedEncryption(
-            Buffer.from(body.code, 'base64').toString()
-          )
-        : undefined
-    );
-    return { ...result, redirectUrl };
+    const createUpdate =
+      await this._integrationService.createOrUpdateIntegration(
+        additionalSettings,
+        !!integrationProvider.oneTimeToken,
+        org.id,
+        validName.trim(),
+        picture,
+        'social',
+        String(id),
+        integration,
+        accessToken,
+        refreshToken,
+        expiresIn,
+        username,
+        refresh ? false : integrationProvider.isBetweenSteps,
+        body.refresh,
+        +body.timezone,
+        details
+          ? AuthService.fixedEncryption(details)
+          : integrationProvider.customFields
+          ? AuthService.fixedEncryption(
+              Buffer.from(body.code, 'base64').toString()
+            )
+          : undefined
+      );
+
+    this._refreshIntegrationService
+      .startRefreshWorkflow(org.id, createUpdate.id, integrationProvider)
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return {
+      ...createUpdate,
+      onboarding: onboarding === 'true',
+      redirectUrl,
+    };
   }
 
   @Post('/disable')
