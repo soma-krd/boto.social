@@ -194,6 +194,14 @@ export class InstagramStandaloneProvider
     );
   }
 
+  async getPostEngagement(postId: string, accessToken: string) {
+    return instagramProvider.getPostEngagement(
+      postId,
+      accessToken,
+      'graph.instagram.com'
+    );
+  }
+  
   async postAnalytics(
     integrationId: string,
     accessToken: string,
