@@ -59,6 +59,7 @@ function LayoutContextInner(params: { children: ReactNode }) {
       }
       const reloadOrOnboarding =
         response?.headers?.get('reload') ||
+        response?.headers?.get('oauth-connect') ||
         response?.headers?.get('onboarding');
       if (reloadOrOnboarding) {
         const getAndClear = returnUrl.getAndClear();
@@ -77,6 +78,10 @@ function LayoutContextInner(params: { children: ReactNode }) {
       if (response?.headers?.get('reload')) {
         window.location.reload();
         return true;
+      }
+
+      if(response.headers.get('oauth-connect')){
+        response.headers.delete('oauth-connect');
       }
 
       if (response.status === 401 || response?.headers?.get('logout')) {

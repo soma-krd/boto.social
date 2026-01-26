@@ -58,35 +58,6 @@ export const PublicComponent = () => {
         </a>
       </div>
       <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
-        <div className="flex items-center">
-          {reveal ? (
-            user.publicApi
-          ) : (
-            <>
-              <div className="blur-sm">{user.publicApi.slice(0, -5)}</div>
-              <div>{user.publicApi.slice(-5)}</div>
-            </>
-          )}
-          <br />
-          <a
-            className="underline hover:font-bold hover:underline"
-            href="https://docs.postiz.com/public-api"
-            target="_blank"
-          >
-            {t(
-              'read_how_to_use_it_over_the_documentation',
-              'Read how to use it over the documentation.'
-            )}
-          </a>
-          <a
-            className="underline hover:font-bold hover:underline"
-            href="https://www.npmjs.com/package/n8n-nodes-postiz"
-            target="_blank"
-          >
-            <br />
-            {t('check_n8n', 'Check out our N8N custom node for Boto.')}
-          </a>
-        </div>
         <div className="flex flex-col">
           <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
             <div className="flex items-center">
