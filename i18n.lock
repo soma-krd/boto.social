@@ -27,6 +27,7 @@ checksums:
     you_can_add_signatures_to_your_account_to_be_used_in_your_posts: 14ee7a89e90ddbca11da6abf70a25ab0
     content: 669b337031ef165af577f04f2b7fd54f
     auto_add: 35002db73ce495c51c5e7ebb9ea6c480
+    delay_comment: 1e29aaf362d5a0b52c57b692f3c18064
     actions: c46571856723b03262fd33f511116298
     use_signature: 362135c08a0566c7cbfdf331c67c0b21
     add_a_signature: 341a71b74ca1907f7d87a4a34232e95d
@@ -154,7 +155,7 @@ checksums:
     to_manage_all_your_social_media_channels: 155f69562b7a791691489f6c13f8ce50
     100_no_risk_trial: 4d8cf3bef45c64d898a678c8d2d7e32f
     pay_nothing_for_the_first_7_days: f85904a77eed00c8009f59b214e15ea1
-    cancel_anytime_hassle_free: f69ae39eec3fb9eb6114481d67c8481e
+    cancel_anytime_hassle_free: 91355fdc2e1f62fcb28b1d74ed342a90
     add_free_subscription: 3cf6d7072004d151e88aafd3f227d9dd
     currently_impersonating: a116d1c0c69a389131357a418589f372
     user_1: aaf867586dbad4bbeb4af66612694ca7
@@ -457,7 +458,7 @@ checksums:
     upload_content_to_tiktok_without_posting: 6c3943e4d796b720933b90d250bd611c
     choose_upload_without_posting_description: 223c59be260eeaafe420791b76e2523c
     faq_am_i_going_to_be_charged_by_postiz: f4aad17d35bcaf45427216a432f23af3
-    faq_to_confirm_credit_card_information_postiz_will_hold: 5087b85985bbb6f46ea869d4796fb891
+    faq_to_confirm_credit_card_information_postiz_will_hold: ec475e644e3b5db2550c5bc06320b1cd
     faq_can_i_trust_postiz_gitroom: 9ee3c694bc392c339333047484d36003
     faq_postiz_gitroom_is_proudly_open_source: 17658906aec47f1557f84c71efadee03
     faq_what_are_channels: 22bc7aebd017e487d9a5ac8946a2a08d
@@ -468,7 +469,6 @@ checksums:
     faq_we_automate_chatgpt_to_help_you_write: e19d331417449c114f03b2b6ad862f93
     enter_email: 57d0675d7ff70e463dd0389652f35b20
     are_you_sure: 6d5cd13628a7887711fd0c29f1123652
-    yes_delete_it: e028575f88f6dc8e25f7a02fde480df9
     no_cancel: 9ebf9f7c2d2591e603861ef4c0c7c559
     are_you_sure_you_want_to_delete: f41210d5066ca7ae76a171fbe4b085a3
     are_you_sure_you_want_to_delete_the_image: 5fc0522337ba24f14a15d5f35b19e1d3
@@ -508,12 +508,12 @@ checksums:
     delete_integration: ccc879ccfcf7f85bcfe09f2bc3fa0dd3
     start_writing_your_post: 471efc4f2a7e2cf02a065a2de34e7213
     billing_join_over: 6e1c237241ba00ddbb07fd603344c5c3
-    billing_entrepreneurs_count: 05164f2ca2e8e20de3f63977c07d39fe
+    billing_entrepreneurs_count: 1e90206cb8ea01d0a1084d3af1a4cbed
     billing_who_use: 63bdc59ef443e193eca87889e83ea07a
     billing_postiz_grow_social: 3cf5ab166df9cb65e17b9a039ccbbbad
     billing_no_risk_trial: 6e5c60d9ddf3affa8ba8870272f9f9ab
     billing_pay_nothing_7_days: 2db15615cad39981069b65e6a0852b18
-    billing_cancel_anytime: f69ae39eec3fb9eb6114481d67c8481e
+    billing_cancel_anytime: 91355fdc2e1f62fcb28b1d74ed342a90
     billing_choose_plan: 6eacca8177c43945435ac9c97a1e9734
     billing_monthly: 818f1192e32bb855597f930d3e78806e
     billing_yearly: 87f43e016c19cb25860f456549a2f431
@@ -536,10 +536,31 @@ checksums:
     billing_your_7_day_trial_is: 4b59fb559f5fd520668974e909e3479c
     billing_100_percent_free: 6616fd6ee152264c06dd2537f6347e66
     billing_ending: f66133a14aa7d86ea2453df97de12cd5
-    billing_cancel_anytime_short: 5b1b4a998fd56b18e4153dd83c84022c
+    billing_cancel_anytime_short: b170ff9c26b8f0263a11f8e292d43da3
     billing_pay_0_start_trial: 28e72154e6cce7541e707b35f3a67309
     billing_pay_now: 50cb14454e1b2df4a2f83bf1ac799819
     billing_per_month: 6293d01c3d13f6938d47285122bd1a48
+    billing_per_year: 7d37200832af52329220e7431cf1a0e2
+    billing_order_summary: 77352aa7eeded06ca26b3fe72e4bcfda
+    billing_applied: a79bcd1e53b38db7b03b506ff2e05904
+    billing_due_today: a14cb9dd0003485894d328bb803c80e5
+    billing_then: 5e941fb7dd51a18651fcfb865edd5ba6
+    billing_on: 221bc27170a3baba6741482c0b28baa1
+    billing_discount_applied: 66ca13dec03ff95bf7461fb5e9e3a3c5
+    billing_remove: dba2fe5fe9f83f8078c687f28cba4b52
+    billing_coupon_expires: 91d8dcbb9a0ec894dd769f99528f0768
+    billing_invalid_coupon: 07fdf7218d84836632d60d2819089587
+    billing_coupon_applied: 53d5f95a8b47b6771ac06fb48578367a
+    billing_coupon_removed: ebef384172a4632e325ddfa5de48d370
+    billing_error_removing_coupon: aedc7fb1697d846a707828e02059cd61
+    billing_have_discount_coupon: 7f3e2b5a65a2901492ea3d185003dc80
+    billing_discount_coupon: 417a5576094621af534c5b3ba1898f1b
+    billing_cancel: 2e2a849c2223911717de8caa2c71bade
+    billing_enter_coupon_code: 4abd909f35156b0964bd5993f14d7b78
+    billing_applying: 0a321e775629314323ab227340e1a919
+    billing_apply: 0f03e8e3752eb120bf8ea0b8f8f5d244
+    billing_subscription: ba9f3675e18987d067d48533c8897343
+    billing_cancel_notice: bc2edd49b3c0a51f8e11bb93f56c5571
     select_channels: 3aab82dc90ccafe55059c32c5a33c222
     start_a_new_chat: 65b9067206fa4e4929d48ce242d879a6
     your_assistant: bd6422d1c2a2ba461e1da169b082bf7b
@@ -655,6 +676,7 @@ checksums:
     are_you_sure_go_back_to_global_mode: e7e0913ac6a8bdecd5a9349ad84d2f3c
     yes_go_back_to_global_mode: 50484cd2f72d76bd6a02d5ac956ba466
     are_you_sure_delete_this_post: 25e67cb71ee64bf67af09ee20257655f
+    yes_delete_it: e028575f88f6dc8e25f7a02fde480df9
     cant_edit_networks_when_creating_set: 10c389a15c85e82b69f3202bcd8fc527
     click_to_exit_global_editing: fec20b458bec4dcabf3efe65d1e5777b
     edit_content: 13b729cc6459ecdc3ea84d476c6dcddd
@@ -664,3 +686,14 @@ checksums:
     drop_files_here_to_upload: a7971302d02a19a461c519cffedfa5e5
     insert_emoji: 6e2ab0e239c0ee87d385b1cd17185e00
     write_something: bc9257cede62880c411001e61310ca43
+    click_channel_to_add: 7dc67c45eba252d1fa931e5a101d568b
+    connect_your_channels: a8303310a9cc5f4e11510f8f55c0978d
+    connect_social_media_to_start: 8210aba8fa40ae5cdf23d78bd0ea53a4
+    connected_channels: b64d400364bb3ccb4b1d4b547673f4c3
+    continue: 3cfba90b4600131e82fc4260c568d044
+    continue_without_channels: fa9c2e19c59e2eac86c1fcac35611337
+    watch_tutorial: 7f202b82c805285109187f099d22e863
+    watch_tutorial_title: c3c0d814f10a3325a7fd52a7fb44ae38
+    watch_tutorial_description: 25dd65235d9603f6d65d62f953791722
+    back: f541015a827e37cb3b1234e56bc2aa3c
+    get_started: 1d5f030c4ec9c869e647ae060518b948

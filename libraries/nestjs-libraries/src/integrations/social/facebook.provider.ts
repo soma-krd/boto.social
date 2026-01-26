@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { FacebookDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/facebook.dto';
 import { DribbbleDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settings/dribbble.dto';
+import { Integration } from '@prisma/client';
 
 export class FacebookProvider extends SocialAbstract implements SocialProvider {
   identifier = 'facebook';
@@ -293,7 +294,7 @@ export class FacebookProvider extends SocialAbstract implements SocialProvider {
     accessToken: string,
     postDetails: PostDetails<FacebookDto>[]
   ): Promise<PostResponse[]> {
-    const [firstPost, ...comments] = postDetails;
+    const [firstPost] = postDetails;
 
     let finalId = '';
     let finalUrl = '';
@@ -377,36 +378,6 @@ export class FacebookProvider extends SocialAbstract implements SocialProvider {
       finalId = postId;
     }
 
-    const postsArray = [];
-    let commentId = finalId;
-    for (const comment of comments) {
-      const data = await (
-        await this.fetch(
-          `https://graph.facebook.com/v20.0/${commentId}/comments?access_token=${accessToken}&fields=id,permalink_url`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              ...(comment.media?.length
-                ? { attachment_url: comment.media[0].path }
-                : {}),
-              message: comment.message,
-            }),
-          },
-          'add comment'
-        )
-      ).json();
-
-      commentId = data.id;
-      postsArray.push({
-        id: comment.id,
-        postId: data.id,
-        releaseURL: data.permalink_url,
-        status: 'success',
-      });
-    }
     return [
       {
         id: firstPost.id,
@@ -414,7 +385,46 @@ export class FacebookProvider extends SocialAbstract implements SocialProvider {
         releaseURL: finalUrl,
         status: 'success',
       },
-      ...postsArray,
+    ];
+  }
+
+  async comment(
+    id: string,
+    postId: string,
+    lastCommentId: string | undefined,
+    accessToken: string,
+    postDetails: PostDetails<FacebookDto>[],
+    integration: Integration
+  ): Promise<PostResponse[]> {
+    const [commentPost] = postDetails;
+    const replyToId = lastCommentId || postId;
+
+    const data = await (
+      await this.fetch(
+        `https://graph.facebook.com/v20.0/${replyToId}/comments?access_token=${accessToken}&fields=id,permalink_url`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...(commentPost.media?.length
+              ? { attachment_url: commentPost.media[0].path }
+              : {}),
+            message: commentPost.message,
+          }),
+        },
+        'add comment'
+      )
+    ).json();
+
+    return [
+      {
+        id: commentPost.id,
+        postId: data.id,
+        releaseURL: data.permalink_url,
+        status: 'success',
+      },
     ];
   }
 
@@ -451,5 +461,83 @@ export class FacebookProvider extends SocialAbstract implements SocialProvider {
         })),
       })) || []
     );
+  }
+
+  async postAnalytics(
+    integrationId: string,
+    accessToken: string,
+    postId: string,
+    date: number
+  ): Promise<AnalyticsData[]> {
+    const today = dayjs().format('YYYY-MM-DD');
+
+    try {
+      // Fetch post insights from Facebook Graph API
+      const { data } = await (
+        await this.fetch(
+          `https://graph.facebook.com/v20.0/${postId}/insights?metric=post_impressions_unique,post_reactions_by_type_total,post_clicks,post_clicks_by_type&access_token=${accessToken}`
+        )
+      ).json();
+
+      if (!data || data.length === 0) {
+        return [];
+      }
+
+      const result: AnalyticsData[] = [];
+
+      for (const metric of data) {
+        const value = metric.values?.[0]?.value;
+        if (value === undefined) continue;
+
+        let label = '';
+        let total = '';
+
+        switch (metric.name) {
+          case 'post_impressions_unique':
+            label = 'Impressions';
+            total = String(value);
+            break;
+          case 'post_clicks':
+            label = 'Clicks';
+            total = String(value);
+            break;
+          case 'post_clicks_by_type':
+            // This returns an object with click types
+            if (typeof value === 'object') {
+              const totalClicks = Object.values(value as Record<string, number>).reduce(
+                (sum: number, v: number) => sum + v,
+                0
+              );
+              label = 'Clicks by Type';
+              total = String(totalClicks);
+            }
+            break;
+          case 'post_reactions_by_type_total':
+            // This returns an object with reaction types
+            if (typeof value === 'object') {
+              const totalReactions = Object.values(value as Record<string, number>).reduce(
+                (sum: number, v: number) => sum + v,
+                0
+              );
+              label = 'Reactions';
+              total = String(totalReactions);
+            }
+            break;
+        }
+
+        if (label) {
+          result.push({
+            label,
+            percentageChange: 0,
+            data: [{ total, date: today }],
+          });
+        }
+      }
+
+      return result;
+    } catch (err) {
+      console.error('Error fetching Facebook post analytics:', err);
+      return [];
+    }
   }
 }

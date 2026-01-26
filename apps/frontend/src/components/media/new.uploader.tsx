@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 // @ts-ignore
-import Uppy, { UploadResult } from '@uppy/core';
+import Uppy, { BasePlugin, UploadResult, UppyFile } from '@uppy/core';
 // @ts-ignore
 import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { getUppyUploadPlugin } from '@gitroom/react/helpers/uppy.upload';
@@ -12,52 +12,34 @@ import Compressor from '@uppy/compressor';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 import { useToaster } from '@gitroom/react/toaster/toaster';
 import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
-import { uniq } from 'lodash';
+import { uniqBy } from 'lodash';
 
-export function MultipartFileUploader({
-  onUploadSuccess,
-  allowedFileTypes,
-  uppRef,
-}: {
-  // @ts-ignore
-  onUploadSuccess: (result: UploadResult) => void;
-  allowedFileTypes: string;
-  uppRef?: any;
-}) {
-  const [loaded, setLoaded] = useState(false);
-  const [reload, setReload] = useState(false);
-  const onUploadSuccessExtended = useCallback(
-    (result: UploadResult<any, any>) => {
-      setReload(true);
-      onUploadSuccess(result);
-    },
-    [onUploadSuccess]
-  );
-  useEffect(() => {
-    if (reload) {
-      setTimeout(() => {
-        setReload(false);
-      }, 1);
-    }
-  }, [reload]);
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-  if (!loaded || reload) {
-    return null;
+export class CompressionWrapper<M = any, B = any> extends Compressor<any, any> {
+  override async prepareUpload(fileIDs: string[]) {
+    const { files } = this.uppy.getState();
+
+    // 1) Skip GIFs (and anything missing)
+    const filteredIDs = fileIDs.filter((id) => {
+      const f = files[id];
+      if (!f) return false;
+
+      const type = f.type ?? '';
+      const name = (f.name ?? '').toLowerCase();
+      const isGif = type === 'image/gif' || name.endsWith('.gif');
+
+      return !isGif;
+    });
+
+    // 2) Let @uppy/compressor do its work (convert/resize/etc)
+    return super.prepareUpload(filteredIDs);
   }
-  return (
-    <MultipartFileUploaderAfter
-      uppRef={uppRef || {}}
-      onUploadSuccess={onUploadSuccessExtended}
-      allowedFileTypes={allowedFileTypes}
-    />
-  );
 }
 
 export function useUppyUploader(props: {
   // @ts-ignore
   onUploadSuccess: (result: UploadResult) => void;
+  onStart: () => void;
+  onEnd: () => void;
   allowedFileTypes: string;
 }) {
   const setLocked = useLaunchStore((state) => state.setLocked);
@@ -67,6 +49,9 @@ export function useUppyUploader(props: {
   const { onUploadSuccess, allowedFileTypes } = props;
   const fetch = useFetch();
   return useMemo(() => {
+    // Track file order to maintain original sequence after upload
+    let fileOrderIndex = 0;
+
     const uppy2 = new Uppy({
       autoProceed: true,
       restrictions: {
@@ -88,7 +73,13 @@ export function useUppyUploader(props: {
         // Expand generic types to specific ones
         const expandedTypes = allowedTypes.flatMap((type) => {
           if (type === 'image/*') {
-            return ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+            return [
+              'image/png',
+              'image/jpeg',
+              'image/jpg',
+              'image/gif',
+              'image/webp',
+            ];
           }
           if (type === 'video/*') {
             return ['video/mp4', 'video/mpeg'];
@@ -182,8 +173,8 @@ export function useUppyUploader(props: {
 
     uppy2.use(plugin, options);
     if (!disableImageCompression) {
-      uppy2.use(Compressor, {
-        convertTypes: ['image/jpeg'],
+      uppy2.use(CompressionWrapper, {
+        convertTypes: ['image/jpeg', 'image/png', 'image/webp'],
         maxWidth: 1000,
         maxHeight: 1000,
         quality: 1,
@@ -194,49 +185,79 @@ export function useUppyUploader(props: {
       setLocked(true);
       uppy2.setFileMeta(file.id, {
         useCloudflare: storageProvider === 'cloudflare' ? 'true' : 'false', // Example of adding a custom field
+        addedOrder: fileOrderIndex++, // Track original order for sorting after upload
         // Add more fields as needed
       });
     });
     uppy2.on('error', (result) => {
       uppy2.clear();
       setLocked(false);
+      props.onEnd();
+      fileOrderIndex = 0;
+    });
+    uppy2.on('upload-start', () => {
+      props.onStart();
     });
     uppy2.on('complete', async (result) => {
+      for (const file of [...result.successful]) {
+        uppy2.removeFile(file.id);
+      }
+
+      props.onEnd();
+      // Sort results by original add order to maintain file sequence
+      const sortedSuccessful = [...result.successful].sort((a, b) => {
+        const orderA = +((a.meta as any)?.addedOrder ?? 0);
+        const orderB = +((b.meta as any)?.addedOrder ?? 0);
+        return orderA - orderB;
+      });
+
       if (storageProvider === 'local') {
         setLocked(false);
-        onUploadSuccess(result.successful.map((p) => p.response.body));
+        fileOrderIndex = 0;
+        onUploadSuccess(sortedSuccessful.map((p) => p.response.body));
         return;
       }
 
       if (transloadit.length > 0) {
         // @ts-ignore
         const allRes = result.transloadit[0].results;
-        const toSave = uniq<string>(
-          (allRes[Object.keys(allRes)[0]] || []).flatMap((item: any) =>
-            item.url.split('/').pop()
-          )
+        const toSave = uniqBy<{ name: string; order: number }>(
+          (allRes[Object.keys(allRes)[0]] || []).flatMap((item: any) => ({
+            name: item.url.split('/').pop(),
+            order: +item.user_meta.addedOrder,
+          })),
+          (item) => item.name
         );
 
-        const loadAllMedia = await Promise.all(
-          toSave.map(async (name) => {
-            return (
-              await fetch('/media/save-media', {
-                method: 'POST',
-                body: JSON.stringify({
-                  name,
-                }),
-              })
-            ).json();
+        const loadAllMedia = (
+          await Promise.all(
+            toSave.map(async ({ name, order }) => ({
+              file: await (
+                await fetch('/media/save-media', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    name,
+                  }),
+                })
+              ).json(),
+              order,
+            }))
+          )
+        )
+          .sort((a, b) => {
+            return a.order - b.order;
           })
-        );
+          .map((p) => p.file);
 
         setLocked(false);
+        fileOrderIndex = 0;
         onUploadSuccess(loadAllMedia);
         return;
       }
 
       setLocked(false);
-      onUploadSuccess(result.successful.map((p) => p.response.body.saved));
+      fileOrderIndex = 0;
+      onUploadSuccess(sortedSuccessful.map((p) => p.response.body.saved));
     });
     uppy2.on('upload-success', (file, response) => {
       // @ts-ignore
@@ -251,54 +272,4 @@ export function useUppyUploader(props: {
     });
     return uppy2;
   }, []);
-}
-export function MultipartFileUploaderAfter({
-  onUploadSuccess,
-  allowedFileTypes,
-  uppRef,
-}: {
-  // @ts-ignore
-  onUploadSuccess: (result: UploadResult) => void;
-  allowedFileTypes: string;
-  uppRef: any;
-}) {
-  const t = useT();
-  const uppy = useUppyUploader({
-    onUploadSuccess,
-    allowedFileTypes,
-  });
-  const uppyInstance = useMemo(() => {
-    uppRef.current = uppy;
-    return uppy;
-  }, []);
-  return (
-    <>
-      {/* <Dashboard uppy={uppy} /> */}
-      <div className="pointer-events-none bigWrap">
-        <Dashboard
-          height={23}
-          width={200}
-          className=""
-          uppy={uppyInstance}
-          id={`media-uploader`}
-          showProgressDetails={true}
-          hideUploadButton={true}
-          hideRetryButton={true}
-          hidePauseResumeButton={true}
-          hideCancelButton={true}
-          hideProgressAfterFinish={true}
-        />
-      </div>
-      <FileInput
-        uppy={uppyInstance}
-        locale={{
-          strings: {
-            chooseFiles: t('upload', 'Upload'),
-          },
-          // @ts-ignore
-          pluralize: (n: any) => n,
-        }}
-      />
-    </>
-  );
 }

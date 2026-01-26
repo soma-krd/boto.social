@@ -67,8 +67,12 @@
 
 <br />
 
+## 🔌 See the leading Postiz features
+
 <p align="center">
-  <video src="https://github.com/user-attachments/assets/05436a01-19c8-4827-b57f-05a5e7637a67" width="100%" />
+  <a href="https://www.youtube.com/watch?v=BdsCVvEYgHU" target="_blank">
+    <img alt="Postiz" src="https://github.com/user-attachments/assets/8b9b7939-da1a-4be5-95be-42c6fce772de" />
+  </a>
 </p>
 
 ## ✨ Features
@@ -88,11 +92,11 @@
 
 ## Tech Stack
 
-- NX (Monorepo)
+- Pnpm workspaces (Monorepo)
 - NextJS (React)
 - NestJS
 - Prisma (Default to PostgreSQL)
-- Redis (BullMQ)
+- Temporal
 - Resend (email notifications)
 
 ## Quick Start

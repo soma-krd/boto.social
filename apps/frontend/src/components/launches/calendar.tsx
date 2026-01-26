@@ -454,7 +454,7 @@ export const CalendarColumn: FC<{
           publishDate: loadPost.actualDate || loadPost.publishDate,
         };
 
-        const data = await (await fetch(`/posts/${post.id}`)).json();
+        const data = await (await fetch(`/posts/group/${post.group}`)).json();
         const date = !isDuplicate
           ? null
           : (await (await fetch('/posts/find-slot')).json()).date;
@@ -876,7 +876,7 @@ const CalendarItem: FC<{
         >
           <Preview />
         </div>{' '}
-        {post.integration.providerIdentifier === 'x' && disableXAnalytics ? (
+        {((post.integration.providerIdentifier === 'x' && disableXAnalytics) || !post.releaseId) ? (
           <></>
         ) : (
           <div

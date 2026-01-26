@@ -13,7 +13,6 @@ import { TikTokDto } from '@gitroom/nestjs-libraries/dtos/posts/providers-settin
 import { timer } from '@gitroom/helpers/utils/timer';
 import { Integration } from '@prisma/client';
 import { Rules } from '@gitroom/nestjs-libraries/chat/rules.description.decorator';
-import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
 
 @Rules(
   'TikTok can have one video or one picture or multiple pictures, it cannot be without an attachment'
@@ -53,7 +52,7 @@ export class TiktokProvider extends SocialAbstract implements SocialProvider {
 
     if (body.indexOf('scope_not_authorized') > -1) {
       return {
-        type: 'refresh-token' as const,
+        type: 'bad-body' as const,
         value:
           'Missing required permissions, please re-authenticate with all scopes',
       };
@@ -61,7 +60,7 @@ export class TiktokProvider extends SocialAbstract implements SocialProvider {
 
     if (body.indexOf('scope_permission_missed') > -1) {
       return {
-        type: 'refresh-token' as const,
+        type: 'bad-body' as const,
         value: 'Additional permissions required, please re-authenticate',
       };
     }
@@ -445,7 +444,6 @@ export class TiktokProvider extends SocialAbstract implements SocialProvider {
     integration: Integration
   ): Promise<PostResponse[]> {
     const [firstPost] = postDetails;
-    console.log('hello');
     const isPhoto = (firstPost?.media?.[0]?.path?.indexOf('mp4') || -1) === -1;
     const {
       data: { publish_id },

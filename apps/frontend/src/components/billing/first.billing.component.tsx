@@ -5,7 +5,6 @@ import useSWR from 'swr';
 import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { useVariables } from '@gitroom/react/helpers/variable.context';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-import { useSearchParams } from 'next/navigation';
 import { OrganizationSelector } from '@gitroom/frontend/components/layout/organization.selector';
 import { LanguageComponent } from '@gitroom/frontend/components/layout/language.component';
 import { AttachToFeedbackIcon } from '@gitroom/frontend/components/new-layout/sentry.feedback.component';
@@ -24,6 +23,8 @@ import {
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 import { useUser } from '@gitroom/frontend/components/layout/user.context';
 import { useDubClickId } from '@gitroom/frontend/components/layout/dubAnalytics';
+import Image from 'next/image';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
 
 const ModeComponent = dynamic(
   () => import('@gitroom/frontend/components/layout/mode.component'),
@@ -50,6 +51,7 @@ export const FirstBillingComponent = () => {
   const [tier, setTier] = useState('STANDARD');
   const [period, setPeriod] = useState('MONTHLY');
   const fetch = useFetch();
+  const modals = useModals();
   const t = useT();
 
   useEffect(() => {
@@ -68,6 +70,21 @@ export const FirstBillingComponent = () => {
       })
     ).json();
   }, [tier, period]);
+
+  const showYouTube = () => {
+    modals.openModal({
+      title: 'Grow Fast With Postiz (Play the video)',
+      children: (
+        <iframe
+          className="h-full aspect-video min-w-[800px]"
+          src="https://www.youtube.com/embed/BdsCVvEYgHU?si=vvhaZJ8I5oXXvVJS?autoplay=1"
+          title="Postiz Tutorial"
+          allow="autoplay"
+          allowFullScreen
+        />
+      ),
+    });
+  };
 
   const { data, isLoading } = useSWR(
     `/billing-${tier}-${period}`,
@@ -92,13 +109,28 @@ export const FirstBillingComponent = () => {
         <div className="text-[46px] font-[600] leading-[110%] tablet:text-[36px] mobile:!text-[30px] whitespace-pre-line text-balance">
           {t('billing_join_over', 'Join Over')}{' '}
           <span className="text-[#FC69FF]">
-            {t('billing_entrepreneurs_count', '18,000+ Entrepreneurs')}
+            {t('billing_entrepreneurs_count', '20,000+ Entrepreneurs')}
           </span>{' '}
           {t('billing_who_use', 'who use')}{' '}
           {t(
             'billing_postiz_grow_social',
             'Postiz To Grow Their Social Presence'
           )}
+        </div>
+
+        <div className="flex" onClick={showYouTube}>
+          <div className="tablet:mb-[32px] cursor-pointer mt-[32px] flex gap-[10px] items-center underline hover:font-[700]">
+            <div>
+              <Image
+                className="text-[12px]"
+                src="/icons/platforms/youtube.svg"
+                width={22.5}
+                height={16}
+                alt="YouTube"
+              />
+            </div>
+            <div>See the power of Postiz (click here)</div>
+          </div>
         </div>
 
         {!!user?.allowTrial && (
@@ -125,7 +157,7 @@ export const FirstBillingComponent = () => {
                 <CheckIconComponent />
               </div>
               <div>
-                {t('billing_cancel_anytime', 'Cancel anytime, hassle-free')}
+                {t('billing_cancel_anytime', 'Cancel anytime, from settings')}
               </div>
             </div>
           </div>
@@ -160,10 +192,12 @@ export const FirstBillingComponent = () => {
             <JoinOver />
           </div>
           {!isLoading && data && stripe ? (
-            <>
-              <EmbeddedBilling stripe={stripe} secret={data.client_secret} />
-              <FAQComponent />
-            </>
+            <EmbeddedBilling
+              stripe={stripe}
+              secret={data.client_secret}
+              showCoupon={period === 'MONTHLY'}
+              autoApplyCoupon={data.auto_apply_coupon}
+            />
           ) : (
             <LoadingComponent />
           )}
@@ -244,6 +278,10 @@ export const FirstBillingComponent = () => {
                 {t('billing_features', 'Features')}
               </div>
               <BillingFeatures tier={tier} />
+            </div>
+            <div className="flex flex-col mobile:hidden tablet:hidden">
+              {/*<div>asd</div>*/}
+              <FAQComponent />
             </div>
           </div>
         </div>
