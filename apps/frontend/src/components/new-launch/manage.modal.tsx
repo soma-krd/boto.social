@@ -4,6 +4,7 @@ import React, {
   FC,
   ReactNode,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -40,6 +41,7 @@ import {
   DropdownArrowSmallIcon,
 } from '@gitroom/frontend/components/ui/icons';
 import { useHasScroll } from '@gitroom/frontend/components/ui/is.scroll.hook';
+import { useShortlinkPreference } from '@gitroom/frontend/components/settings/shortlink-preference.component';
 
 function countCharacters(text: string, type: string): number {
   if (type !== 'x') {
@@ -57,6 +59,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
   const toaster = useToaster();
   const modal = useModals();
   const [showSettings, setShowSettings] = useState(false);
+  const { data: shortlinkPreferenceData } = useShortlinkPreference();
 
   const { addEditSets, mutate, customClose, dummy } = props;
 
@@ -74,9 +77,11 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
     locked,
     current,
     activateExitButton,
+    setHide,
   } = useLaunchStore(
     useShallow((state) => ({
       hide: state.hide,
+      setHide: state.setHide,
       date: state.date,
       setDate: state.setDate,
       current: state.current,
@@ -92,28 +97,48 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
     }))
   );
 
+  useEffect(() => {
+    if (hide) {
+      setHide(false);
+    }
+  }, [hide]);
+
   const currentIntegrationText = useMemo(() => {
     if (current === 'global') {
-      return '';
+      return (
+        <div className="flex items-center gap-[10px]">
+          <div className="relative">
+            <SettingsIcon
+              size={15}
+              className="text-white"
+            />
+          </div>
+          <div>
+            Settings
+          </div>
+        </div>
+      );
     }
 
     const currentIntegration = integrations.find((p) => p.id === current)!;
 
     return (
-        <div className="flex items-center gap-[10px]">
-          <div className="relative">
-            <img
-              src={`/icons/platforms/${currentIntegration.identifier}.png`}
-              className="w-[20px] h-[20px] rounded-[4px]"
-              alt={currentIntegration.identifier}
-            />
-            <SettingsIcon
-              size={15}
-              className="text-white absolute -end-[5px] -bottom-[5px]"
-            />
-          </div>
-          <div>{currentIntegration.name} {t('channel_settings', 'Settings')}</div>
+      <div className="flex items-center gap-[10px]">
+        <div className="relative">
+          <img
+            src={`/icons/platforms/${currentIntegration.identifier}.png`}
+            className="w-[20px] h-[20px] rounded-[4px]"
+            alt={currentIntegration.identifier}
+          />
+          <SettingsIcon
+            size={15}
+            className="text-white absolute -end-[5px] -bottom-[5px]"
+          />
         </div>
+        <div>
+          {currentIntegration.name} {t('channel_settings', 'Settings')}
+        </div>
+      </div>
     );
   }, [current]);
 
@@ -158,7 +183,10 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
     setLoading(true);
     if (
       !(await deleteDialog(
-        t('are_you_sure_you_want_to_delete_post', 'Are you sure you want to delete this post?'),
+        t(
+          'are_you_sure_you_want_to_delete_post',
+          'Are you sure you want to delete this post?'
+        ),
         t('yes_delete_it', 'Yes, delete it!')
       ))
     ) {
@@ -191,9 +219,14 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
 
         for (const item of notEnoughChars) {
           toaster.show(
-            '' +
-              item.integration.name +
-              ' ' + t('post_needs_content_or_image', 'Your post should have at least one character or one image.'),
+            `${capitalize(item.integration.identifier.split('-')[0])} (${
+              item.integration.name
+            }):` +
+              ' ' +
+              t(
+                'post_needs_content_or_image',
+                'Your post should have at least one character or one image.'
+              ),
             'warning'
           );
           setLoading(false);
@@ -203,7 +236,12 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
 
         for (const item of checkAllValid) {
           if (item.valid === false) {
-            toaster.show(t('please_fix_your_settings', 'Please fix your settings'), 'warning');
+            toaster.show(
+              `${capitalize(item.integration.identifier.split('-')[0])} (${
+                item.integration.name
+              }): ${t('please_fix_your_settings', 'Please fix your settings')}`,
+              'warning'
+            );
             item.fix();
             setLoading(false);
             setShowSettings(true);
@@ -240,7 +278,10 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
 
         for (const item of sliceNeeded) {
           toaster.show(
-            `${item?.integration?.name} (${item?.integration?.identifier}) ${t('post_is_too_long', 'post is too long, please fix it')}`,
+            `${item?.integration?.name} (${item?.integration?.identifier}) ${t(
+              'post_is_too_long',
+              'post is too long, please fix it'
+            )}`,
             'warning'
           );
           item.preview();
@@ -249,25 +290,38 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
         }
       }
 
-      const shortLinkUrl = dummy
-        ? { ask: false }
-        : await (
-            await fetch('/posts/should-shortlink', {
-              method: 'POST',
-              body: JSON.stringify({
-                messages: checkAllValid.flatMap((p: any) =>
-                  p.values.flatMap((a: any) => a.content)
-                ),
-              }),
-            })
-          ).json();
+      const shortlinkPreference = shortlinkPreferenceData?.shortlink || 'ASK';
 
-      const shortLink = !shortLinkUrl.ask
-        ? false
-        : await deleteDialog(
-            t('shortlink_urls_question', 'Do you want to shortlink the URLs? it will let you get statistics over clicks'),
-            t('yes_shortlink_it', 'Yes, shortlink it!')
-          );
+      let shortLink = false;
+
+      if (!dummy && shortlinkPreference !== 'NO') {
+        const shortLinkUrl = await (
+          await fetch('/posts/should-shortlink', {
+            method: 'POST',
+            body: JSON.stringify({
+              messages: checkAllValid.flatMap((p: any) =>
+                p.values.flatMap((a: any) => a.content)
+              ),
+            }),
+          })
+        ).json();
+
+        if (shortLinkUrl.ask) {
+          if (shortlinkPreference === 'YES') {
+            // Automatically shortlink without asking
+            shortLink = true;
+          } else {
+            // ASK: Show the dialog
+            shortLink = await deleteDialog(
+              t(
+                'shortlink_urls_question',
+                'Do you want to shortlink the URLs? it will let you get statistics over clicks'
+              ),
+              t('yes_shortlink_it', 'Yes, shortlink it!')
+            );
+          }
+        }
+      }
 
       const group = existingData.group || makeId(10);
       const data = {
@@ -285,6 +339,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
           value: post.values.map((value: any) => ({
             ...(value.id ? { id: value.id } : {}),
             content: value.content,
+            delay: value.delay || 0,
             image:
               (value?.media || []).map(
                 ({ id, path, alt, thumbnail, thumbnailTimestamp }: any) => ({
@@ -342,7 +397,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
         }
       }
     },
-    [ref, repeater, tags, date, addEditSets, dummy]
+    [ref, repeater, tags, date, addEditSets, dummy, shortlinkPreferenceData]
   );
 
   return (
@@ -382,8 +437,8 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                     <div
                       id="social-empty"
                       className={clsx(
-                        'pb-[16px]',
-                        current !== 'global' && 'hidden'
+                        'pb-[16px]'
+                        // current !== 'global' && 'hidden'
                       )}
                     />
                   </div>
@@ -393,11 +448,11 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                 id="wrapper-settings"
                 className={clsx(
                   'pb-[20px] px-[20px] select-none',
-                  current === 'global' && 'hidden',
-                  showSettings && 'flex-1 flex pt-[20px]'
+                  showSettings && 'flex-1 flex pt-[20px]',
+                  current === 'global' && 'hidden'
                 )}
               >
-                <div className="bg-newSettings flex-1 flex flex-col rounded-[12px] gap-[12px] overflow-hidden">
+                <div className="flex-1 flex flex-col rounded-[12px] gap-[12px] overflow-hidden bg-newSettings">
                   <div
                     onClick={() => setShowSettings(!showSettings)}
                     className={clsx(
@@ -422,9 +477,10 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                     )}
                   >
                     <div
-                      id="social-settings"
-                      className="px-[12px] pb-[12px] absolute left-0 top-0 w-full h-full overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-newBgColorInner scrollbar-track-newColColor"
-                    />
+                      className="absolute left-0 top-0 w-full h-full flex flex-col overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-newBgColorInner scrollbar-track-newColColor"
+                    >
+                      <div id="social-settings" className="flex flex-col gap-[20px] bg-newBgColor" />
+                    </div>
                   </div>
                   <style>
                     {`#social-settings [data-id="${current}"] {display: block !important;}`}
@@ -486,9 +542,16 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                   selectedIntegrations.length === 0 || loading || locked
                 }
                 onClick={schedule('draft')}
-                className="cursor-pointer disabled:cursor-not-allowed px-[20px] h-[44px] bg-btnSimple justify-center items-center flex rounded-[8px] text-[15px] font-[600]"
+                className="relative cursor-pointer disabled:cursor-not-allowed px-[20px] h-[44px] bg-btnSimple justify-center items-center flex rounded-[8px] text-[15px] font-[600]"
               >
-                {t('save_as_draft', 'Save as Draft')}
+                {loading && (
+                  <div className="absolute left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
+                    <div className="animate-spin h-[20px] w-[20px] border-4 border-textColor border-t-transparent rounded-full" />
+                  </div>
+                )}
+                <div className={clsx(loading && 'invisible')}>
+                  {t('save_as_draft', 'Save as Draft')}
+                </div>
               </button>
             )}
             {addEditSets && (
@@ -509,9 +572,19 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                     selectedIntegrations.length === 0 || loading || locked
                   }
                   onClick={schedule('schedule')}
-                  className="text-white min-w-[180px] btnSub disabled:cursor-not-allowed disabled:opacity-80 outline-none gap-[8px] flex justify-center items-center h-[44px] rounded-[8px] bg-[#612BD3] ps-[20px] pe-[16px]"
+                  className="text-white relative min-w-[180px] btnSub disabled:cursor-not-allowed disabled:opacity-80 outline-none gap-[8px] flex justify-center items-center h-[44px] rounded-[8px] bg-[#612BD3] ps-[20px] pe-[16px]"
                 >
-                  <div className="text-[15px] font-[600]">
+                  {loading && (
+                    <div className="absolute left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
+                      <div className="animate-spin h-[20px] w-[20px] border-4 border-white border-t-transparent rounded-full" />
+                    </div>
+                  )}
+                  <div
+                    className={clsx(
+                      'text-[15px] font-[600]',
+                      loading && 'invisible'
+                    )}
+                  >
                     {selectedIntegrations.length === 0
                       ? t('check_circles_above', 'Check the circles above')
                       : dummy
@@ -563,7 +636,10 @@ After using the addPostFor{num} it will create a new addPostContentFor{num+ 1} f
 `}
         labels={{
           title: t('your_assistant', 'Your Assistant'),
-          initial: t('assistant_initial_message', 'Hi! I can help you to refine your social media posts.'),
+          initial: t(
+            'assistant_initial_message',
+            'Hi! I can help you to refine your social media posts.'
+          ),
         }}
       />
     </div>
