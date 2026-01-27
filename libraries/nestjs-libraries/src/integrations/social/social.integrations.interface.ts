@@ -135,6 +135,7 @@ export interface SocialProvider
   extends IAuthenticator,
     ISocialMediaIntegration {
   identifier: string;
+  maxConcurrentJob:number;
   refreshWait?: boolean;
   convertToJPEG?: boolean;
   refreshCron?: boolean;
