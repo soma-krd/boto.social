@@ -567,7 +567,12 @@ export class PostsService {
     return this._postRepository.getPostByForWebhookId(id);
   }
 
-  async startWorkflow(taskQueue: string, postId: string, orgId: string) {
+  async startWorkflow(
+    taskQueue: string,
+    postId: string,
+    orgId: string,
+    state: State
+  ) {
     try {
       const workflows = this._temporalService.client
         .getRawClient()
@@ -590,12 +595,17 @@ export class PostsService {
       }
     } catch (err) {}
 
+    if (state === 'DRAFT') {
+      return;
+    }
+
     try {
       await this._temporalService.client
         .getRawClient()
         ?.workflow.start('postWorkflowV101', {
           workflowId: `post_${postId}`,
           taskQueue: 'main',
+          workflowIdConflictPolicy: 'TERMINATE_EXISTING',
           args: [
             {
               taskQueue: taskQueue,
@@ -646,7 +656,8 @@ export class PostsService {
       this.startWorkflow(
         post.settings.__type.split('-')[0].toLowerCase(),
         posts[0].id,
-        orgId
+        orgId,
+        posts[0].state
       ).catch((err) => {});
 
       Sentry.metrics.count('post_created', 1);
@@ -669,13 +680,19 @@ export class PostsService {
 
   async changeDate(orgId: string, id: string, date: string) {
     const getPostById = await this._postRepository.getPostById(id, orgId);
-    const newDate = await this._postRepository.changeDate(orgId, id, date);
+    const newDate = await this._postRepository.changeDate(
+      orgId,
+      id,
+      date,
+      getPostById.state === 'DRAFT'
+    );
 
     try {
       await this.startWorkflow(
         getPostById.integration.providerIdentifier.split('-')[0].toLowerCase(),
         getPostById.id,
-        orgId
+        orgId,
+        getPostById.state
       );
     } catch (err) {}
 
