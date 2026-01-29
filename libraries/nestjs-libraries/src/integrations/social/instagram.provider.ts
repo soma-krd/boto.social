@@ -802,7 +802,7 @@ export class InstagramProvider
       // Fetch media insights from Instagram Graph API
       const { data } = await (
         await this.fetch(
-          `https://${type}/v21.0/${postId}/insights?metric=impressions,reach,engagement,saved,likes,comments,shares&access_token=${accessToken}`
+          `https://${type}/v21.0/${postId}/insights?metric=views,reach,saved,likes,comments,shares&access_token=${accessToken}`
         )
       ).json();
 
@@ -819,8 +819,8 @@ export class InstagramProvider
         let label = '';
 
         switch (metric.name) {
-          case 'impressions':
-            label = 'Impressions';
+          case 'views':
+            label = 'Views';
             break;
           case 'reach':
             label = 'Reach';

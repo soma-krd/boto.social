@@ -81,6 +81,14 @@ export class PostsController {
     return this._postsService.editTag(id, org.id, body);
   }
 
+  @Delete('/tags/:id')
+  async deleteTag(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    return this._postsService.deleteTag(id, org.id);
+  }
+
   @Get('/')
   async getPosts(
     @GetOrgFromRequest() org: Organization,
@@ -171,9 +179,10 @@ export class PostsController {
   changeDate(
     @GetOrgFromRequest() org: Organization,
     @Param('id') id: string,
-    @Body('date') date: string
+    @Body('date') date: string,
+    @Body('action') action: 'schedule' | 'update' = 'schedule'
   ) {
-    return this._postsService.changeDate(org.id, id, date);
+    return this._postsService.changeDate(org.id, id, date, action);
   }
 
   @Post('/separate-posts')
