@@ -32,8 +32,9 @@ import { GmbProvider } from '@gitroom/nestjs-libraries/integrations/social/gmb.p
 import { KickProvider } from '@gitroom/nestjs-libraries/integrations/social/kick.provider';
 import { TwitchProvider } from '@gitroom/nestjs-libraries/integrations/social/twitch.provider';
 import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
+import { MoltbookProvider } from '@gitroom/nestjs-libraries/integrations/social/moltbook.provider';
 
-export const socialIntegrationList: SocialProvider[] = [
+export const socialIntegrationList: Array<SocialAbstract & SocialProvider> = [
   new XProvider(process.env.ENABLE_X == 'true'),
   new LinkedinProvider(process.env.ENABLE_LINKEDIN == 'true'),
   new LinkedinPageProvider(process.env.ENABLE_LINKEDIN_PAGE == 'true'),
