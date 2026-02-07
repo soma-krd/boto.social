@@ -32,8 +32,8 @@ const ConnectedComponent: FC<{
   const t = useT();
 
   return (
-    <div className="my-[16px] mt-[16px] h-[90px] bg-sixth border-fifth border rounded-[4px] p-[24px]">
-      <div className={`flex items-center gap-[8px]`}>
+    <div className="my-[16px] mt-[16px] h-[90px] mobile:h-auto bg-sixth border-fifth border rounded-[4px] p-[24px]">
+      <div className={`flex items-center gap-[8px] mobile:flex-col mobile:items-start`}>
         <div>
           <Image src="/icons/github.svg" alt="GitHub" width={40} height={40} />
         </div>
@@ -87,8 +87,8 @@ const ConnectComponent: FC<{
   const t = useT();
 
   return (
-    <div className="my-[16px] mt-[16px] h-[100px] bg-sixth border-fifth border rounded-[4px] px-[24px] flex">
-      <div className={`flex items-center gap-[8px] flex-1`}>
+    <div className="my-[16px] mt-[16px] h-[100px] mobile:h-auto bg-sixth border-fifth border rounded-[4px] px-[24px] mobile:py-[16px] flex mobile:block">
+      <div className={`flex items-center gap-[8px] flex-1 mobile:flex-col mobile:items-start`}>
         <div>
           <Image src="/icons/github.svg" alt="GitHub" width={40} height={40} />
         </div>
@@ -194,8 +194,8 @@ export const GithubComponent: FC<{
         </>
       ))}
       {githubState.filter((f) => !f.login).length === 0 && (
-        <div className="my-[16px] mt-[16px] h-[90px] bg-sixth border-fifth border rounded-[4px] p-[24px]">
-          <div className={`flex items-center gap-[8px]`}>
+        <div className="my-[16px] mt-[16px] h-[90px] mobile:h-auto bg-sixth border-fifth border rounded-[4px] p-[24px]">
+          <div className={`flex items-center gap-[8px] mobile:flex-col mobile:items-start`}>
             <div>
               <Image
                 src="/icons/github.svg"

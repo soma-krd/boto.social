@@ -345,6 +345,156 @@ export const MenuComponent: FC<
     </div>
   );
 };
+type MobileTab = 'channels' | 'calendar';
+
+interface ChannelsPanelContentProps {
+  collapseMenu: string;
+  setCollapseMenu: (value: string) => void;
+  menuIntegrations: Array<{
+    name: string;
+    id: string;
+    isEmpty: boolean;
+    values: Array<
+      Integration & {
+        identifier: string;
+        changeProfilePicture: boolean;
+        changeNickName: boolean;
+      }
+    >;
+  }>;
+  sortedIntegrations: Array<Integration & { identifier: string }>;
+  update: (shouldReload: boolean) => void;
+  continueIntegration: (integration: Integration) => () => void;
+  refreshChannel: (
+    integration: Integration & { identifier: string }
+  ) => () => void;
+  changeItemGroup: (id: string, group: string) => void;
+  totalNonDisabledChannels: number;
+  mutate: (shouldReload?: boolean) => void;
+  mode: string;
+  showCollapseButton: boolean;
+  collapsed: boolean;
+}
+
+const ChannelsPanelContent: FC<ChannelsPanelContentProps> = ({
+  collapseMenu,
+  setCollapseMenu,
+  menuIntegrations,
+  sortedIntegrations,
+  update,
+  continueIntegration,
+  refreshChannel,
+  changeItemGroup,
+  totalNonDisabledChannels,
+  mutate,
+  mode,
+  showCollapseButton,
+  collapsed,
+}) => {
+  const t = useT();
+  const user = useUser();
+  const { billingEnabled } = useVariables();
+
+  return (
+    <>
+      <div className="flex items-center">
+        <h2
+          className={clsx(
+            'flex-1 text-[20px] mobile:text-[18px] font-[500]',
+            showCollapseButton && 'group-[.sidebar]:hidden'
+          )}
+        >
+          {t('channels')}
+        </h2>
+        {showCollapseButton && (
+          <div
+            onClick={() =>
+              setCollapseMenu(collapseMenu === '1' ? '0' : '1')
+            }
+            className="group-[.sidebar]:rotate-[180deg] group-[.sidebar]:mx-auto text-btnText bg-btnSimple rounded-[6px] w-[24px] h-[24px] flex items-center justify-center cursor-pointer select-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="7"
+              height="13"
+              viewBox="0 0 7 13"
+              fill="none"
+            >
+              <path
+                d="M6 11.5L1 6.5L6 1.5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        )}
+      </div>
+      <div
+        className={clsx(
+          'flex flex-col gap-[8px]',
+          showCollapseButton && 'group-[.sidebar]:mx-auto group-[.sidebar]:w-[44px]'
+        )}
+      >
+        <AddProviderButton update={() => update(true)} />
+        <div
+          className={clsx(
+            'flex gap-[8px]',
+            showCollapseButton && 'group-[.sidebar]:flex-col'
+          )}
+        >
+          {sortedIntegrations?.length > 0 && <NewPost />}
+          {sortedIntegrations?.length > 0 &&
+            user?.tier?.ai &&
+            billingEnabled && <GeneratorComponent />}
+        </div>
+      </div>
+      <div className="gap-[32px] flex flex-col select-none flex-1">
+        {sortedIntegrations.length === 0 && !collapsed && (
+          <div className="flex-1 max-h-[500px] justify-center items-center flex">
+            <div className="flex flex-col gap-[12px] text-center">
+              <img
+                src={
+                  mode === 'dark'
+                    ? '/no-channels.svg'
+                    : '/no-channels-colors.svg'
+                }
+                alt="No channels"
+                className="mx-auto min-w-[100%]"
+              />
+              <div className="font-[600] text-[20px]">
+                {t('no_channels', 'No channels yet')}
+              </div>
+              <div className="text-[14px]">
+                {t('connect_your_accounts')}
+              </div>
+            </div>
+          </div>
+        )}
+        {menuIntegrations.map((menu) => (
+          <MenuGroupComponent
+            collapsed={collapsed}
+            key={menu.name}
+            group={menu}
+            mutate={mutate}
+            continueIntegration={continueIntegration}
+            update={update}
+            refreshChannel={refreshChannel}
+            changeItemGroup={changeItemGroup}
+            totalNonDisabledChannels={totalNonDisabledChannels}
+          />
+        ))}
+      </div>
+      <div className="mt-[5px] text-center">
+        {process.env.NEXT_PUBLIC_VERSION
+          ? process.env.NEXT_PUBLIC_VERSION
+          : ''}
+      </div>
+    </>
+  );
+};
+
 export const LaunchesComponent = () => {
   const fetch = useFetch();
   const user = useUser();
@@ -355,6 +505,7 @@ export const LaunchesComponent = () => {
   const fireEvents = useFireEvents();
   const t = useT();
   const [reload, setReload] = useState(false);
+  const [mobileTab, setMobileTab] = useState<MobileTab>('channels');
   const [collapseMenu, setCollapseMenu] = useCookie('collapseMenu', '0');
   const [mode] = useCookie('mode', 'dark');
   const { isLoading, data: integrations, mutate } = useIntegrationList();
@@ -493,100 +644,128 @@ export const LaunchesComponent = () => {
     <DNDProvider>
       <Onboarding />
       <CalendarWeekProvider integrations={sortedIntegrations}>
-        <div
-          className={clsx(
-            'flex relative flex-col',
-            collapseMenu === '1' ? 'group sidebar w-[100px]' : 'w-[260px]'
-          )}
-        >
+        <div className="flex flex-1 flex-col min-h-0">
+          {/* Mobile: tab bar */}
           <div
-            className={clsx(
-              'bg-newBgColorInner p-[20px] flex flex-col gap-[15px] transition-all absolute start-0 top-0 w-full h-full overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-fifth scrollbar-track-newBgColor'
-            )}
+            role="tablist"
+            aria-label={t('channels_and_calendar', 'Channels and Calendar')}
+            className="hidden mobile:flex border-b border-newBorder bg-newBgColorInner shrink-0"
           >
-            <div className="flex items-center">
-              <h2 className="group-[.sidebar]:hidden flex-1 text-[20px] font-[500]">
-                {t('channels')}
-              </h2>
-              <div
-                onClick={() =>
-                  setCollapseMenu(collapseMenu === '1' ? '0' : '1')
-                }
-                className="group-[.sidebar]:rotate-[180deg] group-[.sidebar]:mx-auto text-btnText bg-btnSimple rounded-[6px] w-[24px] h-[24px] flex items-center justify-center cursor-pointer select-none"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="7"
-                  height="13"
-                  viewBox="0 0 7 13"
-                  fill="none"
-                >
-                  <path
-                    d="M6 11.5L1 6.5L6 1.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="flex flex-col gap-[8px] group-[.sidebar]:mx-auto group-[.sidebar]:w-[44px]">
-              <AddProviderButton update={() => update(true)} />
-              <div className="flex gap-[8px] group-[.sidebar]:flex-col">
-                {sortedIntegrations?.length > 0 && <NewPost />}
-                {sortedIntegrations?.length > 0 &&
-                  user?.tier?.ai &&
-                  billingEnabled && <GeneratorComponent />}
-              </div>
-            </div>
-            <div className="gap-[32px] flex flex-col select-none flex-1">
-              {sortedIntegrations.length === 0 && collapseMenu === '0' && (
-                <div className="flex-1 max-h-[500px] justify-center items-center flex">
-                  <div className="flex flex-col gap-[12px] text-center">
-                    <img
-                      src={
-                        mode === 'dark'
-                          ? '/no-channels.svg'
-                          : '/no-channels-colors.svg'
-                      }
-                      alt="No channels"
-                      className="mx-auto min-w-[100%]"
-                    />
-                    <div className="font-[600] text-[20px]">
-                      {t('no_channels', 'No channels yet')}
-                    </div>
-                    <div className="text-[14px]">
-                      {t('connect_your_accounts')}
-                    </div>
-                  </div>
-                </div>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mobileTab === 'channels'}
+              aria-controls="mobile-tabpanel-channels"
+              id="mobile-tab-channels"
+              tabIndex={mobileTab === 'channels' ? 0 : -1}
+              onClick={() => setMobileTab('channels')}
+              className={clsx(
+                'flex-1 py-[12px] px-[16px] text-[14px] font-[600] transition-colors',
+                mobileTab === 'channels'
+                  ? 'text-textItemFocused bg-boxFocused border-b-2 border-primary'
+                  : 'text-textItemBlur hover:text-textItemFocused'
               )}
-              {menuIntegrations.map((menu) => (
-                <MenuGroupComponent
-                  collapsed={collapseMenu === '1'}
-                  changeItemGroup={changeItemGroup}
-                  key={menu.name}
-                  group={menu}
-                  mutate={mutate}
-                  continueIntegration={continueIntegration}
-                  update={update}
-                  refreshChannel={refreshChannel}
-                  totalNonDisabledChannels={totalNonDisabledChannels}
-                />
-              ))}
-            </div>
-            <div className="mt-[5px] text-center">
-              {process.env.NEXT_PUBLIC_VERSION
-                ? process.env.NEXT_PUBLIC_VERSION
-                : ''}
-            </div>
+            >
+              {t('channels')}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mobileTab === 'calendar'}
+              aria-controls="mobile-tabpanel-calendar"
+              id="mobile-tab-calendar"
+              tabIndex={mobileTab === 'calendar' ? 0 : -1}
+              onClick={() => setMobileTab('calendar')}
+              className={clsx(
+                'flex-1 py-[12px] px-[16px] text-[14px] font-[600] transition-colors',
+                mobileTab === 'calendar'
+                  ? 'text-textItemFocused bg-boxFocused border-b-2 border-primary'
+                  : 'text-textItemBlur hover:text-textItemFocused'
+              )}
+            >
+              {t('calendar', 'Calendar')}
+            </button>
           </div>
-        </div>
-        <div className="bg-newBgColorInner flex-1 flex-col flex p-[20px] gap-[12px]">
-          <Filters />
-          <div className="flex-1 flex">
-            <Calendar />
+
+          {/* Mobile: tab content */}
+          <div className="flex-1 hidden mobile:flex flex-col min-h-0 overflow-hidden">
+            {mobileTab === 'channels' && (
+              <div
+                role="tabpanel"
+                id="mobile-tabpanel-channels"
+                aria-labelledby="mobile-tab-channels"
+                className="flex-1 flex flex-col min-h-0 overflow-y-auto bg-newBgColorInner p-[20px] mobile:p-[12px] gap-[15px] mobile:gap-[12px] scrollbar scrollbar-thumb-fifth scrollbar-track-newBgColor"
+              >
+                <ChannelsPanelContent
+                  collapseMenu={collapseMenu}
+                  setCollapseMenu={setCollapseMenu}
+                  menuIntegrations={menuIntegrations}
+                  sortedIntegrations={sortedIntegrations}
+                  update={update}
+                  continueIntegration={continueIntegration}
+                  refreshChannel={refreshChannel}
+                  changeItemGroup={changeItemGroup}
+                  totalNonDisabledChannels={totalNonDisabledChannels}
+                  mutate={mutate}
+                  mode={mode}
+                  showCollapseButton={false}
+                  collapsed={false}
+                />
+              </div>
+            )}
+            {mobileTab === 'calendar' && (
+              <div
+                role="tabpanel"
+                id="mobile-tabpanel-calendar"
+                aria-labelledby="mobile-tab-calendar"
+                className="flex-1 flex flex-col min-h-0 overflow-hidden bg-newBgColorInner p-[20px] mobile:p-[12px] gap-[12px]"
+              >
+                <Filters />
+                <div className="flex-1 flex min-h-0">
+                  <Calendar />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop: row with sidebar + main */}
+          <div className="flex flex-1 min-h-0 mobile:hidden">
+            <div
+              className={clsx(
+                'flex relative flex-col shrink-0',
+                collapseMenu === '1'
+                  ? 'group sidebar w-[100px]'
+                  : 'w-[260px] tablet:w-[220px]'
+              )}
+            >
+              <div
+                className={clsx(
+                  'bg-newBgColorInner p-[20px] flex flex-col gap-[15px] transition-all absolute start-0 top-0 w-full h-full overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-fifth scrollbar-track-newBgColor'
+                )}
+              >
+                <ChannelsPanelContent
+                  collapseMenu={collapseMenu}
+                  setCollapseMenu={setCollapseMenu}
+                  menuIntegrations={menuIntegrations}
+                  sortedIntegrations={sortedIntegrations}
+                  update={update}
+                  continueIntegration={continueIntegration}
+                  refreshChannel={refreshChannel}
+                  changeItemGroup={changeItemGroup}
+                  totalNonDisabledChannels={totalNonDisabledChannels}
+                  mutate={mutate}
+                  mode={mode}
+                  showCollapseButton={true}
+                  collapsed={collapseMenu === '1'}
+                />
+              </div>
+            </div>
+            <div className="bg-newBgColorInner flex-1 flex flex-col min-h-0 p-[20px] gap-[12px]">
+              <Filters />
+              <div className="flex-1 flex min-h-0">
+                <Calendar />
+              </div>
+            </div>
           </div>
         </div>
       </CalendarWeekProvider>

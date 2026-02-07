@@ -439,7 +439,7 @@ export const MainBillingComponent: FC<{
   }
   return (
     <div className="flex flex-col gap-[16px]">
-      <div className="flex flex-row">
+      <div className="flex flex-row mobile:flex-col mobile:gap-[16px]">
         <div className="flex-1 text-[20px]">{t('plans', 'Plans')}</div>
         <div className="flex items-center gap-[16px]">
           <div>{t('monthly', 'MONTHLY')}</div>
@@ -539,7 +539,7 @@ export const MainBillingComponent: FC<{
       </div>
       {!subscription?.id && <PurchaseCrypto />}
       {!!subscription?.id && (
-        <div className="flex justify-center mt-[20px] gap-[10px]">
+        <div className="flex justify-center mt-[20px] gap-[10px] mobile:flex-col">
           <Button onClick={updatePayment}>
             {t(
               'update_payment_method_invoices_history',

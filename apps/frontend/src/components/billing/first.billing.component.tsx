@@ -245,7 +245,7 @@ export const FirstBillingComponent = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-[8px] mobile:!grid-cols-2 tablet:grid-cols-4">
+            <div className="grid grid-cols-2 gap-[8px] mobile:!grid-cols-1 tablet:grid-cols-4">
               {price.map(
                 ([key, value]) => (
                   <div

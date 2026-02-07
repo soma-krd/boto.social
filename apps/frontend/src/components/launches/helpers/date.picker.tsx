@@ -1,6 +1,7 @@
 import { FC, useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 import { Calendar, TimeInput } from '@mantine/dates';
+import clsx from 'clsx';
 import { useClickOutside } from '@mantine/hooks';
 import { Button } from '@gitroom/react/form/button';
 import { isUSCitizen } from './isuscitizen.utils';
@@ -10,8 +11,9 @@ import { CalendarIcon } from '@gitroom/frontend/components/ui/icons';
 export const DatePicker: FC<{
   date: dayjs.Dayjs;
   onChange: (day: dayjs.Dayjs) => void;
+  className?: string;
 }> = (props) => {
-  const { date, onChange } = props;
+  const { date, onChange, className } = props;
   const [open, setOpen] = useState(false);
   const t = useT();
 
@@ -35,7 +37,10 @@ export const DatePicker: FC<{
   );
   return (
     <div
-      className="px-[16px] border border-newTextColor/10 rounded-[8px] justify-center flex gap-[8px] items-center relative h-[44px] text-[15px] font-[600] ml-[7px] select-none flex-1"
+      className={clsx(
+        "px-[16px] border border-newTextColor/10 rounded-[8px] justify-center flex gap-[8px] items-center relative h-[44px] text-[15px] font-[600] ml-[7px] select-none flex-1",
+        className
+      )}
       onClick={changeShow}
       ref={ref}
     >

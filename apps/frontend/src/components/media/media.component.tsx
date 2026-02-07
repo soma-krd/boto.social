@@ -403,7 +403,7 @@ export const MediaBox: FC<{
       <div className="flex flex-col flex-1">
         <div
           className={clsx(
-            'flex',
+            'flex mobile:flex-col mobile:gap-[10px]',
             !isLoading && !data?.results?.length && 'hidden'
           )}
         >
@@ -489,7 +489,7 @@ export const MediaBox: FC<{
                 {[...new Array(16)].map((_, i) => (
                   <div
                     className={clsx(
-                      'px-[3px] py-[3px] float-left rounded-[6px] cursor-pointer w8-max aspect-square'
+                      'px-[3px] py-[3px] float-left rounded-[6px] cursor-pointer w-[12.5%] mobile:w-[33.33%] aspect-square'
                     )}
                     key={i}
                   >
@@ -510,7 +510,7 @@ export const MediaBox: FC<{
               .map((media: any) => (
                 <div
                   className={clsx(
-                    'group px-[3px] py-[3px] float-left rounded-[6px] w8-max aspect-square',
+                    'group px-[3px] py-[3px] float-left rounded-[6px] w-[12.5%] mobile:w-[33.33%] aspect-square',
                     !standalone && 'cursor-pointer'
                   )}
                   key={media.id}
@@ -579,10 +579,10 @@ export const MediaBox: FC<{
           />
         )}
         {!standalone && (
-          <div className="flex justify-end mt-[32px] gap-[8px]">
+          <div className="flex justify-end mt-[32px] gap-[8px] mobile:flex-col">
             <button
               onClick={() => modals.closeCurrent()}
-              className="cursor-pointer h-[52px] px-[20px] items-center justify-center border border-newTextColor/10 flex rounded-[10px]"
+              className="cursor-pointer h-[52px] px-[20px] items-center justify-center border border-newTextColor/10 flex rounded-[10px] mobile:w-full"
             >
               {t('cancel', 'Cancel')}
             </button>
@@ -590,7 +590,7 @@ export const MediaBox: FC<{
               <button
                 onClick={standalone ? () => {} : addMedia}
                 disabled={selected.length === 0}
-                className="cursor-pointer text-white disabled:opacity-80 disabled:cursor-not-allowed h-[52px] px-[20px] items-center justify-center bg-[#612BD3] flex rounded-[10px]"
+                className="cursor-pointer text-white disabled:opacity-80 disabled:cursor-not-allowed h-[52px] px-[20px] items-center justify-center bg-[#612BD3] flex rounded-[10px] mobile:w-full"
               >
                 {t('add_selected_media', 'Add selected media')}
               </button>
@@ -736,7 +736,7 @@ export const MultiMediaComponent: FC<{
               setList={(value) =>
                 onChange({ target: { name: 'upload', value } })
               }
-              className="flex gap-[10px] sortable-container"
+              className="flex gap-[10px] sortable-container mobile:overflow-x-auto mobile:pb-[10px]"
               animation={200}
               swap={true}
               handle=".dragging"
