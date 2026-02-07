@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   Param,
   Post,
@@ -32,6 +33,11 @@ export class NoAuthIntegrationsController {
     private _refreshIntegrationService: RefreshIntegrationService,
     private _organizationService: OrganizationService
   ) {}
+
+  @Get('/')
+  getIntegrations() {
+    return this._integrationManager.getAllIntegrations();
+  }
 
   @Post('/social-connect/:integration')
   @CheckPolicies([AuthorizationActions.Create, Sections.CHANNEL])
@@ -256,10 +262,33 @@ export class NoAuthIntegrationsController {
       }
     }
 
+    const webhookUrl = await ioRedis.get(`webhookUrl:${body.state}`);
+    if (webhookUrl) {
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            params: AuthService.signJWT({
+              apiKey: org.apiKey,
+            }),
+          }),
+        });
+      } catch (err) {}
+
+      await ioRedis.del(`webhookUrl:${body.state}`);
+    }
+
+    const returnURL = await ioRedis.get(`redirect:${body.state}`);
+    if (returnURL) {
+      await ioRedis.del(`redirect:${body.state}`);
+    }
+
     return {
       ...createUpdate,
       onboarding: onboarding === 'true',
       pages,
+      ...(returnURL ? { returnURL } : {}),
     };
   }
 
