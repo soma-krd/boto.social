@@ -107,11 +107,11 @@ const EmailNotificationsComponent = () => {
   }
 
   return (
-    <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] flex flex-col gap-[24px]">
+    <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] mobile:p-[16px] flex flex-col gap-[24px]">
       <div className="mt-[4px]">
         {t('email_notifications', 'Email Notifications')}
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mobile:flex-col mobile:items-start mobile:gap-[12px]">
         <div className="flex flex-col">
           <div className="text-[14px]">
             {t('success_emails', 'Success Emails')}
@@ -123,13 +123,15 @@ const EmailNotificationsComponent = () => {
             )}
           </div>
         </div>
-        <Slider
-          value={localSettings.sendSuccessEmails ? 'on' : 'off'}
-          onChange={handleSuccessEmailsChange}
-          fill={true}
-        />
+        <div className="mobile:w-full">
+          <Slider
+            value={localSettings.sendSuccessEmails ? 'on' : 'off'}
+            onChange={handleSuccessEmailsChange}
+            fill={true}
+          />
+        </div>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mobile:flex-col mobile:items-start mobile:gap-[12px]">
         <div className="flex flex-col">
           <div className="text-[14px]">
             {t('failure_emails', 'Failure Emails')}
@@ -141,13 +143,15 @@ const EmailNotificationsComponent = () => {
             )}
           </div>
         </div>
-        <Slider
-          value={localSettings.sendFailureEmails ? 'on' : 'off'}
-          onChange={handleFailureEmailsChange}
-          fill={true}
-        />
+        <div className="mobile:w-full">
+          <Slider
+            value={localSettings.sendFailureEmails ? 'on' : 'off'}
+            onChange={handleFailureEmailsChange}
+            fill={true}
+          />
+        </div>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mobile:flex-col mobile:items-start mobile:gap-[12px]">
         <div className="flex flex-col">
           <div className="text-[14px]">
             {t('streak_emails', 'Streak Reminder Emails')}
@@ -159,11 +163,13 @@ const EmailNotificationsComponent = () => {
             )}
           </div>
         </div>
-        <Slider
-          value={localSettings.sendStreakEmails ? 'on' : 'off'}
-          onChange={handleStreakEmailsChange}
-          fill={true}
-        />
+        <div className="mobile:w-full">
+          <Slider
+            value={localSettings.sendStreakEmails ? 'on' : 'off'}
+            onChange={handleStreakEmailsChange}
+            fill={true}
+          />
+        </div>
       </div>
     </div>
   );

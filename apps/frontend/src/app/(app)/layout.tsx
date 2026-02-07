@@ -109,7 +109,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         {!!process.env.DATAFAST_WEBSITE_ID && (
           <Script
             data-website-id={process.env.DATAFAST_WEBSITE_ID}
-            data-domain="postiz.com"
+            data-domain="boto.social"
             src="https://datafa.st/js/script.js"
             strategy="afterInteractive"
           />

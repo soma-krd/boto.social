@@ -29,7 +29,7 @@ export const ShowNotification: FC<{
   return (
     <div
       className={clsx(
-        `text-textColor px-[16px] py-[10px] border-b border-tableBorder last:border-b-0 transition-colors overflow-hidden text-ellipsis`,
+        `text-textColor px-[16px] py-[10px] mobile:py-3 border-b border-tableBorder last:border-b-0 transition-colors overflow-hidden text-ellipsis`,
         newNotification && 'font-bold bg-seventh animate-newMessages'
       )}
       dangerouslySetInnerHTML={{
@@ -49,7 +49,7 @@ export const NotificationOpenComponent = () => {
   return (
     <div
       id="notification-popup"
-      className="opacity-0 animate-normalFadeDown mt-[10px] absolute w-[420px] min-h-[200px] top-[100%] end-0 bg-third text-textColor rounded-[16px] flex flex-col border border-tableBorder z-[600]"
+      className="opacity-0 animate-normalFadeDown mt-[10px] absolute w-[420px] mobile:max-w-[calc(100vw-24px)] min-h-[200px] top-[100%] end-0 bg-third text-textColor rounded-[16px] flex flex-col border border-tableBorder z-[600]"
     >
       <div
         className={`p-[16px] border-b border-tableBorder font-bold`}
@@ -57,7 +57,7 @@ export const NotificationOpenComponent = () => {
         {t('notifications', 'Notifications')}
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col max-h-[60vh] overflow-y-auto scrollbar scrollbar-thumb-fifth scrollbar-track-newBgColor min-h-0">
         {isLoading && (
           <div className="flex-1 flex justify-center pt-12">
             <ReactLoading type="spin" color="#fff" width={36} height={36} />

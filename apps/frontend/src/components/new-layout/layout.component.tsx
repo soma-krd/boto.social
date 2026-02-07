@@ -40,6 +40,7 @@ import { StreakComponent } from '@gitroom/frontend/components/layout/streak.comp
 import { PreConditionComponent } from '@gitroom/frontend/components/layout/pre-condition.component';
 import { AttachToFeedbackIcon } from '@gitroom/frontend/components/new-layout/sentry.feedback.component';
 import { FirstBillingComponent } from '@gitroom/frontend/components/billing/first.billing.component';
+import { MobileBottomNav } from '@gitroom/frontend/components/new-layout/mobile-bottom-nav';
 
 const jakartaSans = Plus_Jakarta_Sans({
   weight: ['600', '500', '700'],
@@ -95,9 +96,9 @@ export const LayoutComponent = ({ children }: { children: ReactNode }) => {
               {user.tier === 'FREE' && isGeneral && billingEnabled ? (
                 <FirstBillingComponent />
               ) : (
-                <div className="flex-1 flex gap-[8px]">
+                <div className="flex-1 flex gap-[8px] mobile:flex-col mobile:gap-0">
                   <Support />
-                  <div className="flex flex-col bg-newBgColorInner w-[80px] rounded-[12px]">
+                  <div className="flex flex-col bg-newBgColorInner w-[80px] rounded-[12px] mobile:hidden">
                     <div
                       className={clsx(
                         'fixed h-full w-[64px] start-[17px] flex flex-1 top-0',
@@ -110,27 +111,33 @@ export const LayoutComponent = ({ children }: { children: ReactNode }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 bg-newBgLineColor rounded-[12px] overflow-hidden flex flex-col gap-[1px] blurMe">
-                    <div className="flex bg-newBgColorInner h-[80px] px-[20px] items-center">
-                      <div className="text-[24px] font-[600] flex flex-1">
+                  <div className="flex-1 bg-newBgLineColor rounded-[12px] mobile:rounded-b-none overflow-hidden flex flex-col gap-[1px] blurMe mobile:pb-[68px]">
+                    <div className="flex bg-newBgColorInner h-[80px] mobile:h-[56px] px-[20px] mobile:px-[12px] items-center">
+                      <div className="text-[24px] mobile:text-[18px] font-[600] flex flex-1">
                         <Title />
                       </div>
-                      <div className="flex gap-[20px] text-textItemBlur">
+                      <div className="flex gap-[20px] mobile:gap-[12px] text-textItemBlur">
                         <StreakComponent />
-                        <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
                         <OrganizationSelector />
-                        <div className="hover:text-newTextColor">
+                        <div className="hover:text-newTextColor mobile:hidden">
                           <ModeComponent />
                         </div>
-                        <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
                         <LanguageComponent />
-                        <ChromeExtensionComponent />
-                        <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                        <div className="mobile:hidden">
+                          <ChromeExtensionComponent />
+                        </div>
+                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
                         <AttachToFeedbackIcon />
                         <NotificationComponent />
                       </div>
                     </div>
                     <div className="flex flex-1 gap-[1px]">{children}</div>
+                  </div>
+                  {/* Mobile Bottom Navigation - Only visible on mobile */}
+                  <div className="hidden mobile:flex fixed bottom-0 left-0 right-0 h-[68px] bg-newBgColorInner border-t border-newBorder z-50 px-[8px]">
+                    <MobileBottomNav />
                   </div>
                 </div>
               )}

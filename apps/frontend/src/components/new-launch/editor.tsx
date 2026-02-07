@@ -426,8 +426,8 @@ export const EditorWrapper: FC<{
             ((!canEdit && index > 0) || (!comments && index > 0)) && 'hidden'
           )}
         >
-          <div className="flex gap-[5px] flex-1 w-full">
-            <div className="flex-1 flex w-full">
+          <div className="flex gap-[5px] flex-1 w-full min-w-0">
+            <div className="flex-1 flex w-full min-w-0">
               {index > 0 && (
                 <div className="flex justify-center pl-[12px] text-newSep">
                   <ConnectionLineIcon />
@@ -695,10 +695,10 @@ export const Editor: FC<{
   }
 
   return (
-    <div className="flex flex-col gap-[20px] flex-1">
+    <div className="flex flex-col gap-[20px] flex-1 min-w-0">
       <div
         className={clsx(
-          'relative flex-1 px-[12px] pt-[12px] pb-[12px] flex flex-col',
+          'relative flex-1 px-[12px] pt-[12px] pb-[12px] flex flex-col min-w-0',
           num > 0 && '!rounded-bs-[0]'
         )}
         id={id}
@@ -755,7 +755,7 @@ export const Editor: FC<{
                 editorRef?.current?.editor?.commands?.focus('end');
               }}
             />
-            <div className="flex bg-newBgColorInner rounded-b-[6px] cursor-default">
+            <div className="flex flex-wrap gap-[5px] min-w-0 bg-newBgColorInner rounded-b-[6px] cursor-default">
               {setImages && (
                 <MultiMediaComponent
                   mediaNotAvailable={num > 0 && comments === 'no-media'}
@@ -775,7 +775,7 @@ export const Editor: FC<{
                     />
                   }
                   toolBar={
-                    <div className="flex gap-[5px]">
+                    <div className="flex flex-wrap gap-[5px] min-w-0">
                       <SignatureBox editor={editorRef?.current?.editor} />
                       <UText
                         editor={editorRef?.current?.editor}

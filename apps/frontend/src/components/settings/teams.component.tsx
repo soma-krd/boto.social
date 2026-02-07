@@ -172,14 +172,14 @@ export const TeamsComponent = () => {
           'Invite your assistant or team member to manage your account'
         )}
       </div>
-      <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] flex flex-col gap-[24px]">
+      <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] mobile:p-[16px] flex flex-col gap-[24px]">
         <div className="flex flex-col gap-[16px]">
           {(data || []).map((p) => (
-            <div key={p.user.id} className="flex items-center">
-              <div className="flex-1">
+            <div key={p.user.id} className="flex items-center mobile:flex-col mobile:items-stretch mobile:gap-[12px] mobile:bg-tableBorder/20 mobile:p-[12px] mobile:rounded-[8px]">
+              <div className="flex-1 font-[500]">
                 {capitalize(p.user.email.split('@')[0]).split('.')[0]}
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-customColor18 mobile:text-[14px]">
                 {p.role === 'USER'
                   ? t('user', 'User')
                   : p.role === 'ADMIN'
@@ -187,9 +187,9 @@ export const TeamsComponent = () => {
                   : t('super_admin', 'Super Admin')}
               </div>
               {+myLevel > +getLevel(p.role) ? (
-                <div className="flex-1 flex justify-end">
+                <div className="flex-1 flex justify-end mobile:justify-start">
                   <Button
-                    className={`!bg-customColor3 !h-[24px] border border-customColor21 rounded-[4px] text-[12px]`}
+                    className={`!bg-customColor3 !h-[24px] border border-customColor21 rounded-[4px] text-[12px] mobile:w-full mobile:h-[32px] mobile:justify-center`}
                     onClick={remove(p)}
                     secondary={true}
                   >
@@ -213,7 +213,7 @@ export const TeamsComponent = () => {
                   </Button>
                 </div>
               ) : (
-                <div className="flex-1" />
+                <div className="flex-1 mobile:hidden" />
               )}
             </div>
           ))}

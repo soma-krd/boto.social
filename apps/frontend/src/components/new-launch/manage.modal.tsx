@@ -214,7 +214,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                 <div className="text-[20px] mb-[20px]">
                   This post was already published, what do you want to do?
                 </div>
-                <div className="flex w-full gap-[10px]">
+                <div className="flex w-full gap-[10px] mobile:flex-col">
                   <div className="flex-1 flex">
                     <Button
                       type="button"
@@ -442,23 +442,23 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
   );
 
   return (
-    <div className="w-full h-full flex-1 p-[40px] flex relative">
-      <div className="flex flex-1 bg-newBgColorInner rounded-[20px] flex-col">
-        <div className="flex-1 flex">
-          <div className="flex flex-col flex-1 border-e border-newBorder">
-            <div className="bg-newBgColor h-[65px] rounded-s-[20px] !rounded-b-[0] flex items-center px-[20px] text-[20px] font-[600]">
+    <div className="w-full h-full flex-1 min-h-0 min-w-0 max-w-full overflow-x-hidden p-[40px] mobile:p-[12px] tablet:p-[24px] flex relative">
+      <div className="flex flex-1 min-h-0 min-w-0 bg-newBgColorInner rounded-[20px] mobile:rounded-[12px] flex-col overflow-hidden">
+        <div className="flex-1 flex min-h-0 mobile:flex-col">
+          <div className="flex flex-col flex-1 min-h-0 min-w-0 border-e mobile:border-e-0 mobile:border-b border-newBorder">
+            <div className="bg-newBgColor h-[65px] mobile:h-[56px] rounded-s-[20px] mobile:rounded-t-[12px] mobile:rounded-s-none !rounded-b-[0] flex items-center px-[20px] mobile:px-[16px] text-[20px] mobile:text-[18px] font-[600]">
               {t('create_post_title', 'Create Post')}
             </div>
-            <div className="flex-1 flex flex-col gap-[16px]">
+            <div className="flex-1 flex flex-col gap-[16px] min-h-0">
               <div
-                className={clsx('flex-1 relative', showSettings && 'hidden')}
+                className={clsx('flex-1 relative min-h-0', showSettings && 'hidden')}
               >
                 <div
                   id="social-content"
-                  className="gap-[32px] flex flex-col pe-[8px] pt-[20px] ps-[20px] absolute top-0 left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
+                  className="gap-[32px] mobile:gap-[16px] flex flex-col pe-[8px] mobile:pe-[12px] pt-[20px] mobile:pt-[12px] ps-[20px] mobile:ps-[12px] absolute top-0 left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
                 >
-                  <div className="flex w-full">
-                    <div className="flex flex-1">
+                  <div className="flex w-full mobile:flex-col mobile:gap-[12px] min-w-0">
+                    <div className="flex flex-1 min-w-0 overflow-hidden">
                       <PicksSocialsComponent toolTip={true} />
                     </div>
                     <div>
@@ -470,9 +470,9 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-1 gap-[6px] flex-col">
-                    <div>{!existingData.integration && <SelectCurrent />}</div>
-                    <div className="flex-1 flex">
+                  <div className="flex flex-1 gap-[6px] flex-col min-w-0">
+                    <div className="min-w-0">{!existingData.integration && <SelectCurrent />}</div>
+                    <div className="flex-1 flex min-w-0">
                       {!hide && <EditorWrapper totalPosts={1} value="" />}
                     </div>
                     <div
@@ -488,23 +488,23 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               <div
                 id="wrapper-settings"
                 className={clsx(
-                  'pb-[20px] px-[20px] select-none',
+                  'pb-[20px] mobile:pb-[12px] px-[20px] mobile:px-[12px] select-none',
                   showSettings && 'flex-1 flex pt-[20px]',
                   current === 'global' && 'hidden'
                 )}
               >
-                <div className="flex-1 flex flex-col rounded-[12px] gap-[12px] overflow-hidden bg-newSettings">
+                <div className="flex-1 flex flex-col rounded-[12px] gap-[12px] overflow-hidden bg-newSettings min-w-0">
                   <div
                     onClick={() => setShowSettings(!showSettings)}
                     className={clsx(
-                      'bg-[#612BD3] rounded-[12px] flex items-center gap-[8px] cursor-pointer p-[12px]',
+                      'bg-[#612BD3] rounded-[12px] flex items-center gap-[8px] cursor-pointer p-[12px] mobile:p-[10px] min-w-0',
                       showSettings ? '!rounded-b-none' : ''
                     )}
                   >
-                    <div className="flex-1 text-[14px] font-[600] text-white">
+                    <div className="flex-1 min-w-0 truncate text-[14px] font-[600] text-white">
                       {currentIntegrationText}
                     </div>
-                    <div>
+                    <div className="flex-shrink-0">
                       <ChevronDownIcon
                         rotated={showSettings}
                         className="text-white"
@@ -531,25 +531,25 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className="w-[580px] flex flex-col">
-            <div className="bg-newBgColor h-[65px] rounded-e-[20px] !rounded-b-[0] flex items-center px-[20px] text-[20px] font-[600]">
+          <div className="w-[580px] mobile:w-full tablet:w-[400px] flex flex-col min-h-0">
+            <div className="bg-newBgColor h-[65px] mobile:h-[56px] rounded-e-[20px] mobile:rounded-e-none mobile:rounded-b-[12px] !rounded-b-[0] flex items-center px-[20px] mobile:px-[16px] text-[20px] mobile:text-[18px] font-[600]">
               <div className="flex-1">{t('post_preview', 'Post Preview')}</div>
               <div className="cursor-pointer">
                 <CloseIcon onClick={askClose} className="text-[#A3A3A3]" />
               </div>
             </div>
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-h-0">
               <Scrollable
-                scrollClasses="!pe-[20px]"
-                className="absolute top-0 p-[20px] pe-[8px] left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
+                scrollClasses="!pe-[20px] mobile:!pe-[12px]"
+                className="absolute top-0 p-[20px] mobile:p-[12px] pe-[8px] left-0 w-full h-full overflow-x-hidden overflow-y-scroll scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner"
               >
                 <ShowAllProviders ref={ref} />
               </Scrollable>
             </div>
           </div>
         </div>
-        <div className="select-none h-[84px] py-[20px] border-t border-newBorder flex items-center">
-          <div className="flex-1 flex ps-[20px] gap-[8px]">
+        <div className="select-none h-[84px] mobile:h-auto min-w-0 py-[20px] mobile:py-[12px] border-t border-newBorder flex mobile:flex-col items-center mobile:items-stretch gap-[8px]">
+          <div className="flex-1 flex min-w-0 ps-[20px] mobile:ps-[12px] gap-[8px] mobile:flex-wrap pe-[20px] mobile:pe-[12px]">
             {!dummy && (
               <TagsComponent
                 name="tags"
@@ -565,11 +565,11 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               <RepeatComponent repeat={repeater} onChange={setRepeater} />
             )}
           </div>
-          <div className="pe-[20px] flex items-center justify-end gap-[8px]">
+          <div className="pe-[20px] mobile:pe-[12px] mobile:ps-[12px] flex items-center justify-end mobile:justify-stretch gap-[8px] mobile:flex-col min-w-0 flex-wrap mobile:flex-wrap">
             {existingData?.integration && (
               <button
                 onClick={deletePost}
-                className="cursor-pointer flex text-[#FF3F3F] gap-[8px] items-center text-[15px] font-[600]"
+                className="cursor-pointer flex text-[#FF3F3F] gap-[8px] items-center text-[15px] font-[600] mobile:justify-center mobile:h-[44px]"
               >
                 <div>
                   <TrashIcon />
@@ -577,14 +577,14 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                 <div>{t('delete_post', 'Delete Post')}</div>
               </button>
             )}
-            <DatePicker onChange={setDate} date={date} />
+            <DatePicker onChange={setDate} date={date} className="mobile:w-full" />
             {!addEditSets && (
               <button
                 disabled={
                   selectedIntegrations.length === 0 || loading || locked
                 }
                 onClick={schedule('draft')}
-                className="relative cursor-pointer disabled:cursor-not-allowed px-[20px] h-[44px] bg-btnSimple justify-center items-center flex rounded-[8px] text-[15px] font-[600]"
+                className="relative cursor-pointer disabled:cursor-not-allowed px-[20px] h-[44px] bg-btnSimple justify-center items-center flex rounded-[8px] text-[15px] font-[600] mobile:w-full"
               >
                 {loading && (
                   <div className="absolute left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
@@ -608,13 +608,13 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               </button>
             )}
             {!addEditSets && (
-              <div className="group cursor-pointer relative">
+              <div className="group cursor-pointer relative mobile:w-full">
                 <button
                   disabled={
                     selectedIntegrations.length === 0 || loading || locked
                   }
                   onClick={schedule('schedule')}
-                  className="text-white relative min-w-[180px] btnSub disabled:cursor-not-allowed disabled:opacity-80 outline-none gap-[8px] flex justify-center items-center h-[44px] rounded-[8px] bg-[#612BD3] ps-[20px] pe-[16px]"
+                  className="text-white relative min-w-[180px] mobile:w-full btnSub disabled:cursor-not-allowed disabled:opacity-80 outline-none gap-[8px] flex justify-center items-center h-[44px] rounded-[8px] bg-[#612BD3] ps-[20px] pe-[16px]"
                 >
                   {loading && (
                     <div className="absolute left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%]">
@@ -638,7 +638,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                       : t('update', 'Update')}
                   </div>
                   {!dummy && (
-                    <div className="flex justify-center items-center h-[20px] w-[20px] pt-[4px] arrow-change">
+                    <div className="flex justify-center items-center h-[20px] w-[20px] pt-[4px] arrow-change mobile:hidden">
                       <DropdownArrowSmallIcon className="group-hover:rotate-180 text-white" />
                     </div>
                   )}
@@ -650,7 +650,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
                     disabled={
                       selectedIntegrations.length === 0 || loading || locked
                     }
-                    className="rounded-[8px] z-[300] disabled:cursor-not-allowed disabled:opacity-80 hidden group-hover:flex absolute bottom-[100%] -left-[12px] p-[12px] w-[206px] bg-newBgColorInner"
+                    className="rounded-[8px] z-[300] disabled:cursor-not-allowed disabled:opacity-80 mobile:hidden hidden group-hover:flex absolute bottom-[100%] -left-[12px] p-[12px] w-[206px] bg-newBgColorInner"
                   >
                     <div className="text-white rounded-[8px] bg-[#D82D7E] h-[44px] w-full flex justify-center items-center post-now">
                       {t('post_now', 'Post Now')}

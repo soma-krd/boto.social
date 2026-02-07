@@ -12,7 +12,7 @@ export const StarsAndForks: FC<StarsAndForksInterface> = (props) => {
   return (
     <>
       {list.map((item) => (
-        <div className="flex gap-[24px] h-[272px]" key={item.login}>
+        <div className="flex gap-[24px] h-[272px] mobile:flex-col mobile:h-auto mobile:gap-[16px]" key={item.login}>
           <div className="flex-1 bg-secondary py-[10px] px-[16px] flex flex-col">
             <div className="flex items-center gap-[14px]">
               <div className="bg-fifth p-[8px]">
@@ -100,7 +100,7 @@ export const StarsAndForks: FC<StarsAndForksInterface> = (props) => {
           </div>
         </div>
       ))}
-      <div className="flex gap-[24px]">
+      <div className="flex gap-[24px] mobile:flex-col">
         {[0, 1].map((p) => (
           <div
             key={p}

@@ -1,7 +1,7 @@
 services:
-  postiz:
-    image: ghcr.io/gitroomhq/postiz-app:latest
-    container_name: postiz
+  boto:
+    image: ghcr.io/gitroomhq/boto-app:latest
+    container_name: boto
     restart: always
     environment:
       # === Required Settings
@@ -9,8 +9,8 @@ services:
       FRONTEND_URL: 'http://localhost:4007'
       NEXT_PUBLIC_BACKEND_URL: 'http://localhost:4007/api'
       JWT_SECRET: 'random string that is unique to every install - just type random characters here!'
-      DATABASE_URL: 'postgresql://postiz-user:postiz-password@postiz-postgres:5432/postiz-db-local'
-      REDIS_URL: 'redis://postiz-redis:6379'
+      DATABASE_URL: 'postgresql://boto-user:boto-password@boto-postgres:5432/boto-db-local'
+      REDIS_URL: 'redis://boto-redis:6379'
       BACKEND_INTERNAL_URL: 'http://localhost:3000'
       TEMPORAL_ADDRESS: "temporal:7233"
       IS_GENERAL: 'true'
@@ -64,16 +64,16 @@ services:
       MASTODON_CLIENT_SECRET: ''
 
       # === OAuth & Authentik Settings
-      # NEXT_PUBLIC_POSTIZ_OAUTH_DISPLAY_NAME: 'Authentik'
-      # NEXT_PUBLIC_POSTIZ_OAUTH_LOGO_URL: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/authentik.png'
-      # POSTIZ_GENERIC_OAUTH: 'false'
-      # POSTIZ_OAUTH_URL: 'https://auth.example.com'
-      # POSTIZ_OAUTH_AUTH_URL: 'https://auth.example.com/application/o/authorize'
-      # POSTIZ_OAUTH_TOKEN_URL: 'https://auth.example.com/application/o/token'
-      # POSTIZ_OAUTH_USERINFO_URL: 'https://authentik.example.com/application/o/userinfo'
-      # POSTIZ_OAUTH_CLIENT_ID: ''
-      # POSTIZ_OAUTH_CLIENT_SECRET: ''
-      # POSTIZ_OAUTH_SCOPE: "openid profile email"  # Optional: uncomment to override default scope
+      # NEXT_PUBLIC_BOTO_OAUTH_DISPLAY_NAME: 'Authentik'
+      # NEXT_PUBLIC_BOTO_OAUTH_LOGO_URL: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/master/png/authentik.png'
+      # BOTO_GENERIC_OAUTH: 'false'
+      # BOTO_OAUTH_URL: 'https://auth.example.com'
+      # BOTO_OAUTH_AUTH_URL: 'https://auth.example.com/application/o/authorize'
+      # BOTO_OAUTH_TOKEN_URL: 'https://auth.example.com/application/o/token'
+      # BOTO_OAUTH_USERINFO_URL: 'https://authentik.example.com/application/o/userinfo'
+      # BOTO_OAUTH_CLIENT_ID: ''
+      # BOTO_OAUTH_CLIENT_SECRET: ''
+      # BOTO_OAUTH_SCOPE: "openid profile email"  # Optional: uncomment to override default scope
 
       # === Sentry
 
@@ -109,39 +109,39 @@ services:
       # LINK_DRIP_SHORT_LINK_DOMAIN: "dripl.ink"
 
     volumes:
-      - postiz-config:/config/
-      - postiz-uploads:/uploads/
+      - boto-config:/config/
+      - boto-uploads:/uploads/
     ports:
       - "4007:5000"
     networks:
-      - postiz-network
+      - boto-network
       - temporal-network
     depends_on:
-      postiz-postgres:
+      boto-postgres:
         condition: service_healthy
-      postiz-redis:
+      boto-redis:
         condition: service_healthy
 
-  postiz-postgres:
+  boto-postgres:
     image: postgres:17-alpine
-    container_name: postiz-postgres
+    container_name: boto-postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: postiz-password
-      POSTGRES_USER: postiz-user
-      POSTGRES_DB: postiz-db-local
+      POSTGRES_PASSWORD: boto-password
+      POSTGRES_USER: boto-user
+      POSTGRES_DB: boto-db-local
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     networks:
-      - postiz-network
+      - boto-network
     healthcheck:
-      test: pg_isready -U postiz-user -d postiz-db-local
+      test: pg_isready -U boto-user -d boto-db-local
       interval: 10s
       timeout: 3s
       retries: 3
-  postiz-redis:
+  boto-redis:
     image: redis:7.2
-    container_name: postiz-redis
+    container_name: boto-redis
     restart: always
     healthcheck:
       test: redis-cli ping
@@ -149,9 +149,9 @@ services:
       timeout: 3s
       retries: 3
     volumes:
-      - postiz-redis-data:/data
+      - boto-redis-data:/data
     networks:
-      - postiz-network
+      - boto-network
 
   # For Application Monitoring / Debugging
   spotlight:
@@ -161,7 +161,7 @@ services:
       - 8969:8969/tcp
     image: ghcr.io/getsentry/spotlight:latest
     networks:
-      - postiz-network
+      - boto-network
 
   # -----------------------
   # Temporal Stack
@@ -251,17 +251,17 @@ volumes:
   postgres-volume:
     external: false
 
-  postiz-redis-data:
+  boto-redis-data:
     external: false
 
-  postiz-config:
+  boto-config:
     external: false
 
-  postiz-uploads:
+  boto-uploads:
     external: false
 
 networks:
-  postiz-network:
+  boto-network:
     external: false
   temporal-network:
     driver: bridge

@@ -136,23 +136,24 @@ export const Component: FC<{
           !modal.fullScreen
             ? 'pb-[50px] min-w-full min-h-full'
             : 'w-full h-full',
-          'fixed flex left-0 top-0 bg-popup transition-all animate-fadeIn overflow-y-auto text-newTextColor',
+          'fixed flex left-0 top-0 bg-popup transition-all animate-fadeIn overflow-x-hidden overflow-y-auto text-newTextColor',
           !isLast && '!overflow-hidden'
         )}
       >
-        <div className={clsx(modal.fullScreen && 'flex', 'relative flex-1')}>
+        <div className={clsx(modal.fullScreen && 'flex min-w-0', 'relative flex-1')}>
           <div
             className={clsx(
               modal.fullScreen
-                ? 'flex flex-1'
+                ? 'flex flex-1 min-w-0'
                 : 'absolute top-0 left-0 min-w-full min-h-full'
             )}
           >
             <div
               className={clsx(
-                modal.fullScreen ? 'w-full h-full flex-1' : 'mx-auto py-[48px]'
+                modal.fullScreen ? 'w-full h-full flex-1 min-w-0 max-w-full' : 'mx-auto py-[48px]',
+                modal.classNames?.modal
               )}
-              {...(modal.size && { style: { width: modal.size } })}
+              {...(modal.size && !modal.fullScreen && { style: { width: modal.size } })}
             >
               {typeof modal.children === 'function'
                 ? modal.children(closeModalFunction)
@@ -198,7 +199,8 @@ export const Component: FC<{
                 !modal.removeLayout && 'gap-[40px] p-[32px]',
                 'bg-newBgColorInner mx-auto flex flex-col w-fit rounded-[24px] relative',
                 modal.size ? '' : 'min-w-[600px]',
-                modal.fullScreen && 'h-full'
+                modal.fullScreen && 'h-full',
+                modal.classNames?.modal
               )}
               {...((!!modal.size || !!modal.height) && {
                 style: {
@@ -208,8 +210,8 @@ export const Component: FC<{
               })}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center">
-                <div className="text-[24px] font-[600] flex-1">
+              <div className="flex items-center min-w-0">
+                <div className="text-[24px] font-[600] flex-1 min-w-0 truncate pe-12">
                   {modal.title}
                 </div>
                 {typeof modal.withCloseButton === 'undefined' ||

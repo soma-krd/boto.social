@@ -138,19 +138,19 @@ export const InformationComponent: FC<{
   return (
     <div
       className={clsx(
-        'group rounded-[6px] gap-[4px] h-[30px] px-[6px] flex justify-center items-center relative',
+        'group rounded-[6px] gap-[4px] h-[30px] px-[6px] flex flex-shrink-0 justify-center items-center relative',
         isValid ? 'border border-newColColor' : 'bg-[#FF3F3F]'
       )}
     >
       {isValid ? <Valid /> : <Invalid />}
 
       {!isGlobal && (
-        <div className={clsx("text-[10px] font-[600] flex justify-center items-center", !isValid && 'text-white')}>
+        <div className={clsx("text-[10px] font-[600] flex justify-center items-center whitespace-nowrap", !isValid && 'text-white')}>
           {totalChars}/{totalAllowedChars}
         </div>
       )}
       {isGlobal && globalDisplayLimit !== null && (
-        <div className={clsx("text-[10px] font-[600] flex justify-center items-center", !isValid && 'text-white')}>
+        <div className={clsx("text-[10px] font-[600] flex justify-center items-center whitespace-nowrap", !isValid && 'text-white')}>
           {totalChars}/{globalDisplayLimit}
         </div>
       )}

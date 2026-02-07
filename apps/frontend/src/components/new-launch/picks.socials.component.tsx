@@ -29,10 +29,10 @@ export const PicksSocialsComponent: FC<{ toolTip?: boolean }> = ({
   );
 
   return (
-    <div className={clsx('flex', locked && 'opacity-50 pointer-events-none')}>
-      <div className="flex flex-1">
-        <div className="innerComponent flex-1 flex">
-          <div className="flex flex-wrap gap-[12px] flex-1">
+    <div className={clsx('flex min-w-0', locked && 'opacity-50 pointer-events-none')}>
+      <div className="flex flex-1 min-w-0">
+        <div className="innerComponent flex-1 flex min-w-0">
+          <div className="flex flex-wrap gap-[12px] flex-1 min-w-0">
             {integrations
               .filter((f) => {
                 if (exising.integration) {

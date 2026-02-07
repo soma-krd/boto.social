@@ -29,6 +29,10 @@ export const useAddProvider = (update?: () => void, invite?: boolean) => {
     modal.openModal({
       title: 'Add Channel',
       withCloseButton: true,
+      size: 'min(720px, calc(100vw - 48px))',
+      classNames: {
+        modal: 'mobile:p-[16px]',
+      },
       children: (
         <AddProviderComponent invite={!!invite} update={update} {...data} />
       ),
@@ -405,8 +409,10 @@ export const AddProviderComponent: FC<{
       <div className="flex flex-col">
         <div
           className={clsx(
-            'grid grid-cols-5 gap-[10px] justify-items-center justify-center',
-            onboarding ? 'grid-cols-9' : 'grid-cols-5'
+            'grid gap-[10px] justify-items-center justify-center',
+            onboarding
+              ? 'grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9'
+              : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'
           )}
         >
           {social
@@ -434,7 +440,7 @@ export const AddProviderComponent: FC<{
                     }
                   : {})}
                 className={
-                  'w-full h-[100px] text-[14px] p-[10px] rounded-[8px] bg-newTableHeader text-textColor relative justify-center items-center flex flex-col gap-[10px] cursor-pointer'
+                  'w-full min-w-0 h-[100px] text-[14px] p-[10px] rounded-[8px] bg-newTableHeader text-textColor relative justify-center items-center flex flex-col gap-[10px] cursor-pointer overflow-hidden'
                 }
               >
                 <div>
@@ -451,7 +457,7 @@ export const AddProviderComponent: FC<{
                     />
                   )}
                 </div>
-                <div className="whitespace-pre-wrap text-center">
+                <div className="whitespace-pre-wrap text-center min-w-0 break-words line-clamp-2">
                   {item.name}
                   {!!item.toolTip && (
                     <svg

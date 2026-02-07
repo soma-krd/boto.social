@@ -67,7 +67,7 @@ export const SignaturesComponent: FC<{
           'You can add signatures to your account to be used in your posts.'
         )}
       </div>
-      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
+      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px]">
         <div className="flex flex-col w-full">
           {!!data?.length && (
             <div
@@ -75,49 +75,57 @@ export const SignaturesComponent: FC<{
                 !!appendSignature
                   ? 'grid-cols-[1fr,1fr,1fr,1fr,1fr]'
                   : 'grid-cols-[1fr,1fr,1fr,1fr]'
-              } w-full gap-y-[10px]`}
+              } w-full gap-y-[10px] mobile:flex mobile:flex-col mobile:gap-[16px]`}
             >
-              <div>{t('content', 'Content')}</div>
-              <div className="text-center">{t('auto_add', 'Auto Add?')}</div>
+              <div className="mobile:hidden">{t('content', 'Content')}</div>
+              <div className="text-center mobile:hidden">{t('auto_add', 'Auto Add?')}</div>
               {!!appendSignature && (
-                <div className="text-center">{t('actions', 'Actions')}</div>
+                <div className="text-center mobile:hidden">{t('actions', 'Actions')}</div>
               )}
-              <div className="text-center">{t('edit', 'Edit')}</div>
-              <div className="text-center">{t('delete', 'Delete')}</div>
+              <div className="text-center mobile:hidden">{t('edit', 'Edit')}</div>
+              <div className="text-center mobile:hidden">{t('delete', 'Delete')}</div>
+              
+              {/* Desktop: Grid items / Mobile: Card items */}
               {data?.map((p: any) => (
-                <Fragment key={p.id}>
-                  <div className="relative flex-1 me-[20px] overflow-x-hidden">
-                    <div className="absolute start-0 line-clamp-1 top-[50%] -translate-y-[50%] text-ellipsis">
+                <div key={p.id} className="contents mobile:flex mobile:flex-col mobile:bg-tableBorder/20 mobile:p-[16px] mobile:rounded-[8px]">
+                  <div className="relative flex-1 me-[20px] overflow-x-hidden mobile:me-0 mobile:mb-[12px] mobile:w-full">
+                    <div className="absolute start-0 line-clamp-1 top-[50%] -translate-y-[50%] text-ellipsis mobile:static mobile:translate-y-0 mobile:line-clamp-2">
+                       <span className="mobile:block hidden text-[12px] text-customColor18 mb-[4px]">{t('content', 'Content')}</span>
                       {p.content.slice(0, 15) + '...'}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center relative me-[20px]">
-                    <div className="text-center w-full absolute start-0 line-clamp-1 top-[50%] -translate-y-[50%]">
+                  <div className="flex flex-col justify-center relative me-[20px] mobile:me-0 mobile:mb-[12px] mobile:flex-row mobile:justify-start mobile:gap-[8px] mobile:items-center">
+                    <span className="hidden mobile:block text-[14px] text-customColor18">{t('auto_add', 'Auto Add?')}</span>
+                    <div className="text-center w-full absolute start-0 line-clamp-1 top-[50%] -translate-y-[50%] mobile:static mobile:translate-y-0 mobile:w-auto">
                       {p.autoAdd ? 'Yes' : 'No'}
                     </div>
                   </div>
-                  {!!appendSignature && (
-                    <div className="flex justify-center">
-                      <Button onClick={() => appendSignature(p.content)}>
-                        {t('use_signature', 'Use Signature')}
-                      </Button>
+                  
+                  {/* Mobile Actions Container */}
+                  <div className="contents mobile:flex mobile:gap-[8px] mobile:mt-[4px]">
+                    {!!appendSignature && (
+                      <div className="flex justify-center mobile:flex-1">
+                        <Button className="mobile:w-full" onClick={() => appendSignature(p.content)}>
+                          {t('use_signature', 'Use Signature')}
+                        </Button>
+                      </div>
+                    )}
+                    <div className="flex justify-center mobile:flex-1">
+                      <div className="mobile:w-full">
+                        <Button className="mobile:w-full" onClick={addSignature(p)}>
+                          {t('edit', 'Edit')}
+                        </Button>
+                      </div>
                     </div>
-                  )}
-                  <div className="flex justify-center">
-                    <div>
-                      <Button onClick={addSignature(p)}>
-                        {t('edit', 'Edit')}
-                      </Button>
+                    <div className="flex justify-center mobile:flex-1">
+                      <div className="mobile:w-full">
+                        <Button className="mobile:w-full" onClick={deleteSignature(p)}>
+                          {t('delete', 'Delete')}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex justify-center">
-                    <div>
-                      <Button onClick={deleteSignature(p)}>
-                        {t('delete', 'Delete')}
-                      </Button>
-                    </div>
-                  </div>
-                </Fragment>
+                </div>
               ))}
             </div>
           )}

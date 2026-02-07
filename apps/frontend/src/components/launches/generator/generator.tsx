@@ -160,7 +160,7 @@ const FirstStep: FC = (props) => {
         askClose: true,
         fullScreen: true,
         classNames: {
-          modal: 'w-[100%] max-w-[1400px] text-textColor',
+          modal: 'w-[80%] mobile:w-full max-w-[1400px] text-textColor',
         },
         children: (
           <AddEditModal
