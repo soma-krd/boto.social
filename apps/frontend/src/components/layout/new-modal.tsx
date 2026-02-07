@@ -136,23 +136,24 @@ export const Component: FC<{
           !modal.fullScreen
             ? 'pb-[50px] min-w-full min-h-full'
             : 'w-full h-full',
-          'fixed flex left-0 top-0 bg-popup transition-all animate-fadeIn overflow-y-auto text-newTextColor',
+          'fixed flex left-0 top-0 bg-popup transition-all animate-fadeIn overflow-x-hidden overflow-y-auto text-newTextColor',
           !isLast && '!overflow-hidden'
         )}
       >
-        <div className={clsx(modal.fullScreen && 'flex', 'relative flex-1')}>
+        <div className={clsx(modal.fullScreen && 'flex min-w-0', 'relative flex-1')}>
           <div
             className={clsx(
               modal.fullScreen
-                ? 'flex flex-1'
+                ? 'flex flex-1 min-w-0'
                 : 'absolute top-0 left-0 min-w-full min-h-full'
             )}
           >
             <div
               className={clsx(
-                modal.fullScreen ? 'w-full h-full flex-1' : 'mx-auto py-[48px]'
+                modal.fullScreen ? 'w-full h-full flex-1 min-w-0 max-w-full' : 'mx-auto py-[48px]',
+                modal.classNames?.modal
               )}
-              {...(modal.size && { style: { width: modal.size } })}
+              {...(modal.size && !modal.fullScreen && { style: { width: modal.size } })}
             >
               {typeof modal.children === 'function'
                 ? modal.children(closeModalFunction)

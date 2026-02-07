@@ -799,9 +799,9 @@ export const MultiMediaComponent: FC<{
             </ReactSortable>
           )}
         </div>
-        <div className="flex gap-[8px] px-[12px] border-t border-newColColor w-full b1 text-textColor">
+        <div className="flex flex-wrap gap-[8px] min-w-0 px-[12px] border-t border-newColColor w-full b1 text-textColor">
           {!mediaNotAvailable && (
-            <div className="flex py-[10px] b2 items-center gap-[4px]">
+            <div className="flex py-[10px] b2 items-center gap-[4px] min-w-0">
               <div
                 onClick={showModal}
                 className="cursor-pointer h-[30px] rounded-[6px] justify-center items-center flex bg-newColColor px-[8px]"
@@ -845,12 +845,12 @@ export const MultiMediaComponent: FC<{
             </div>
           )}
           {!!toolBar && (
-            <div className="flex py-[10px] b2 items-center gap-[4px]">
+            <div className="flex flex-wrap py-[10px] b2 items-center gap-[4px] min-w-0">
               {toolBar}
             </div>
           )}
           {information && (
-            <div className="flex-1 justify-end flex py-[10px] b2 items-center gap-[4px]">
+            <div className="flex-shrink-0 min-w-0 justify-end flex py-[10px] b2 items-center gap-[4px] mobile:min-w-full mobile:basis-full mobile:justify-start">
               {information}
             </div>
           )}

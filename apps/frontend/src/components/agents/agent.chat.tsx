@@ -292,7 +292,7 @@ const OpenModal: FC<{
           size: '80%',
           title: ``,
           classNames: {
-            modal: 'w-[100%] max-w-[1400px] text-textColor',
+            modal: 'w-[80%] mobile:w-full max-w-[1400px] text-textColor',
           },
           children: (
             <ExistingDataContextProvider
