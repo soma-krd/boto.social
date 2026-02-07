@@ -95,11 +95,11 @@ export const ChangeLanguageComponent = () => {
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
         {availableLanguages.map((language) => (
           <div
             className={clsx(
-              'flex items-center flex-col bg-newTableHeader hover:bg-newTableBorder p-[20px] cursor-pointer gap-2',
+              'flex items-center flex-col bg-newTableHeader hover:bg-newTableBorder p-[20px] mobile:p-[12px] cursor-pointer gap-2',
               language === currentLanguage ? 'border border-textColor' : ''
             )}
             key={language}
@@ -132,6 +132,10 @@ export const LanguageComponent = () => {
     modal.openModal({
       title: t('change_language', 'Change Language'),
       withCloseButton: true,
+      size: 'min(720px, calc(100vw - 48px))',
+      classNames: {
+        modal: 'mobile:p-[16px]',
+      },
       children: <ChangeLanguageComponent />,
     });
   };
