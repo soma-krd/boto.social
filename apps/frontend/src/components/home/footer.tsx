@@ -50,17 +50,6 @@ export function Footer() {
             <p className="text-white/70 text-sm leading-relaxed mb-4">
               {t('home_footer_description', 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.')}
             </p>
-            <p className="text-white/60 text-xs">
-              {t('home_footer_forked_from', 'Forked from')}{' '}
-              <a
-                href="https://postiz.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300 transition-colors"
-              >
-                Postiz
-              </a>
-            </p>
           </div>
 
           {/* Sitemap Links */}

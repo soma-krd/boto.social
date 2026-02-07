@@ -8,22 +8,24 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import clsx from 'clsx';
 
+const filterMenuItem = (f: { hide?: boolean; requireBilling?: boolean; name: string; role?: string[] }, user: { isLifetime?: boolean; role?: string } | null, billingEnabled: boolean) => {
+  if (f.hide) return false;
+  if (f.requireBilling && !billingEnabled) return false;
+  if (f.name === 'Billing' && user?.isLifetime) return false;
+  if (f.role) return f.role.includes(user?.role!);
+  return true;
+};
+
 export const MobileBottomNav: FC = () => {
   const user = useUser();
-  const { firstMenu } = useMenuItem();
-  const { isGeneral, billingEnabled } = useVariables();
+  const { firstMenu, secondMenu } = useMenuItem();
+  const { billingEnabled } = useVariables();
   const pathname = usePathname();
 
-  // Filter to show only primary menu items (max 5 for mobile)
-  const mobileMenuItems = firstMenu
-    .filter((f) => {
-      if (f.hide) return false;
-      if (f.requireBilling && !billingEnabled) return false;
-      if (f.name === 'Billing' && user?.isLifetime) return false;
-      if (f.role) return f.role.includes(user?.role!);
-      return true;
-    })
-    .slice(0, 5); // Max 5 items for mobile bottom nav
+  const filteredFirst = firstMenu.filter((f) => filterMenuItem(f, user, billingEnabled));
+  const filteredSecond = secondMenu.filter((f) => filterMenuItem(f, user, billingEnabled));
+  const settingsItem = filteredSecond.find((f) => f.path === '/settings');
+  const mobileMenuItems = settingsItem ? [...filteredFirst, settingsItem] : filteredFirst;
 
   return (
     <div className="flex items-center justify-around w-full">

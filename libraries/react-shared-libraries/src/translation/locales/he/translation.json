@@ -560,7 +560,7 @@
   "select_channels": "בחר ערוצים",
   "start_a_new_chat": "התחל שיחה חדשה",
   "your_assistant": "העוזר שלך",
-  "agent_welcome_message": "שלום, אני הסוכן של Postiz שלך 🙌🏻.\n\nאני יכול לתזמן פוסט או מספר פוסטים למספר ערוצים וליצור תמונות וסרטונים.\n\nאתה יכול לבחור את הערוצים שברצונך להשתמש בהם מהתפריט השמאלי.\n\nאתה יכול לראות את השיחות הקודמות שלך מהתפריט הימני.\n\nאתה יכול גם להשתמש בי כשרת MCP, בדוק הגדרות >> API ציבורי",
+  "agent_welcome_message": "שלום, אני הסוכן של Boto שלך 🙌🏻.\n\nאני יכול לתזמן פוסט או מספר פוסטים למספר ערוצים וליצור תמונות וסרטונים.\n\nאתה יכול לבחור את הערוצים שברצונך להשתמש בהם מהתפריט השמאלי.\n\nאתה יכול לראות את השיחות הקודמות שלך מהתפריט הימני.\n\nאתה יכול גם להשתמש בי כשרת MCP, בדוק הגדרות >> API ציבורי",
   "last_github_trending": "הטרנדים האחרונים ב-GitHub",
   "next_predicted_github_trending": "הטרנד הבא הצפוי ב-GitHub",
   "repository": "מאגר",
@@ -689,8 +689,8 @@
   "continue": "המשך",
   "continue_without_channels": "המשך ללא ערוצים",
   "watch_tutorial": "צפה במדריך",
-  "watch_tutorial_title": "למד כיצד להשתמש ב-Postiz",
-  "watch_tutorial_description": "צפה בסרטון הקצר הזה ולמד כיצד להפיק את המרב מ-Postiz",
+  "watch_tutorial_title": "למד כיצד להשתמש ב-Boto",
+  "watch_tutorial_description": "צפה בסרטון הקצר הזה ולמד כיצד להפיק את המרב מ-Boto",
   "back": "חזרה",
   "get_started": "התחלה"
 }

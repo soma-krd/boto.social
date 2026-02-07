@@ -560,7 +560,7 @@
   "select_channels": "Selecionar canais",
   "start_a_new_chat": "Iniciar um novo chat",
   "your_assistant": "Seu Assistente",
-  "agent_welcome_message": "Olá, sou seu agente Postiz 🙌🏻.\n\nPosso agendar uma publicação ou várias publicações para múltiplos canais e gerar imagens e vídeos.\n\nVocê pode selecionar os canais que deseja usar no menu à esquerda.\n\nVocê pode ver suas conversas anteriores no menu à direita.\n\nVocê também pode me usar como um Servidor MCP, confira Configurações >> API Pública",
+  "agent_welcome_message": "Olá, sou seu agente Boto 🙌🏻.\n\nPosso agendar uma publicação ou várias publicações para múltiplos canais e gerar imagens e vídeos.\n\nVocê pode selecionar os canais que deseja usar no menu à esquerda.\n\nVocê pode ver suas conversas anteriores no menu à direita.\n\nVocê também pode me usar como um Servidor MCP, confira Configurações >> API Pública",
   "last_github_trending": "Últimas tendências do Github",
   "next_predicted_github_trending": "Próxima tendência prevista do GitHub",
   "repository": "Repositório",
@@ -689,8 +689,8 @@
   "continue": "Continuar",
   "continue_without_channels": "Continuar sem canais",
   "watch_tutorial": "Assistir ao tutorial",
-  "watch_tutorial_title": "Aprenda a usar o Postiz",
-  "watch_tutorial_description": "Assista a este vídeo curto para aprender a tirar o máximo proveito do Postiz",
+  "watch_tutorial_title": "Aprenda a usar o Boto",
+  "watch_tutorial_description": "Assista a este vídeo curto para aprender a tirar o máximo proveito do Boto",
   "back": "Voltar",
   "get_started": "Começar"
 }
