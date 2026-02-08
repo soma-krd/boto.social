@@ -57,10 +57,10 @@ export const PublicComponent = () => {
           )}
         </a>
       </div>
-      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
-        <div className="flex flex-col">
-          <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
-            <div className="flex items-center">
+      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px]">
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px] flex-wrap mobile:flex-col mobile:items-stretch mobile:gap-3">
+            <div className="flex items-center min-w-0 break-all flex-1">
               {reveal ? (
                 user.publicApi
               ) : (
@@ -70,7 +70,7 @@ export const PublicComponent = () => {
                 </>
               )}
             </div>
-            <div>
+            <div className="shrink-0">
               {!reveal ? (
                 <Button onClick={() => setReveal(true)}>
                   {t('reveal', 'Reveal')}
@@ -93,8 +93,8 @@ export const PublicComponent = () => {
             'Connect Boto MCP server to your client (Http streaming) to schedule your posts faster.'
           )}
         </div>
-        <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
-          <div className="flex items-center">
+        <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px] flex-wrap mobile:flex-col mobile:items-stretch mobile:gap-3">
+          <div className="flex items-center min-w-0 break-all flex-1">
             {reveal2 ? (
               `${backendUrl}/mcp/` + user.publicApi
             ) : (
@@ -106,7 +106,7 @@ export const PublicComponent = () => {
               </>
             )}
           </div>
-          <div>
+          <div className="shrink-0">
             {!reveal2 ? (
               <Button onClick={() => setReveal2(true)}>
                 {t('reveal', 'Reveal')}
@@ -131,8 +131,8 @@ export const PublicComponent = () => {
           you added all your text and settings, the wizard will generate the
           payload for you.{'\n'}
         </div>
-        <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
-          <Button onClick={() => window.open(`${frontEndUrl}/modal/dark/all`, '_blank')}>
+        <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px]">
+          <Button className="mobile:w-full" onClick={() => window.open(`${frontEndUrl}/modal/dark/all`, '_blank')}>
             Open the payload wizard
           </Button>
         </div>

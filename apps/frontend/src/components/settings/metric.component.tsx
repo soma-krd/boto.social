@@ -32,7 +32,7 @@ const MetricComponent = () => {
     dayjs.tz.setDefault(value);
   };
   return (
-    <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] flex flex-col gap-[24px]">
+    <div className="my-[16px] mt-[16px] bg-sixth border-fifth border rounded-[4px] p-[24px] mobile:p-[16px] flex flex-col gap-[24px]">
       <div className="mt-[4px]">Date Metrics</div>
       <Select defaultValue='none' name="metric" disableForm={true} label="" onChange={changeMetric}>
         {dateMetrics.map((metric) => (

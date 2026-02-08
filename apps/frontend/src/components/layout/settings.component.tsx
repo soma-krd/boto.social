@@ -115,21 +115,21 @@ export const SettingsPopup: FC<{
   }, []);
 
   return (
-    <>
-      <div className="bg-newBgColorInner p-[20px] flex flex-col transition-all w-[260px]">
-        <div className="flex flex-1 flex-col gap-[15px]">
+    <div className="flex flex-1 min-w-0 w-full mobile:flex-col">
+      <div className="bg-newBgColorInner p-[20px] flex flex-col transition-all w-[260px] mobile:w-full mobile:shrink-0 mobile:border-b mobile:border-fifth">
+        <div className="flex flex-1 flex-col gap-[15px] mobile:flex-row mobile:overflow-x-auto mobile:gap-2 mobile:pb-2 mobile:flex-1 mobile:min-w-0">
           {list.map(({ tab: tabKey, label }) => (
             <div
               key={tabKey}
               className={clsx(
-                'cursor-pointer flex items-center gap-[12px] group/profile hover:bg-boxHover rounded-e-[8px]',
+                'cursor-pointer flex items-center gap-[12px] group/profile hover:bg-boxHover rounded-e-[8px] shrink-0',
                 tabKey === tab && 'bg-boxHover'
               )}
               onClick={() => setTab(tabKey)}
             >
               <div
                 className={clsx(
-                  'h-full w-[4px] rounded-s-[3px] opacity-0 group-hover/profile:opacity-100 transition-opacity',
+                  'h-full w-[4px] rounded-s-[3px] opacity-0 group-hover/profile:opacity-100 transition-opacity mobile:hidden',
                   tabKey === tab && 'opacity-100'
                 )}
               >
@@ -139,16 +139,14 @@ export const SettingsPopup: FC<{
             </div>
           ))}
         </div>
-        <div>
-          {showLogout && (
-            <div className="mt-4 flex flex-col gap-[12px]">
-              <UserInfo />
-              <LogoutComponent />
-            </div>
-          )}
-        </div>
+        {showLogout && (
+          <div className="mt-4 flex flex-col gap-[12px] mobile:mt-2">
+            <UserInfo />
+            <LogoutComponent />
+          </div>
+        )}
       </div>
-      <div className="bg-newBgColorInner flex-1 flex-col flex p-[20px] gap-[12px]">
+      <div className="bg-newBgColorInner flex-1 flex-col flex p-[20px] mobile:p-[12px] gap-[12px] min-w-0">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(submit)}>
             {!!getRef && (
@@ -207,7 +205,7 @@ export const SettingsPopup: FC<{
           </form>
         </FormProvider>
       </div>
-    </>
+    </div>
   );
 };
 export const SettingsComponent = () => {
@@ -219,7 +217,7 @@ export const SettingsComponent = () => {
     }
     settings.openModal({
       children: (
-        <div className="relative flex gap-[20px] flex-col flex-1 rounded-[4px] border border-customColor6 bg-sixth p-[16px] w-[500px] mx-auto">
+        <div className="relative flex gap-[20px] flex-col flex-1 rounded-[4px] border border-customColor6 bg-sixth p-[16px] w-[500px] mobile:w-full mobile:max-w-[100vw] mobile:mx-0 mx-auto">
           <SettingsPopup />
         </div>
       ),
