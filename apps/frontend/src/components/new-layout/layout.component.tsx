@@ -111,7 +111,7 @@ export const LayoutComponent = ({ children }: { children: ReactNode }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 bg-newBgLineColor rounded-[12px] mobile:rounded-b-none overflow-hidden flex flex-col gap-[1px] blurMe mobile:pb-[68px]">
+                  <div className="flex-1 bg-newBgLineColor rounded-[12px] mobile:rounded-b-none overflow-hidden flex flex-col gap-[1px] blurMe mobile:pb-[56px]">
                     <div className="flex bg-newBgColorInner h-[80px] mobile:h-[56px] px-[20px] mobile:px-[12px] items-center">
                       <div className="text-[24px] mobile:text-[18px] font-[600] flex flex-1">
                         <Title />
@@ -136,7 +136,7 @@ export const LayoutComponent = ({ children }: { children: ReactNode }) => {
                     <div className="flex flex-1 gap-[1px]">{children}</div>
                   </div>
                   {/* Mobile Bottom Navigation - Only visible on mobile */}
-                  <div className="hidden mobile:flex fixed bottom-0 left-0 right-0 h-[68px] bg-newBgColorInner border-t border-newBorder z-50 px-[8px]">
+                  <div className="hidden mobile:flex fixed bottom-0 left-0 right-0 h-[56px] bg-newBgColorInner border-t border-newBorder z-50 px-[8px]">
                     <MobileBottomNav />
                   </div>
                 </div>
