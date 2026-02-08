@@ -28,6 +28,7 @@ model Organization {
   github            GitHub[]
   Integration       Integration[]
   media             Media[]
+  mediaFolders      MediaFolder[]
   buyerOrganization MessagesGroup[]
   notifications     Notifications[]
   plugs             Plugs[]
@@ -202,11 +203,32 @@ model Star {
   @@unique([login, date])
 }
 
+model MediaFolder {
+  id             String       @id @default(uuid())
+  name           String
+  color          String       @default("#612BD3")
+  organizationId String
+  parentId       String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+  parent         MediaFolder? @relation("FolderHierarchy", fields: [parentId], references: [id])
+  children       MediaFolder[] @relation("FolderHierarchy")
+  media          Media[]
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([parentId])
+  @@index([deletedAt])
+}
+
 model Media {
   id                 String              @id @default(uuid())
   name               String
   path               String
   organizationId     String
+  folderId           String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   deletedAt          DateTime?
@@ -216,12 +238,14 @@ model Media {
   alt                String?
   thumbnailTimestamp Int?
   organization       Organization        @relation(fields: [organizationId], references: [id])
+  folder             MediaFolder?        @relation(fields: [folderId], references: [id])
   agencies           SocialMediaAgency[]
   userPicture        User[]
 
   @@index([name])
   @@index([organizationId])
   @@index([type])
+  @@index([folderId])
 }
 
 model SocialMediaAgency {

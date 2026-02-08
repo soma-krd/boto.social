@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { MediaRepository } from '@gitroom/nestjs-libraries/database/prisma/media/media.repository';
+import { MediaFolderRepository } from '@gitroom/nestjs-libraries/database/prisma/media/media-folder.repository';
 import { OpenaiService } from '@gitroom/nestjs-libraries/openai/openai.service';
 import { SubscriptionService } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/subscription.service';
 import { Organization } from '@prisma/client';
@@ -19,6 +20,7 @@ export class MediaService {
 
   constructor(
     private _mediaRepository: MediaRepository,
+    private _mediaFolderRepository: MediaFolderRepository,
     private _openAi: OpenaiService,
     private _subscriptionService: SubscriptionService,
     private _videoManager: VideoManager
@@ -52,12 +54,44 @@ export class MediaService {
     return generating;
   }
 
-  saveFile(org: string, fileName: string, filePath: string) {
-    return this._mediaRepository.saveFile(org, fileName, filePath);
+  saveFile(org: string, fileName: string, filePath: string, folderId?: string | null) {
+    return this._mediaRepository.saveFile(org, fileName, filePath, folderId);
   }
 
-  getMedia(org: string, page: number) {
-    return this._mediaRepository.getMedia(org, page);
+  getMedia(org: string, page: number, folderId?: string | null) {
+    return this._mediaRepository.getMedia(org, page, folderId);
+  }
+
+  moveMedia(org: string, mediaId: string, folderId: string | null) {
+    return this._mediaRepository.moveMedia(org, mediaId, folderId);
+  }
+
+  getFolders(org: string, parentId?: string | null) {
+    return this._mediaFolderRepository.getChildren(org, parentId ?? null);
+  }
+
+  getFolderTree(org: string) {
+    return this._mediaFolderRepository.getFolderTree(org);
+  }
+
+  getFolderPath(org: string, folderId: string | null) {
+    return this._mediaFolderRepository.getFolderPath(org, folderId);
+  }
+
+  createFolder(org: string, name: string, parentId?: string | null, color?: string) {
+    return this._mediaFolderRepository.createFolder(org, name, parentId ?? null, color);
+  }
+
+  renameFolder(org: string, id: string, name: string) {
+    return this._mediaFolderRepository.renameFolder(org, id, name);
+  }
+
+  deleteFolder(org: string, id: string) {
+    return this._mediaFolderRepository.deleteFolder(org, id);
+  }
+
+  moveFolder(org: string, id: string, newParentId: string | null) {
+    return this._mediaFolderRepository.moveFolder(org, id, newParentId);
   }
 
   saveMediaInformation(org: string, data: SaveMediaInformationDto) {

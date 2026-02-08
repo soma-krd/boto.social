@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -89,13 +90,15 @@ export class MediaController {
   @UsePipes(new CustomFileValidationPipe())
   async uploadServer(
     @GetOrgFromRequest() org: Organization,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
+    @Body('folderId') folderId?: string
   ) {
     const uploadedFile = await this.storage.uploadFile(file);
     return this._mediaService.saveFile(
       org.id,
       uploadedFile.originalname,
-      uploadedFile.path
+      uploadedFile.path,
+      folderId ?? undefined
     );
   }
 
@@ -103,7 +106,8 @@ export class MediaController {
   async saveMedia(
     @GetOrgFromRequest() org: Organization,
     @Req() req: Request,
-    @Body('name') name: string
+    @Body('name') name: string,
+    @Body('folderId') folderId?: string
   ) {
     if (!name) {
       return false;
@@ -111,7 +115,8 @@ export class MediaController {
     return this._mediaService.saveFile(
       org.id,
       name,
-      process.env.CLOUDFLARE_BUCKET_URL + '/' + name
+      process.env.CLOUDFLARE_BUCKET_URL + '/' + name,
+      folderId ?? undefined
     );
   }
 
@@ -128,7 +133,8 @@ export class MediaController {
   async uploadSimple(
     @GetOrgFromRequest() org: Organization,
     @UploadedFile('file') file: Express.Multer.File,
-    @Body('preventSave') preventSave: string = 'false'
+    @Body('preventSave') preventSave: string = 'false',
+    @Body('folderId') folderId?: string
   ) {
     const getFile = await this.storage.uploadFile(file);
 
@@ -140,8 +146,19 @@ export class MediaController {
     return this._mediaService.saveFile(
       org.id,
       getFile.originalname,
-      getFile.path
+      getFile.path,
+      folderId ?? undefined
     );
+  }
+
+  @Post('/folders')
+  createFolder(
+    @GetOrgFromRequest() org: Organization,
+    @Body('name') name: string,
+    @Body('parentId') parentId?: string,
+    @Body('color') color?: string
+  ) {
+    return this._mediaService.createFolder(org.id, name, parentId ?? null, color);
   }
 
   @Post('/:endpoint')
@@ -158,12 +175,14 @@ export class MediaController {
 
     // @ts-ignore
     const name = upload.Location.split('/').pop();
+    const folderId = req.body?.folderId;
 
     const saveFile = await this._mediaService.saveFile(
       org.id,
       name,
       // @ts-ignore
-      upload.Location
+      upload.Location,
+      folderId
     );
 
     res.status(200).json({ ...upload, saved: saveFile });
@@ -172,9 +191,59 @@ export class MediaController {
   @Get('/')
   getMedia(
     @GetOrgFromRequest() org: Organization,
-    @Query('page') page: number
+    @Query('page') page: number,
+    @Query('folderId') folderId?: string
   ) {
-    return this._mediaService.getMedia(org.id, page);
+    return this._mediaService.getMedia(org.id, page ?? 1, folderId ?? undefined);
+  }
+
+  @Get('/folders')
+  getFolders(
+    @GetOrgFromRequest() org: Organization,
+    @Query('parentId') parentId?: string
+  ) {
+    return this._mediaService.getFolders(org.id, parentId ?? null);
+  }
+
+  @Get('/folders/:id/path')
+  getFolderPath(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    return this._mediaService.getFolderPath(org.id, id);
+  }
+
+  @Patch('/folders/:id')
+  updateFolder(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string,
+    @Body('name') name?: string,
+    @Body('parentId') parentId?: string
+  ) {
+    if (name !== undefined) {
+      return this._mediaService.renameFolder(org.id, id, name);
+    }
+    if (parentId !== undefined) {
+      return this._mediaService.moveFolder(org.id, id, parentId);
+    }
+    return this._mediaService.getFolders(org.id, null);
+  }
+
+  @Delete('/folders/:id')
+  deleteFolder(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    return this._mediaService.deleteFolder(org.id, id);
+  }
+
+  @Patch('/:id/move')
+  moveMedia(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string,
+    @Body('folderId') folderId: string | null
+  ) {
+    return this._mediaService.moveMedia(org.id, id, folderId ?? null);
   }
 
   @Get('/video-options')
