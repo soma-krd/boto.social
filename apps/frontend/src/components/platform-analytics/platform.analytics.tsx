@@ -8,7 +8,7 @@ import ImageWithFallback from '@gitroom/react/helpers/image.with.fallback';
 import Image from 'next/image';
 import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { RenderAnalytics } from '@gitroom/frontend/components/platform-analytics/render.analytics';
-import { Select } from '@gitroom/react/form/select';
+import { Select } from '@mantine/core';
 import { Button } from '@gitroom/react/form/button';
 import { useRouter } from 'next/navigation';
 import { useToaster } from '@gitroom/react/toaster/toaster';
@@ -288,18 +288,14 @@ export const PlatformAnalytics = () => {
           <div className="flex-1 flex flex-col gap-[14px]">
             <div className="max-w-[200px]">
               <Select
-                label=""
-                name="date"
-                disableForm={true}
-                hideErrors={true}
-                onChange={(e) => setKey(+e.target.value)}
-              >
-                {options.map((option) => (
-                  <option key={option.key} value={option.key}>
-                    {option.value}
-                  </option>
-                ))}
-              </Select>
+                value={String(keys)}
+                onChange={(v) => v && setKey(+v)}
+                data={options.map((o) => ({ value: String(o.key), label: o.value }))}
+                classNames={{
+                  input:
+                    'h-[42px] bg-newBgColorInner border border-newTableBorder rounded-[8px] text-[14px]',
+                }}
+              />
             </div>
             <div className="flex-1">
               {!!keys && !!currentIntegration && !refresh && (
