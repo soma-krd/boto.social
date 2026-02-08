@@ -1,7 +1,7 @@
 'use client';
 
 import { AddProviderButton } from '@gitroom/frontend/components/launches/add.provider.component';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { groupBy, orderBy } from 'lodash';
 import { CalendarWeekProvider } from '@gitroom/frontend/components/launches/calendar.context';
@@ -10,7 +10,7 @@ import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
 import clsx from 'clsx';
 import { useUser } from '../layout/user.context';
-import { Menu } from '@gitroom/frontend/components/launches/menu/menu';
+import { Menu, MenuRef } from '@gitroom/frontend/components/launches/menu/menu';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Integration } from '@prisma/client';
 import ImageWithFallback from '@gitroom/react/helpers/image.with.fallback';
@@ -235,6 +235,15 @@ export const MenuComponent: FC<
   } = props;
   const user = useUser();
   const t = useT();
+  const menuRef = useRef<MenuRef>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1025px)');
+    const handler = () => setIsMobile(mql.matches);
+    handler();
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
   const [collected, drag, dragPreview] = useDrag(() => ({
     type: 'menu',
     item: {
@@ -250,6 +259,9 @@ export const MenuComponent: FC<
         'data-tooltip-id': 'tooltip',
         'data-tooltip-content': t('channel_disconnected_click_to_reconnect', 'Channel disconnected, click to reconnect.'),
       })}
+      {...(isMobile && !integration.refreshNeeded && {
+        onClick: () => menuRef.current?.open(),
+      })}
       {...(collapsed
         ? {
             'data-tooltip-id': 'tooltip',
@@ -259,7 +271,7 @@ export const MenuComponent: FC<
       key={integration.id}
       className={clsx(
         'flex gap-[12px] items-center bg-newBgColorInner hover:bg-boxHover group/profile transition-all rounded-e-[8px]',
-        integration.refreshNeeded && 'cursor-pointer'
+        (integration.refreshNeeded || isMobile) && 'cursor-pointer'
       )}
     >
       <div
@@ -330,6 +342,7 @@ export const MenuComponent: FC<
         {integration.name}
       </div>
       <Menu
+        ref={menuRef}
         canChangeProfilePicture={integration.changeProfilePicture}
         canChangeNickName={integration.changeNickName}
         refreshChannel={refreshChannel}

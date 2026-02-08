@@ -1,9 +1,10 @@
 'use client';
 
 import React, {
-  FC,
+  forwardRef,
   MouseEventHandler,
   useCallback,
+  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -31,20 +32,27 @@ import dayjs from 'dayjs';
 import { ModalWrapperComponent } from '@gitroom/frontend/components/new-launch/modal.wrapper.component';
 import copy from 'copy-to-clipboard';
 
-export const Menu: FC<{
-  canEnable: boolean;
-  canDisable: boolean;
-  canChangeProfilePicture: boolean;
-  canChangeNickName: boolean;
-  refreshChannel: (
-    integration: Integration & {
-      identifier: string;
-    }
-  ) => () => void;
-  id: string;
-  mutate: () => void;
-  onChange: (shouldReload: boolean) => void;
-}> = (props) => {
+export interface MenuRef {
+  open: () => void;
+}
+
+export const Menu = forwardRef<
+  MenuRef,
+  {
+    canEnable: boolean;
+    canDisable: boolean;
+    canChangeProfilePicture: boolean;
+    canChangeNickName: boolean;
+    refreshChannel: (
+      integration: Integration & {
+        identifier: string;
+      }
+    ) => () => void;
+    id: string;
+    mutate: () => void;
+    onChange: (shouldReload: boolean) => void;
+  }
+>(function Menu(props, forwardedRef) {
   const {
     canEnable,
     canDisable,
@@ -67,25 +75,39 @@ export const Menu: FC<{
   const ref = useClickOutside<HTMLDivElement>(() => {
     setShow(false);
   });
-  const showRef = useRef();
 
-  // Adjust menu position if it would overflow viewport
+  // Adjust menu position if it would overflow viewport (horizontal and vertical)
   useLayoutEffect(() => {
     if (show && menuRef.current) {
       const menuRect = menuRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       const padding = 10;
 
-      // Check if menu overflows bottom of viewport
+      let newX = show.x;
+      let newY = show.y;
+
+      // Clamp horizontal: keep menu within viewport
+      if (menuRect.left < padding) {
+        newX = padding;
+      } else if (menuRect.right > viewportWidth - padding) {
+        newX = viewportWidth - menuRect.width - padding;
+      }
+
+      // Clamp vertical: bottom overflow
       if (menuRect.bottom > viewportHeight - padding) {
-        const newY = Math.max(
+        newY = Math.max(
           padding,
           viewportHeight - menuRect.height - padding
         );
-        // Only update if position actually changed significantly to avoid infinite loop
-        if (Math.abs(show.y - newY) > 1) {
-          setShow((prev) => (prev ? { ...prev, y: newY } : false));
-        }
+      }
+      // Clamp vertical: top overflow
+      if (menuRect.top < padding) {
+        newY = padding;
+      }
+
+      if (Math.abs(show.x - newX) > 1 || Math.abs(show.y - newY) > 1) {
+        setShow((prev) => (prev ? { ...prev, x: newX, y: newY } : false));
       }
     }
   }, [show]);
@@ -95,16 +117,31 @@ export const Menu: FC<{
   const changeShow: MouseEventHandler<HTMLDivElement> = useCallback(
     (e) => {
       e.stopPropagation();
-      // @ts-ignore
-      const boundBox = showRef?.current?.getBoundingClientRect();
+      const boundBox = ref.current?.getBoundingClientRect();
       setShow(
         show
           ? false
-          : { x: boundBox?.left, y: boundBox?.top + boundBox?.height }
+          : {
+              x: boundBox?.left ?? 0,
+              y: (boundBox?.top ?? 0) + (boundBox?.height ?? 0),
+            }
       );
     },
-    [show]
+    [show, ref]
   );
+
+  const open = useCallback(() => {
+    if (ref.current) {
+      const boundBox = ref.current.getBoundingClientRect();
+      setShow({
+        x: boundBox.left,
+        y: boundBox.top + boundBox.height,
+      });
+    }
+  }, [ref]);
+
+  useImperativeHandle(forwardedRef, () => ({ open }), [open]);
+
   const disableChannel = useCallback(async () => {
     if (
       !(await deleteDialog(
@@ -330,19 +367,16 @@ export const Menu: FC<{
           fill="currentColor"
         />
       </svg>
-      <div>
-        <div ref={showRef} />
-      </div>
       {show && (
         <div
           ref={menuRef}
           onClick={(e) => e.stopPropagation()}
           style={{ left: show.x, top: show.y }}
-          className={`fixed p-[12px] bg-newBgColorInner shadow-menu flex flex-col gap-[16px] z-[100] rounded-[8px] border border-tableBorder text-nowrap`}
+          className={`fixed p-[12px] bg-newBgColorInner shadow-menu flex flex-col gap-[16px] z-[200] rounded-[8px] border border-tableBorder text-nowrap`}
         >
           {canDisable && !findIntegration?.refreshNeeded && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={createPost(findIntegration!)}
             >
               <div>
@@ -365,7 +399,7 @@ export const Menu: FC<{
             </div>
           )}
           <div
-            className="flex gap-[12px] items-center py-[8px] px-[10px]"
+            className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
             onClick={copyChannelId(findIntegration)}
           >
             <div>
@@ -396,7 +430,7 @@ export const Menu: FC<{
             findIntegration?.refreshNeeded &&
             !findIntegration.customFields && (
               <div
-                className="flex gap-[12px] items-center py-[8px] px-[10px]"
+                className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
                 onClick={refreshChannel(findIntegration!)}
               >
                 <div>
@@ -420,7 +454,7 @@ export const Menu: FC<{
             )}
           {!!findIntegration?.isCustomFields && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={updateCredentials}
             >
               <div>
@@ -444,7 +478,7 @@ export const Menu: FC<{
           )}
           {findIntegration?.additionalSettings !== '[]' && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={additionalSettings}
             >
               <div>
@@ -468,7 +502,7 @@ export const Menu: FC<{
           )}
           {(canChangeProfilePicture || canChangeNickName) && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={changeBotPicture}
             >
               <div>
@@ -497,7 +531,7 @@ export const Menu: FC<{
             </div>
           )}
           <div
-            className="flex gap-[12px] items-center py-[8px] px-[10px]"
+            className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
             onClick={addToCustomer}
           >
             <div>
@@ -519,7 +553,7 @@ export const Menu: FC<{
             </div>
           </div>
           <div
-            className="flex gap-[12px] items-center py-[8px] px-[10px]"
+            className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
             onClick={editTimeTable}
           >
             <div>
@@ -542,7 +576,7 @@ export const Menu: FC<{
           </div>
           {canEnable && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={enableChannel}
             >
               <div>
@@ -567,7 +601,7 @@ export const Menu: FC<{
 
           {canDisable && (
             <div
-              className="flex gap-[12px] items-center py-[8px] px-[10px]"
+              className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
               onClick={disableChannel}
             >
               <div>
@@ -591,7 +625,7 @@ export const Menu: FC<{
           )}
 
           <div
-            className="flex gap-[12px] items-center py-[8px] px-[10px]"
+            className="flex gap-[12px] items-center py-[8px] px-[10px] mobile:min-h-[44px]"
             onClick={deleteChannel}
           >
             <div>
@@ -614,4 +648,4 @@ export const Menu: FC<{
       )}
     </div>
   );
-};
+});
