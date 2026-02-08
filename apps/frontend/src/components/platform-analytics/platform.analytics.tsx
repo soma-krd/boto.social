@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { capitalize, orderBy } from 'lodash';
 import clsx from 'clsx';
 import ImageWithFallback from '@gitroom/react/helpers/image.with.fallback';
@@ -39,7 +39,18 @@ export const PlatformAnalytics = () => {
   const [key, setKey] = useState(7);
   const [refresh, setRefresh] = useState(false);
   const [collapseMenu, setCollapseMenu] = useCookie('collapseMenu', '0');
+  const [isMobile, setIsMobile] = useState(false);
   const toaster = useToaster();
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1025px)');
+    const handler = () => setIsMobile(mql.matches);
+    handler();
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  const isCollapsed = isMobile || collapseMenu === '1';
   const load = useCallback(async () => {
     const int = (
       await (await fetch('/integrations/list')).json()
@@ -175,7 +186,7 @@ export const PlatformAnalytics = () => {
       <div
         className={clsx(
           'bg-newBgColorInner p-[20px] flex flex-col gap-[15px] transition-all',
-          collapseMenu === '1' ? 'group sidebar w-[100px]' : 'w-[260px]'
+          isCollapsed ? 'group sidebar w-[100px]' : 'w-[260px]'
         )}
       >
         <div className="flex gap-[12px] flex-col">

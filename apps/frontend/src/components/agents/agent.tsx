@@ -4,6 +4,7 @@ import React, {
   createContext,
   FC,
   useCallback,
+  useEffect,
   useMemo,
   useState,
   ReactNode,
@@ -72,6 +73,17 @@ export const AgentList: FC<{ onChange: (arr: any[]) => void }> = ({
   }, []);
 
   const [collapseMenu, setCollapseMenu] = useCookie('collapseMenu', '0');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1025px)');
+    const handler = () => setIsMobile(mql.matches);
+    handler();
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  const isCollapsed = isMobile || collapseMenu === '1';
 
   const { data } = useSWR('integrations', load, {
     revalidateOnFocus: false,
@@ -108,7 +120,7 @@ export const AgentList: FC<{ onChange: (arr: any[]) => void }> = ({
     <div
       className={clsx(
         'trz bg-newBgColorInner flex flex-col gap-[15px] transition-all relative',
-        collapseMenu === '1' ? 'group sidebar w-[100px]' : 'w-[260px]'
+        isCollapsed ? 'group sidebar w-[100px]' : 'w-[260px]'
       )}
     >
       <div className="absolute top-0 start-0 w-full h-full p-[20px] overflow-auto scrollbar scrollbar-thumb-fifth scrollbar-track-newBgColor">
