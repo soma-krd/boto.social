@@ -121,7 +121,7 @@ export const PublicComponent = () => {
       </div>
 
       <div className="flex flex-col">
-        <h3 className="text-[20px]">Building your Boto payload</h3>
+        <h3 className="text-[20px]">{t('building_your_boto_payload', 'Building your Boto payload')}</h3>
         <div className="text-customColor18 mt-[4px] whitespace-pre-line">
           Sending a POST request to <strong className="text-textColor">/posts</strong> might feel a bit overwhelming as many
           platforms have different requirements.{'\n'}

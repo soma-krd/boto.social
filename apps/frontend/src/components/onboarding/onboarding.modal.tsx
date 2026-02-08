@@ -266,7 +266,7 @@ const OnboardingStep2: FC<{ onBack: () => void; onFinish: () => void }> = ({
           <iframe
             className="h-full aspect-video"
             src="https://www.youtube.com/embed/BdsCVvEYgHU?si=vvhaZJ8I5oXXvVJS?autoplay=1"
-            title="Boto Tutorial"
+            title={t('boto_tutorial', 'Boto Tutorial')}
             allow="autoplay"
             allowFullScreen
           />

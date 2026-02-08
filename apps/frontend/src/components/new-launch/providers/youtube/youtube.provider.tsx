@@ -12,6 +12,7 @@ import { MediumTags } from '@gitroom/frontend/components/new-launch/providers/me
 import { MediaComponent } from '@gitroom/frontend/components/media/media.component';
 import { Select } from '@gitroom/react/form/select';
 import { YoutubePreview } from '@gitroom/frontend/components/new-launch/providers/youtube/youtube.preview';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 const type = [
   {
     label: 'Public',
@@ -39,41 +40,42 @@ const madeForKids = [
 ];
 const YoutubeSettings: FC = () => {
   const { register, control } = useSettings();
+  const t = useT();
   return (
     <div className="flex flex-col">
-      <Input label="Title" {...register('title')} maxLength={100} />
+      <Input label={t('title', 'Title')} {...register('title')} maxLength={100} />
       <Select
-        label="Type"
+        label={t('label_type', 'Type')}
         {...register('type', {
           value: 'public',
         })}
       >
-        {type.map((t) => (
-          <option key={t.value} value={t.value}>
-            {t.label}
+        {type.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
           </option>
         ))}
       </Select>
       <Select
-        label="Made for kids"
+        label={t('label_made_for_kids', 'Made for kids')}
         {...register('selfDeclaredMadeForKids', {
           value: 'no',
         })}
       >
-        {madeForKids.map((t) => (
-          <option key={t.value} value={t.value}>
-            {t.label}
+        {madeForKids.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
           </option>
         ))}
       </Select>
-      <MediumTags label="Tags" {...register('tags')} />
+      <MediumTags label={t('label_tags', 'Tags')} {...register('tags')} />
       <div className="mt-[20px]">
         <MediaComponent
           type="image"
           width={1280}
           height={720}
-          label="Thumbnail"
-          description="Thumbnail picture (optional)"
+          label={t('label_thumbnail', 'Thumbnail')}
+          description={t('label_thumbnail_optional', 'Thumbnail picture (optional)')}
           {...register('thumbnail')}
         />
       </div>
