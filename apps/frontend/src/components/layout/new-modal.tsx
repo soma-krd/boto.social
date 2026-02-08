@@ -408,6 +408,10 @@ export const useDecisionModal = () => {
         modals.openModal({
           title,
           askClose: false,
+          size: 'min(720px, calc(100vw - 48px))',
+          classNames: {
+            modal: 'mobile:p-[16px]',
+          },
           onClose: () => res(false),
           children: (
             <DecisionModal

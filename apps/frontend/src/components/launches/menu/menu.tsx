@@ -210,6 +210,10 @@ export const Menu = forwardRef<
       closeOnClickOutside: false,
       askClose: true,
       title: t('time_table_slots', 'Time Table Slots'),
+      size: 'min(720px, calc(100vw - 48px))',
+      classNames: {
+        modal: 'mobile:p-[16px]',
+      },
       children: <TimeTable integration={findIntegration!} mutate={mutate} />,
     });
     setShow(false);
@@ -270,9 +274,9 @@ export const Menu = forwardRef<
     );
     modal.openModal({
       classNames: {
-        modal: 'w-[100%] max-w-[600px] bg-transparent text-textColor',
+        modal: 'w-full max-w-[600px] mobile:w-full mobile:max-w-full mobile:p-[16px] bg-transparent text-textColor',
       },
-      size: '100%',
+      size: 'min(600px, calc(100vw - 48px))',
       withCloseButton: false,
       closeOnEscape: true,
       closeOnClickOutside: true,
@@ -293,6 +297,10 @@ export const Menu = forwardRef<
     );
     modal.openModal({
       title: t('additional_settings', 'Additional Settings'),
+      size: 'min(720px, calc(100vw - 48px))',
+      classNames: {
+        modal: 'mobile:p-[16px]',
+      },
       children: (
         <SettingsModal
           // @ts-ignore
@@ -311,8 +319,9 @@ export const Menu = forwardRef<
       (integration) => integration.id === id
     );
     modal.openModal({
+      size: 'min(720px, calc(100vw - 48px))',
       classNames: {
-        modal: 'md',
+        modal: 'mobile:p-[16px]',
       },
       title: t('move_add_to_customer', 'Move / Add to customer'),
       withCloseButton: false,
@@ -335,8 +344,9 @@ export const Menu = forwardRef<
     modal.openModal({
       title: t('custom_url', 'Custom URL'),
       withCloseButton: false,
+      size: 'min(720px, calc(100vw - 48px))',
       classNames: {
-        modal: 'md',
+        modal: 'mobile:p-[16px]',
       },
       children: (
         <CustomVariables
