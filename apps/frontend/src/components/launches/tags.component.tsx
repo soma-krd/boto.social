@@ -161,7 +161,7 @@ export const TagsComponentInner: FC<{
     <div
       ref={ref}
       className={clsx(
-        'border rounded-[8px] justify-center flex items-center relative h-[44px] text-[15px] font-[600] select-none min-w-0 overflow-hidden',
+        'border rounded-[8px] justify-center flex items-center relative h-[44px] text-[15px] font-[600] select-none min-w-0',
         isOpen ? 'border-[#612BD3]' : 'border-newTextColor/10'
       )}
     >

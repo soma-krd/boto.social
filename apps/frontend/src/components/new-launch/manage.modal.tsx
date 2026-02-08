@@ -443,11 +443,14 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
 
   return (
     <div className="w-full h-full flex-1 min-h-0 min-w-0 max-w-full overflow-x-hidden p-[40px] mobile:p-[12px] tablet:p-[24px] flex relative">
-      <div className="flex flex-1 min-h-0 min-w-0 bg-newBgColorInner rounded-[20px] mobile:rounded-[12px] flex-col overflow-hidden">
-        <div className="flex-1 flex min-h-0 mobile:flex-col">
-          <div className="flex flex-col flex-1 min-h-0 min-w-0 border-e mobile:border-e-0 mobile:border-b border-newBorder">
+      <div className="flex flex-1 min-h-0 min-w-0 bg-newBgColorInner rounded-[20px] mobile:rounded-[12px] flex-col overflow-hidden mobile:!overflow-y-auto">
+        <div className="flex-1 flex min-h-0 mobile:flex-col mobile:flex-none">
+          <div className="flex flex-col flex-1 min-h-0 min-w-0 border-e mobile:border-e-0 mobile:border-b border-newBorder mobile:min-h-[60vh]">
             <div className="bg-newBgColor h-[65px] mobile:h-[56px] rounded-s-[20px] mobile:rounded-t-[12px] mobile:rounded-s-none !rounded-b-[0] flex items-center px-[20px] mobile:px-[16px] text-[20px] mobile:text-[18px] font-[600]">
-              {t('create_post_title', 'Create Post')}
+              <div className="flex-1">{t('create_post_title', 'Create Post')}</div>
+              <div className="hidden mobile:block cursor-pointer">
+                <CloseIcon onClick={askClose} className="text-[#A3A3A3]" />
+              </div>
             </div>
             <div className="flex-1 flex flex-col gap-[16px] min-h-0">
               <div
@@ -531,7 +534,7 @@ export const ManageModal: FC<AddEditModalProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className="w-[580px] mobile:w-full tablet:w-[400px] flex flex-col min-h-0">
+          <div className="w-[580px] mobile:w-full mobile:min-h-[50vh] tablet:w-[400px] flex flex-col min-h-0">
             <div className="bg-newBgColor h-[65px] mobile:h-[56px] rounded-e-[20px] mobile:rounded-e-none mobile:rounded-b-[12px] !rounded-b-[0] flex items-center px-[20px] mobile:px-[16px] text-[20px] mobile:text-[18px] font-[600]">
               <div className="flex-1">{t('post_preview', 'Post Preview')}</div>
               <div className="cursor-pointer">
