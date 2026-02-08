@@ -74,7 +74,7 @@ We now give a few options to Sponsor Boto:
 - Main Repository: Get your logo with a backlink from the main Boto repository. Boto has almost 3m downloads and 20k views per month.
 - Main Repository + Website: Get your logo on the central repository and the main website. Here are some metrics: - Website has 20k hits per month + 65 DR (strong backlink) - Repository has 20k hits per month + Almost 3m docker downloads.
 
-Link: https://opencollective.com/boto
+Link: https://opencollective.com/boto-social
 
 ## Boto Compliance
 

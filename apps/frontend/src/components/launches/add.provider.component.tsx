@@ -313,8 +313,9 @@ export const AddProviderComponent: FC<{
           modal.openModal({
             title: `Add ${capitalize(identifier)}`,
             withCloseButton: true,
+            size: 'min(720px, calc(100vw - 48px))',
             classNames: {
-              modal: 'bg-transparent text-textColor',
+              modal: 'mobile:p-[16px] text-textColor',
             },
             children: (
               <Web3Providers

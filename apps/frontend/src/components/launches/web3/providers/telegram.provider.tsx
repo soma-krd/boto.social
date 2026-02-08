@@ -64,18 +64,18 @@ export const TelegramProvider: FC<Web3ProviderInterface> = (props) => {
   }, []);
   return (
     <>
-      <div className="justify-center items-center flex flex-col pt-[16px]">
-        <div>
+      <div className="flex flex-col gap-4 w-full max-w-full min-w-0 pt-[16px] px-2 mobile:px-4">
+        <div className="text-center break-words">
           {t('please_add', 'Please add')} <strong>@{telegramBotName}</strong>{' '}
           {t(
             'to_your_telegram_group_channel_and_click_here',
-            'to your\n          telegram group / channel and click here:'
+            'to your telegram group / channel and click here:'
           )}
         </div>
         {!step ? (
-          <div className="w-full mt-[16px]" onClick={loadAll}>
+          <div className="w-full min-w-0" onClick={loadAll}>
             <div
-              className={`cursor-pointer bg-[#2EA6DD] h-[44px] rounded-[4px] flex justify-center items-center text-white gap-[4px]`}
+              className="cursor-pointer bg-[#2EA6DD] h-[44px] rounded-[4px] flex justify-center items-center text-white gap-[4px] w-full min-w-0"
             >
               <svg
                 width="51"
@@ -101,13 +101,15 @@ export const TelegramProvider: FC<Web3ProviderInterface> = (props) => {
             </div>
           </div>
         ) : (
-          <div className="w-full text-center" onClick={copyText}>
-            {t(
-              'please_add_the_following_command_in_your_chat',
-              'Please add the following command in your chat:'
-            )}
-            <div className="mt-[16px] flex">
-              <div className="flex-1">
+          <div className="w-full min-w-0 flex flex-col gap-4 text-center" onClick={copyText}>
+            <div>
+              {t(
+                'please_add_the_following_command_in_your_chat',
+                'Please add the following command in your chat:'
+              )}
+            </div>
+            <div className="flex flex-col mobile:flex-row gap-2 w-full min-w-0">
+              <div className="flex-1 min-w-0">
                 <Input
                   label=""
                   value={`/connect ${word.current}`}
@@ -115,7 +117,7 @@ export const TelegramProvider: FC<Web3ProviderInterface> = (props) => {
                   disableForm={true}
                 />
               </div>
-              <Button>{t('copy', 'Copy')}</Button>
+              <Button className="mobile:flex-shrink-0">{t('copy', 'Copy')}</Button>
             </div>
           </div>
         )}

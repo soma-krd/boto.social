@@ -97,7 +97,7 @@ export const MobileBottomNav: FC = () => {
         size="auto"
         withCloseButton={false}
         classNames={{
-          content: 'rounded-t-[16px] bg-newBgColorInner border-t border-newBorder',
+          drawer: 'rounded-t-[16px] bg-newBgColorInner border-t border-newBorder',
           body: 'p-[16px] pb-[calc(16px+env(safe-area-inset-bottom))]',
         }}
       >
