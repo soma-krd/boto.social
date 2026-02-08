@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 // @ts-ignore
 import Uppy, { BasePlugin, UploadResult, UppyFile } from '@uppy/core';
 // @ts-ignore
@@ -41,13 +41,17 @@ export function useUppyUploader(props: {
   onStart: () => void;
   onEnd: () => void;
   allowedFileTypes: string;
+  folderId?: string | null;
 }) {
   const setLocked = useLaunchStore((state) => state.setLocked);
   const toast = useToaster();
   const { storageProvider, backendUrl, disableImageCompression, transloadit } =
     useVariables();
-  const { onUploadSuccess, allowedFileTypes } = props;
+  const { onUploadSuccess, allowedFileTypes, folderId } = props;
   const fetch = useFetch();
+  const folderIdRef = useRef<string | null | undefined>(folderId);
+  folderIdRef.current = folderId;
+  const getFolderId = useCallback(() => folderIdRef.current, []);
   return useMemo(() => {
     // Track file order to maintain original sequence after upload
     let fileOrderIndex = 0;
@@ -171,7 +175,8 @@ export function useUppyUploader(props: {
       transloadit.length > 0 ? 'transloadit' : storageProvider,
       fetch,
       backendUrl,
-      transloadit
+      transloadit,
+      getFolderId
     );
 
     uppy2.use(plugin, options);
@@ -236,14 +241,17 @@ export function useUppyUploader(props: {
           (item) => item.name
         );
 
+        const folderIdToUse = getFolderId();
         const loadAllMedia = (
           await Promise.all(
             toSave.map(async ({ name, order }) => ({
               file: await (
                 await fetch('/media/save-media', {
                   method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     name,
+                    ...(folderIdToUse != null && { folderId: folderIdToUse }),
                   }),
                 })
               ).json(),
@@ -278,5 +286,5 @@ export function useUppyUploader(props: {
       });
     });
     return uppy2;
-  }, []);
+  }, [getFolderId]);
 }

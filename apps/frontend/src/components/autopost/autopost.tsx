@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, Fragment, useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import useSWR from 'swr';
 import { Button } from '@gitroom/react/form/button';
@@ -77,41 +77,53 @@ export const Autopost: FC = () => {
           'Autopost can automatically posts your RSS new items to social media'
         )}
       </div>
-      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] flex gap-[24px]">
+      <div className="my-[16px] mt-[16px] bg-sixth border-fifth items-center border rounded-[4px] p-[24px] mobile:p-[16px] flex gap-[24px]">
         <div className="flex flex-col w-full">
           {!!data?.length && (
-            <div className="grid grid-cols-[1fr,1fr,1fr,1fr,1fr] w-full gap-y-[10px]">
-              <div>{t('title', 'Title')}</div>
-              <div>{t('url', 'URL')}</div>
-              <div>{t('edit', 'Edit')}</div>
-              <div>{t('delete', 'Delete')}</div>
-              <div>{t('active', 'Active')}</div>
+            <div className="grid grid-cols-[1fr,1fr,1fr,1fr,1fr] w-full gap-y-[10px] mobile:flex mobile:flex-col mobile:gap-[16px]">
+              <div className="mobile:hidden">{t('title', 'Title')}</div>
+              <div className="mobile:hidden">{t('url', 'URL')}</div>
+              <div className="mobile:hidden">{t('edit', 'Edit')}</div>
+              <div className="mobile:hidden">{t('delete', 'Delete')}</div>
+              <div className="mobile:hidden">{t('active', 'Active')}</div>
               {data?.map((p: any) => (
-                <Fragment key={p.id}>
-                  <div className="flex flex-col justify-center">{p.title}</div>
-                  <div className="flex flex-col justify-center">{p.url}</div>
-                  <div className="flex flex-col justify-center">
-                    <div>
-                      <Button onClick={addWebhook(p)}>
+                <div
+                  key={p.id}
+                  className="contents mobile:flex mobile:flex-col mobile:bg-tableBorder/20 mobile:p-[12px] mobile:rounded-[8px]"
+                >
+                  <div className="flex flex-col justify-center mobile:mb-[8px]">
+                    <span className="hidden mobile:inline text-[12px] text-customColor18 mr-2">{t('title', 'Title')}:</span>
+                    <span className="truncate">{p.title}</span>
+                  </div>
+                  <div className="flex flex-col justify-center mobile:mb-[8px] min-w-0">
+                    <span className="hidden mobile:inline text-[12px] text-customColor18 mr-2">{t('url', 'URL')}:</span>
+                    <span className="truncate break-all">{p.url}</span>
+                  </div>
+                  <div className="contents mobile:flex mobile:flex-row mobile:gap-[8px] mobile:mt-[4px]">
+                    <div className="flex flex-col justify-center">
+                      <Button className="mobile:w-full" onClick={addWebhook(p)}>
                         {t('edit', 'Edit')}
                       </Button>
                     </div>
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    <div>
-                      <Button onClick={deleteHook(p)}>
+                    <div className="flex flex-col justify-center">
+                      <Button
+                        className="mobile:w-full"
+                        onClick={deleteHook(p)}
+                        secondary={true}
+                      >
                         {t('delete', 'Delete')}
                       </Button>
                     </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col justify-center mobile:mt-[8px]">
+                    <span className="hidden mobile:inline text-[12px] text-customColor18 mb-2">{t('active', 'Active')}:</span>
                     <Slider
                       value={p.active ? 'on' : 'off'}
                       onChange={changeActive(p)}
                       fill={true}
                     />
                   </div>
-                </Fragment>
+                </div>
               ))}
             </div>
           )}

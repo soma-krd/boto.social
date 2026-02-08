@@ -12,6 +12,7 @@ import React, {
   useState,
 } from 'react';
 import { Button } from '@gitroom/react/form/button';
+import { Input } from '@gitroom/react/form/input';
 import useSWR from 'swr';
 import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { Media } from '@prisma/client';
@@ -46,6 +47,7 @@ import {
   DesignMediaIcon,
   VerticalDividerIcon,
   NoMediaIcon,
+  FolderIcon,
 } from '@gitroom/frontend/components/ui/icons';
 import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
 import { useShallow } from 'zustand/react/shallow';
@@ -197,6 +199,87 @@ export const showMediaBox = (
 };
 const CHUNK_SIZE = 1024 * 1024;
 const MAX_UPLOAD_SIZE = 1024 * 1024 * 1024; // 1 GB
+type MediaFolder = {
+  id: string;
+  name: string;
+  color?: string;
+  parentId: string | null;
+};
+
+const FOLDER_COLOR_DEFAULT = '#612BD3';
+
+const FOLDER_COLORS = [
+  '#612BD3', '#6366F1', '#3B82F6', '#0EA5E9', '#14B8A6',
+  '#22C55E', '#84CC16', '#EAB308', '#F97316', '#EF4444',
+  '#EC4899', '#8B5CF6', '#64748B', '#1E293B',
+];
+
+const CreateFolderModal: FC<{
+  close: () => void;
+  resolve: (value: { name: string; color: string } | null) => void;
+}> = ({ close, resolve }) => {
+  const t = useT();
+  const toaster = useToaster();
+  const [name, setName] = useState('');
+  const [color, setColor] = useState(FOLDER_COLOR_DEFAULT);
+
+  const save = useCallback(() => {
+    const trimmed = name.trim();
+    if (!trimmed) {
+      toaster.show(t('folder_name_required', 'Folder name is required'), 'warning');
+      return;
+    }
+    resolve({ name: trimmed, color });
+    close();
+  }, [name, color, resolve, close, toaster, t]);
+
+  return (
+    <div className="w-full flex flex-col gap-[20px] rounded-[4px] relative min-w-0">
+      <div className="pt-[10px]">
+        <Input
+          name="folderName"
+          disableForm={true}
+          label={t('folder_name', 'Folder name')}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div className="flex flex-col gap-[8px]">
+        <div className="text-[14px] font-medium">{t('folder_color', 'Folder color')}</div>
+        <div className="flex flex-wrap gap-[10px]">
+          {FOLDER_COLORS.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setColor(c)}
+              className={clsx(
+                'w-[32px] h-[32px] rounded-[8px] border-2 transition-all shrink-0',
+                color === c
+                  ? 'border-white ring-2 ring-[#612BD3] scale-110'
+                  : 'border-transparent hover:scale-105'
+              )}
+              style={{ backgroundColor: c }}
+              aria-label={c}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="flex gap-[10px] justify-end flex-wrap mobile:flex-col mobile:w-full">
+        <Button
+          secondary={true}
+          onClick={() => { resolve(null); close(); }}
+          className="rounded-[8px] mobile:w-full"
+        >
+          {t('cancel', 'Cancel')}
+        </Button>
+        <Button onClick={save} className="rounded-[8px] mobile:w-full">
+          {t('create', 'Create')}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 export const MediaBox: FC<{
   setMedia: (params: { id: string; path: string }[]) => void;
   standalone?: boolean;
@@ -204,18 +287,85 @@ export const MediaBox: FC<{
   closeModal: () => void;
 }> = ({ type, standalone, setMedia }) => {
   const [page, setPage] = useState(0);
+  const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
   const fetch = useFetch();
   const modals = useModals();
   const toaster = useToaster();
-  const loadMedia = useCallback(async () => {
-    return (await fetch(`/media?page=${page + 1}`)).json();
-  }, [page]);
-  const { data, mutate, isLoading } = useSWR(`get-media-${page}`, loadMedia);
-  const [selected, setSelected] = useState([]);
   const t = useT();
+
+  const loadMedia = useCallback(async () => {
+    const params = new URLSearchParams({ page: String(page + 1) });
+    if (currentFolderId != null) params.set('folderId', currentFolderId);
+    return (await fetch(`/media?${params}`)).json();
+  }, [page, currentFolderId]);
+  const { data, mutate, isLoading } = useSWR(
+    `get-media-${page}-${currentFolderId ?? 'root'}`,
+    loadMedia
+  );
+
+  const loadFolders = useCallback(async () => {
+    const url = currentFolderId
+      ? `/media/folders?parentId=${currentFolderId}`
+      : '/media/folders';
+    return (await fetch(url)).json();
+  }, [currentFolderId]);
+  const { data: folders = [], mutate: mutateFolders } = useSWR<MediaFolder[]>(
+    `get-folders-${currentFolderId ?? 'root'}`,
+    loadFolders
+  );
+
+  const loadFolderPath = useCallback(async () => {
+    if (!currentFolderId) return [];
+    return (await fetch(`/media/folders/${currentFolderId}/path`)).json();
+  }, [currentFolderId]);
+  const { data: folderPath = [] } = useSWR<
+    { id: string; name: string }[]
+  >(
+    currentFolderId ? `get-folder-path-${currentFolderId}` : null,
+    loadFolderPath
+  );
+
+  const [selected, setSelected] = useState([]);
   const uploaderRef = useRef<any>(null);
   const mediaDirectory = useMediaDirectory();
   const [loading, setLoading] = useState(false);
+
+  const navigateToFolder = useCallback((folderId: string | null) => {
+    setCurrentFolderId(folderId);
+    setPage(0);
+  }, []);
+
+  const createFolder = useCallback(async () => {
+    const result = await new Promise<{ name: string; color: string } | null>((resolve) => {
+      modals.openModal({
+        title: t('new_folder', 'New folder'),
+        withCloseButton: true,
+        onClose: () => resolve(null),
+        size: 'min(400px, calc(100vw - 48px))',
+        classNames: {
+          modal: 'mobile:p-[16px]',
+        },
+        children: (close) => (
+          <CreateFolderModal close={close} resolve={resolve} />
+        ),
+      });
+    });
+    if (!result) return;
+    try {
+      await fetch('/media/folders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: result.name,
+          parentId: currentFolderId,
+          color: result.color,
+        }),
+      });
+      mutateFolders();
+    } catch {
+      toaster.show(t('failed_to_create_folder', 'Failed to create folder'), 'warning');
+    }
+  }, [currentFolderId, mutateFolders, toaster, t, modals]);
 
   const uppy = useUppyUploader({
     allowedFileTypes:
@@ -224,8 +374,10 @@ export const MediaBox: FC<{
         : type == 'video'
         ? 'video/mp4'
         : 'image/*,video/mp4',
+    folderId: currentFolderId,
     onUploadSuccess: async (arr) => {
       await mutate();
+      await mutateFolders();
       if (standalone) {
         return;
       }
@@ -398,16 +550,44 @@ export const MediaBox: FC<{
     );
   }, [t, loading]);
 
+  const hasContent = (folders?.length ?? 0) > 0 || (data?.results?.length ?? 0) > 0;
+
   return (
     <DropFiles disabled={loading} className="flex flex-col flex-1" onDrop={dragAndDrop}>
       <div className="flex flex-col flex-1">
-        <div
-          className={clsx(
-            'flex mobile:flex-col mobile:gap-[10px]',
-            !isLoading && !data?.results?.length && 'hidden'
-          )}
-        >
-          {!isLoading && !!data?.results?.length && (
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <button
+            type="button"
+            onClick={() => navigateToFolder(null)}
+            className={clsx(
+              'text-sm font-medium',
+              currentFolderId === null
+                ? 'text-[#612BD3]'
+                : 'text-textColor hover:text-white'
+            )}
+          >
+            {t('root', 'Root')}
+          </button>
+          {folderPath.map((item) => (
+            <React.Fragment key={item.id}>
+              <span className="text-newTextColor/60">/</span>
+              <button
+                type="button"
+                onClick={() => navigateToFolder(item.id)}
+                className={clsx(
+                  'text-sm font-medium',
+                  currentFolderId === item.id
+                    ? 'text-[#612BD3]'
+                    : 'text-textColor hover:text-white'
+                )}
+              >
+                {item.name}
+              </button>
+            </React.Fragment>
+          ))}
+        </div>
+        <div className="flex mobile:flex-col mobile:gap-[10px]">
+          {!isLoading && hasContent && (
             <div className="flex-1 text-[14px] font-[600] whitespace-pre-line">
               {t(
                 'select_or_upload_pictures_max_1gb',
@@ -420,14 +600,24 @@ export const MediaBox: FC<{
               )}
             </div>
           )}
-          <input
-            type="file"
-            ref={uploaderRef}
-            onChange={addToUpload}
-            className="hidden"
-            multiple={true}
-          />
-          {!isLoading && !!data?.results?.length && btn}
+          <div className="flex gap-2 items-center">
+            <button
+              type="button"
+              onClick={createFolder}
+              className="cursor-pointer bg-btnSimple changeColor flex gap-[8px] h-[44px] px-[18px] justify-center items-center rounded-[8px]"
+            >
+              <FolderIcon size={14} />
+              {t('new_folder', 'New folder')}
+            </button>
+            <input
+              type="file"
+              ref={uploaderRef}
+              onChange={addToUpload}
+              className="hidden"
+              multiple={true}
+            />
+            {btn}
+          </div>
         </div>
         <div className="w-full pointer-events-none relative mt-[5px] mb-[5px]">
           <div className="w-full h-[46px] overflow-hidden absolute left-0 bg-newBgColorInner uppyChange">
@@ -449,7 +639,7 @@ export const MediaBox: FC<{
           className={clsx(
             'flex-1 relative',
             !isLoading &&
-              !data?.results?.length &&
+              !hasContent &&
               'bg-newTextColor/[0.02] rounded-[12px]'
           )}
         >
@@ -457,11 +647,11 @@ export const MediaBox: FC<{
             className={clsx(
               'absolute -left-[3px] -top-[3px] withp3 h-full overflow-x-hidden overflow-y-auto scrollbar scrollbar-thumb-newColColor scrollbar-track-newBgColorInner',
               !isLoading &&
-                !data?.results?.length &&
+                !hasContent &&
                 'flex justify-center items-center gap-[20px] flex-col'
             )}
           >
-            {!isLoading && !data?.results?.length && (
+            {!isLoading && !hasContent && (
               <>
                 <NoMediaIcon />
                 <div className="text-[20px] font-[600]">
@@ -498,6 +688,33 @@ export const MediaBox: FC<{
                 ))}
               </>
             )}
+            {!isLoading &&
+              folders?.map((folder) => (
+                <div
+                  className="group px-[3px] py-[3px] float-left rounded-[6px] w-[12.5%] mobile:w-[33.33%] aspect-square cursor-pointer"
+                  key={folder.id}
+                >
+                  <div
+                    className="w-full h-full rounded-[6px] border-[4px] border-transparent flex flex-col items-center justify-center gap-2 transition-colors hover:opacity-90"
+                    style={{
+                      backgroundColor: folder.color
+                        ? `${folder.color}20`
+                        : 'var(--new-bgColorInner)',
+                      borderColor: folder.color || undefined,
+                    }}
+                    onClick={() => navigateToFolder(folder.id)}
+                  >
+                    <FolderIcon
+                      size={40}
+                      className="text-current"
+                      style={{ color: folder.color || '#612BD3' }}
+                    />
+                    <span className="text-[12px] font-medium text-center truncate w-full px-2">
+                      {folder.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
             {data?.results
               ?.filter((f: any) => {
                 if (type === 'video') {
@@ -586,7 +803,7 @@ export const MediaBox: FC<{
             >
               {t('cancel', 'Cancel')}
             </button>
-            {!isLoading && !!data?.results?.length && (
+            {!isLoading && hasContent && (
               <button
                 onClick={standalone ? () => {} : addMedia}
                 disabled={selected.length === 0}

@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://boto.social/" target="_blank">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/765e9d72-3ee7-4a56-9d59-a2c9befe2311">
-    <img alt="Boto Logo" src="https://github.com/user-attachments/assets/f0d30d70-dddb-4142-8876-e9aa6ed1cb99" width="280"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/soma-krd/boto.social/df2f4ba30340c4ab64748b83ae7f4c98b13af2a3/apps/frontend/public/boto.svg">
+    <img alt="Boto Logo" src="https://raw.githubusercontent.com/soma-krd/boto.social/df2f4ba30340c4ab64748b83ae7f4c98b13af2a3/apps/frontend/public/boto.svg" width="280"/>
   </picture>
   </a>
 </p>
@@ -23,57 +23,20 @@
 
 <div class="flex" align="center">
   <br />
-  <img alt="Instagram" src="https://boto.social/svgs/socials/Instagram.svg" width="32">
-  <img alt="Youtube" src="https://boto.social/svgs/socials/Youtube.svg" width="32">
-  <img alt="Dribbble" src="https://boto.social/svgs/socials/Dribbble.svg" width="32">
-  <img alt="Linkedin" src="https://boto.social/svgs/socials/Linkedin.svg" width="32">
-  <img alt="Reddit" src="https://boto.social/svgs/socials/Reddit.svg" width="32">
-  <img alt="TikTok" src="https://boto.social/svgs/socials/TikTok.svg" width="32">
-  <img alt="Facebook" src="https://boto.social/svgs/socials/Facebook.svg" width="32">
-  <img alt="Pinterest" src="https://boto.social/svgs/socials/Pinterest.svg" width="32">
-  <img alt="Threads" src="https://boto.social/svgs/socials/Threads.svg" width="32">
-  <img alt="X" src="https://boto.social/svgs/socials/X.svg" width="32">
-  <img alt="Slack" src="https://boto.social/svgs/socials/Slack.svg" width="32">
-  <img alt="Discord" src="https://boto.social/svgs/socials/Discord.svg" width="32">
-  <img alt="Mastodon" src="https://boto.social/svgs/socials/Mastodon.svg" width="32">
-  <img alt="Bluesky" src="https://boto.social/svgs/socials/Bluesky.svg" width="32">
+  <img alt="Instagram" src="https://boto.social/icons/platforms/instagram.png" width="32">
+  <img alt="Youtube" src="https://boto.social/icons/platforms/youtube.png" width="32">
+  <img alt="Dribbble" src="https://boto.social/icons/platforms/dribbble.png" width="32">
+  <img alt="Linkedin" src="https://boto.social/icons/platforms/linkedin.png" width="32">
+  <img alt="Reddit" src="https://boto.social/icons/platforms/reddit.png" width="32">
+  <img alt="TikTok" src="https://boto.social/icons/platforms/tiktok.png" width="32">
+  <img alt="Facebook" src="https://boto.social/icons/platforms/facebook.png" width="32">
+  <img alt="Pinterest" src="https://boto.social/icons/platforms/pinterest.png" width="32">
+  <img alt="Threads" src="https://boto.social/icons/platforms/threads.png" width="32">
 </div>
 
-<p align="center">
-  <br />
-  <a href="https://docs.boto.social" rel="dofollow"><strong>Explore the docs »</strong></a>
-  <br />
-
-  <br />
-  <a href="https://youtube.com/@botoofficial" rel="dofollow"><strong>Watch the YouTube Tutorials»</strong></a>
-  <br />
-</p>
-
-<p align="center">
-  <a href="https://platform.boto.social">Register</a>
-  ·
-  <a href="https://discord.boto.social">Join Our Discord (devs only)</a>
-  ·
-  <a href="https://docs.boto.social/public-api">Public API</a><br />
-</p>
-<p align="center">
-  <a href="https://www.npmjs.com/package/@gitroom/node">NodeJS SDK</a>
-  ·
-  <a href="https://www.npmjs.com/package/n8n-nodes-boto">N8N custom node</a>
-  ·
-  <a href="https://apps.make.com/boto">Make.com integration</a>
-</p>
 
 
 <br />
-
-## 🔌 See the leading Boto features
-
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=BdsCVvEYgHU" target="_blank">
-    <img alt="Boto" src="https://github.com/user-attachments/assets/8b9b7939-da1a-4be5-95be-42c6fce772de" />
-  </a>
-</p>
 
 ## ✨ Features
 
@@ -81,11 +44,6 @@
 | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | ![Image 3](https://github.com/user-attachments/assets/d51786ee-ddd8-4ef8-8138-5192e9cfe7c3) | ![Image 4](https://github.com/user-attachments/assets/91f83c89-22f6-43d6-b7aa-d2d3378289fb) |
 
-### Our Sponsors
-
-| Sponsor |                                  Logo                                   | Description     |
-|---------|:-----------------------------------------------------------------------:|-----------------|
-| [Hostinger](https://www.hostinger.com/?ref=postiz) | <img src=".github/sponsors/hostinger.png" alt="Hostinger" width="500"/> | Hostinger is on a mission to make online success possible for anyone – from developers to aspiring bloggers and business owners |
 
 # Intro
 
@@ -136,7 +94,3 @@ Link: https://opencollective.com/boto
 This repository's source code is available under the [AGPL-3.0 license](LICENSE).
 
 <br /><br /><br />
-
-<p align="center">
-  <a href="https://www.g2.com/products/boto/take_survey" target="blank"><img alt="g2" src="https://github.com/user-attachments/assets/892cb74c-0b49-4589-b2f5-fbdbf7a98f66" /></a>
-</p>

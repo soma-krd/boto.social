@@ -23,7 +23,8 @@ export const getUppyUploadPlugin = (
   provider: string,
   fetch: any,
   backendUrl: string,
-  transloadit: string[] = []
+  transloadit: string[] = [],
+  getFolderId?: () => string | null | undefined
 ) => {
   switch (provider) {
     case 'transloadit':
@@ -89,6 +90,7 @@ export const getUppyUploadPlugin = (
             fetchUploadApiEndpoint(fetch, 'complete-multipart-upload', {
               file,
               ...props,
+              ...(getFolderId && { folderId: getFolderId() }),
             }),
         },
       };
@@ -98,6 +100,12 @@ export const getUppyUploadPlugin = (
         options: {
           endpoint: `${backendUrl}/media/upload-server`,
           withCredentials: true,
+          ...(getFolderId && {
+            formData: () => {
+              const folderId = getFolderId();
+              return folderId != null ? { folderId } : {};
+            },
+          }),
         },
       };
 

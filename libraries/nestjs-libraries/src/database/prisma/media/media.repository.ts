@@ -6,7 +6,7 @@ import { SaveMediaInformationDto } from '@gitroom/nestjs-libraries/dtos/media/sa
 export class MediaRepository {
   constructor(private _media: PrismaRepository<'media'>) {}
 
-  saveFile(org: string, fileName: string, filePath: string) {
+  saveFile(org: string, fileName: string, filePath: string, folderId?: string | null) {
     return this._media.model.media.create({
       data: {
         organization: {
@@ -16,6 +16,7 @@ export class MediaRepository {
         },
         name: fileName,
         path: filePath,
+        ...(folderId != null && { folder: { connect: { id: folderId } } }),
       },
       select: {
         id: true,
@@ -69,21 +70,19 @@ export class MediaRepository {
     });
   }
 
-  async getMedia(org: string, page: number) {
+  async getMedia(org: string, page: number, folderId?: string | null) {
     const pageNum = (page || 1) - 1;
-    const query = {
-      where: {
-        organization: {
-          id: org,
-        },
-      },
+    const where: { organizationId: string; deletedAt: null; folderId?: string | null } = {
+      organizationId: org,
+      deletedAt: null,
     };
-    const pages = Math.ceil((await this._media.model.media.count(query)) / 18);
+    if (folderId !== undefined) {
+      where.folderId = folderId;
+    }
+    const count = await this._media.model.media.count({ where });
+    const pages = Math.ceil(count / 18);
     const results = await this._media.model.media.findMany({
-      where: {
-        organizationId: org,
-        deletedAt: null,
-      },
+      where,
       orderBy: {
         createdAt: 'desc',
       },
@@ -103,5 +102,24 @@ export class MediaRepository {
       pages,
       results,
     };
+  }
+
+  moveMedia(org: string, mediaId: string, folderId: string | null) {
+    return this._media.model.media.update({
+      where: {
+        id: mediaId,
+        organizationId: org,
+      },
+      data: { folderId },
+      select: {
+        id: true,
+        name: true,
+        path: true,
+        thumbnail: true,
+        alt: true,
+        thumbnailTimestamp: true,
+        folderId: true,
+      },
+    });
   }
 }
