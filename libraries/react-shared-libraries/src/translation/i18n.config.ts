@@ -14,6 +14,7 @@ export const languages = [
   'ko',
   'ar',
   'ckb',
+  'fa',
   'tr',
   'vi',
 ];

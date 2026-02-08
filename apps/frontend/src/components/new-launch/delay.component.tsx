@@ -118,7 +118,7 @@ export const DelayComponent: FC<{
                 value={customValue}
                 onChange={(e) => setCustomValue(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
-                placeholder="Custom min"
+                placeholder={t('placeholder_custom_min', 'Custom min')}
                 className={clsx(
                   'flex-1 w-full h-[32px] px-[8px] rounded-[4px] bg-newBgColor border text-[13px] outline-none focus:border-[#612BD3]',
                   isCustomDelay ? 'border-[#612BD3]' : 'border-newTextColor/10'

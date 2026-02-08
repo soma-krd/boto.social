@@ -79,12 +79,12 @@ export const FirstBillingComponent = () => {
 
   const showYouTube = () => {
     modals.openModal({
-      title: 'Grow Fast With Boto (Play the video)',
+      title: t('boto_tutorial_play_video', 'Grow Fast With Boto (Play the video)'),
       children: (
         <iframe
           className="h-full aspect-video min-w-[800px]"
           src="https://www.youtube.com/embed/BdsCVvEYgHU?si=vvhaZJ8I5oXXvVJS?autoplay=1"
-          title="Boto Tutorial"
+          title={t('boto_tutorial', 'Boto Tutorial')}
           allow="autoplay"
           allowFullScreen
         />

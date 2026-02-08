@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import { useMenuItem } from '@gitroom/frontend/components/layout/top.menu';
 import { useUser } from '@gitroom/frontend/components/layout/user.context';
 import { useVariables } from '@gitroom/react/helpers/variable.context';
+import { useT } from '@gitroom/react/translation/get.transation.service.client';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -23,6 +24,7 @@ const isExternalPath = (path: string) => path.startsWith('http://') || path.star
 
 export const MobileBottomNav: FC = () => {
   const user = useUser();
+  const t = useT();
   const { firstMenu, secondMenu } = useMenuItem();
   const { billingEnabled } = useVariables();
   const pathname = usePathname();
@@ -74,7 +76,7 @@ export const MobileBottomNav: FC = () => {
                 ? 'text-textItemFocused bg-boxFocused'
                 : 'text-textItemBlur hover:text-textItemFocused'
             )}
-            aria-label="More"
+            aria-label={t('more', 'More')}
           >
             <div className="w-[20px] h-[20px] flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,7 +86,7 @@ export const MobileBottomNav: FC = () => {
               </svg>
             </div>
             <div className="text-[10px] font-[600] text-center line-clamp-1">
-              More
+              {t('more', 'More')}
             </div>
           </button>
         )}
