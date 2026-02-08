@@ -487,22 +487,29 @@ export const MediaBox: FC<{
       modals.openModal({
         title: '',
         top: 10,
+        size: 'min(90vw, 1200px)',
+        classNames: {
+          modal: 'mobile:p-[16px]',
+        },
+        withCloseButton: true,
         children: (
-          <div className="w-full h-full p-[50px]">
-            {media.path.indexOf('mp4') > -1 ? (
-              <VideoFrame
-                autoplay={true}
-                url={mediaDirectory.set(media.path)}
-              />
-            ) : (
-              <img
-                width="100%"
-                height="100%"
-                className="w-full h-full max-h-[100%] max-w-[100%] object-cover"
-                src={mediaDirectory.set(media.path)}
-                alt="media"
-              />
-            )}
+          <div className="w-full h-full p-[50px] mobile:p-[16px] min-w-0 min-h-0 flex flex-col">
+            <div className="flex-1 min-h-0 min-w-0 flex items-center justify-center">
+              {media.path.indexOf('mp4') > -1 ? (
+                <VideoFrame
+                  autoplay={true}
+                  url={mediaDirectory.set(media.path)}
+                />
+              ) : (
+                <img
+                  width="100%"
+                  height="100%"
+                  className="w-full h-full max-h-[100%] max-w-[100%] object-contain"
+                  src={mediaDirectory.set(media.path)}
+                  alt="media"
+                />
+              )}
+            </div>
           </div>
         ),
       });
