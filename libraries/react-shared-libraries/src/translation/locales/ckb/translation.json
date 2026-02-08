@@ -786,5 +786,12 @@
     "aria_previous_page": "بڕۆ بۆ لاپەڕەی پێشوو",
     "aria_next_page": "بڕۆ بۆ لاپەڕەی داهاتوو",
     "write_your_signature_placeholder": "واژۆکەت بنووسە...",
-    "full_github_url": "بەستەری تەواوی GitHub"
+    "full_github_url": "بەستەری تەواوی GitHub",
+    "email_notifications": "ئاگادارییەکانی ئیمەیڵ",
+    "success_emails": "ئیمەیڵەکانی سەرکەوتن",
+    "success_emails_description": "ئاگاداری ئیمەیڵ وەربگرە کاتێک پۆستەکان بە سەرکەوتویی بڵاو دەکرێنەوە",
+    "failure_emails": "ئیمەیڵەکانی شکست",
+    "failure_emails_description": "ئاگاداری ئیمەیڵ وەربگرە کاتێک پۆستەکان بڵاو ناکرێنەوە",
+    "streak_emails": "ئیمەیڵەکانی بیرخستنەوەی streak",
+    "streak_emails_description": "ئاگاداری ئیمەیڵ وەربگرە کاتێک streak پۆستکردنت نزیکە لە کۆتایی"
   }

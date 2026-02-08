@@ -786,5 +786,12 @@
   "aria_previous_page": "رفتن به صفحه قبلی",
   "aria_next_page": "رفتن به صفحه بعدی",
   "write_your_signature_placeholder": "امضای خود را بنویسید...",
-  "full_github_url": "آدرس کامل گیت‌هاب"
+  "full_github_url": "آدرس کامل گیت‌هاب",
+  "email_notifications": "اعلان‌های ایمیل",
+  "success_emails": "ایمیل‌های موفقیت",
+  "success_emails_description": "هنگام انتشار موفق پست‌ها اعلان ایمیل دریافت کنید",
+  "failure_emails": "ایمیل‌های ناموفق",
+  "failure_emails_description": "هنگام عدم انتشار پست‌ها اعلان ایمیل دریافت کنید",
+  "streak_emails": "ایمیل‌های یادآوری streak",
+  "streak_emails_description": "هنگام نزدیک بودن به پایان streak انتشار، یادآوری ایمیل دریافت کنید"
 }

@@ -786,5 +786,12 @@
   "aria_previous_page": "الذهاب للصفحة السابقة",
   "aria_next_page": "الذهاب للصفحة التالية",
   "write_your_signature_placeholder": "اكتب توقيعك هنا...",
-  "full_github_url": "رابط GitHub الكامل"
+  "full_github_url": "رابط GitHub الكامل",
+  "email_notifications": "إشعارات البريد الإلكتروني",
+  "success_emails": "رسائل النجاح",
+  "success_emails_description": "استلم إشعارات بالبريد عند نشر المنشورات بنجاح",
+  "failure_emails": "رسائل الفشل",
+  "failure_emails_description": "استلم إشعارات بالبريد عند فشل نشر المنشورات",
+  "streak_emails": "رسائل تذكير المواظبة",
+  "streak_emails_description": "استلم تذكيرات بالبريد عندما يقترب انتهاء مواظبتك على النشر"
 }

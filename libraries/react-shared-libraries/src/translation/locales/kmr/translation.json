@@ -786,5 +786,12 @@
     "aria_previous_page": "Herre rûpela berê",
     "aria_next_page": "Herre rûpela piştre",
     "write_your_signature_placeholder": "Îmzeya xwe binivîse...",
-    "full_github_url": "URL-ya Temam a GitHubê"
+    "full_github_url": "URL-ya Temam a GitHubê",
+    "email_notifications": "Agahdariyên e-nameyê",
+    "success_emails": "E-nameyên serketinê",
+    "success_emails_description": "Agahdariyên e-nameyê wergir dema ku post bi serketinê têne weşandin",
+    "failure_emails": "E-nameyên têkçûnê",
+    "failure_emails_description": "Agahdariyên e-nameyê wergir dema ku post têk diçin",
+    "streak_emails": "E-nameyên bîrê xistina streak",
+    "streak_emails_description": "Bîrxistinên e-nameyê wergir dema ku streak weşandina te nêzî dawiyê ye"
   }

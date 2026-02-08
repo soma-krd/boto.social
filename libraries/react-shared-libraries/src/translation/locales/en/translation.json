@@ -786,5 +786,12 @@
   "aria_previous_page": "Go to previous page",
   "aria_next_page": "Go to next page",
   "write_your_signature_placeholder": "Write your signature...",
-  "full_github_url": "Full GitHub URL"
+  "full_github_url": "Full GitHub URL",
+  "email_notifications": "Email Notifications",
+  "success_emails": "Success Emails",
+  "success_emails_description": "Receive email notifications when posts are published successfully",
+  "failure_emails": "Failure Emails",
+  "failure_emails_description": "Receive email notifications when posts fail to publish",
+  "streak_emails": "Streak Reminder Emails",
+  "streak_emails_description": "Receive email reminders when your posting streak is about to end"
 }
