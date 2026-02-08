@@ -76,9 +76,9 @@ export class MediaRepository {
       organizationId: org,
       deletedAt: null,
     };
-    if (folderId !== undefined) {
-      where.folderId = folderId;
-    }
+    // Root view (folderId undefined): show only files without folder
+    // Folder view (folderId provided): show only files in that folder
+    where.folderId = folderId !== undefined ? folderId : null;
     const count = await this._media.model.media.count({ where });
     const pages = Math.ceil(count / 18);
     const results = await this._media.model.media.findMany({
