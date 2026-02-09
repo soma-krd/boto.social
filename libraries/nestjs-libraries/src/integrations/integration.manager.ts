@@ -33,6 +33,7 @@ import { KickProvider } from '@gitroom/nestjs-libraries/integrations/social/kick
 import { TwitchProvider } from '@gitroom/nestjs-libraries/integrations/social/twitch.provider';
 import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { MoltbookProvider } from '@gitroom/nestjs-libraries/integrations/social/moltbook.provider';
+import { SkoolProvider } from '@gitroom/nestjs-libraries/integrations/social/skool.provider';
 
 export const socialIntegrationList: Array<SocialAbstract & SocialProvider> = [
   new XProvider(process.env.ENABLE_X == 'true'),
@@ -62,6 +63,8 @@ export const socialIntegrationList: Array<SocialAbstract & SocialProvider> = [
   new HashnodeProvider(process.env.ENABLE_HASHNODE == 'true'),
   new WordpressProvider(process.env.ENABLE_WORDPRESS == 'true'),
   new ListmonkProvider(process.env.ENABLE_LISTMONK == 'true'),
+  new MoltbookProvider(process.env.ENABLE_MOLTBOOK == 'true'),
+  new SkoolProvider(process.env.ENABLE_SKOOL == 'true'),
   // new MastodonCustomProvider(),
 ];
 
@@ -77,6 +80,8 @@ export class IntegrationManager {
           editor: p.editor,
           isExternal: !!p.externalUrl,
           isWeb3: !!p.isWeb3,
+          isChromeExtension: !!p.isChromeExtension,
+          ...(p.extensionCookies ? { extensionCookies: p.extensionCookies } : {}),
           ...(p.customFields ? { customFields: await p.customFields() } : {}),
         }))
       ),

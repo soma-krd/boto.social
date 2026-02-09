@@ -226,6 +226,7 @@ model MediaFolder {
 model Media {
   id                 String              @id @default(uuid())
   name               String
+  originalName       String?
   path               String
   organizationId     String
   folderId           String?

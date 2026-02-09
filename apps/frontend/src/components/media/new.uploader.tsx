@@ -230,11 +230,12 @@ export function useUppyUploader(props: {
       if (transloadit.length > 0) {
         // @ts-ignore
         const allRes = result.transloadit[0].results;
-        const toSave = uniqBy<{ name: string; order: number }>(
+        const toSave = uniqBy<{ name: string; originalName: string; order: number }>(
           // @ts-ignore
           Object.values(allRes).flatMap((p: any[]) => {
             return p.flatMap((item) => ({
               name: item.url.split('/').pop(),
+              originalName: item.name || '',
               order: +item.user_meta.addedOrder,
             }));
           }),
@@ -244,7 +245,7 @@ export function useUppyUploader(props: {
         const folderIdToUse = getFolderId();
         const loadAllMedia = (
           await Promise.all(
-            toSave.map(async ({ name, order }) => ({
+            toSave.map(async ({ name, originalName, order }) => ({
               file: await (
                 await fetch('/media/save-media', {
                   method: 'POST',
@@ -252,6 +253,7 @@ export function useUppyUploader(props: {
                   body: JSON.stringify({
                     name,
                     ...(folderIdToUse != null && { folderId: folderIdToUse }),
+                    originalName,
                   }),
                 })
               ).json(),

@@ -93,12 +93,14 @@ export class MediaController {
     @UploadedFile() file: Express.Multer.File,
     @Body('folderId') folderId?: string
   ) {
+    const originalName = file.originalname;
     const uploadedFile = await this.storage.uploadFile(file);
     return this._mediaService.saveFile(
       org.id,
       uploadedFile.originalname,
       uploadedFile.path,
-      folderId ?? undefined
+      folderId ?? undefined,
+      originalName
     );
   }
 
@@ -107,7 +109,8 @@ export class MediaController {
     @GetOrgFromRequest() org: Organization,
     @Req() req: Request,
     @Body('name') name: string,
-    @Body('folderId') folderId?: string
+    @Body('originalName') originalName: string,
+    @Body('folderId') folderId?: string,
   ) {
     if (!name) {
       return false;
@@ -116,7 +119,8 @@ export class MediaController {
       org.id,
       name,
       process.env.CLOUDFLARE_BUCKET_URL + '/' + name,
-      folderId ?? undefined
+      folderId ?? undefined,
+      originalName || undefined
     );
   }
 
@@ -136,6 +140,7 @@ export class MediaController {
     @Body('preventSave') preventSave: string = 'false',
     @Body('folderId') folderId?: string
   ) {
+    const originalName = file.originalname;
     const getFile = await this.storage.uploadFile(file);
 
     if (preventSave === 'true') {
@@ -147,7 +152,8 @@ export class MediaController {
       org.id,
       getFile.originalname,
       getFile.path,
-      folderId ?? undefined
+      folderId ?? undefined,
+      originalName
     );
   }
 
@@ -176,13 +182,15 @@ export class MediaController {
     // @ts-ignore
     const name = upload.Location.split('/').pop();
     const folderId = req.body?.folderId;
+    const originalName = req.body?.file?.name;
 
     const saveFile = await this._mediaService.saveFile(
       org.id,
       name,
       // @ts-ignore
       upload.Location,
-      folderId
+      folderId,
+      originalName || undefined
     );
 
     res.status(200).json({ ...upload, saved: saveFile });
