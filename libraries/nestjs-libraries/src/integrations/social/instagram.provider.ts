@@ -33,7 +33,7 @@ export class InstagramProvider
     'instagram_manage_comments',
     'instagram_manage_insights',
   ];
-  override maxConcurrentJob = 200;
+  override maxConcurrentJob = 400;
   editor = 'normal' as const;
   dto = InstagramDto;
   maxLength() {
@@ -64,6 +64,12 @@ export class InstagramProvider
         value: 'An unknown error occurred, please try again later',
       };
     }
+    if (body.indexOf('2207081') > -1) {
+      return {
+        type: 'bad-body' as const,
+        value: "This account doesn't support Trial Reels",
+      };
+    }
 
     if (body.indexOf('REVOKED_ACCESS_TOKEN') > -1) {
       return {
@@ -92,7 +98,7 @@ export class InstagramProvider
 
     if (body.indexOf('2207050') > -1) {
       return {
-        type: 'refresh-token' as const,
+        type: 'bad-body' as const,
         value: 'Instagram user is restricted',
       };
     }
@@ -260,6 +266,13 @@ export class InstagramProvider
       return {
         type: 'bad-body' as const,
         value: 'Aspect ratio not supported, must be between 4:5 to 1.91:1',
+      };
+    }
+
+    if (body.indexOf('190,') > -1) {
+      return {
+        type: 'bad-body' as const,
+        value: 'The account is missing some permissions to perform this action, please re-add the account and allow all permissions',
       };
     }
 
@@ -457,6 +470,7 @@ export class InstagramProvider
     const [firstPost] = postDetails;
     console.log('in progress', id);
     const isStory = firstPost.settings.post_type === 'story';
+    const isTrialReel = !!firstPost.settings.is_trial_reel;
     const medias = await Promise.all(
       firstPost?.media?.map(async (m) => {
         const caption =
@@ -481,7 +495,15 @@ export class InstagramProvider
             : isStory
             ? `image_url=${m.path}&media_type=STORIES`
             : `image_url=${m.path}`;
-        console.log('in progress1');
+
+        const trialParams = isTrialReel
+          ? `&trial_params=${encodeURIComponent(
+              JSON.stringify({
+                graduation_strategy:
+                  firstPost.settings.graduation_strategy || 'MANUAL',
+              })
+            )}`
+          : ``;
 
         const collaborators =
           firstPost?.settings?.collaborators?.length && !isStory
@@ -490,10 +512,9 @@ export class InstagramProvider
               )}`
             : ``;
 
-        console.log(collaborators);
         const { id: photoId } = await (
           await this.fetch(
-            `https://${type}/v20.0/${id}/media?${mediaType}${isCarousel}${collaborators}&access_token=${accessToken}${caption}`,
+            `https://${type}/v20.0/${id}/media?${mediaType}${isCarousel}${collaborators}${trialParams}&access_token=${accessToken}${caption}`,
             {
               method: 'POST',
             }
