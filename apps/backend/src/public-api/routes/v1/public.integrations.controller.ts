@@ -4,21 +4,26 @@ import {
 } from '@gitroom/backend/services/auth/permissions/permission.exception.class';
 import { CheckPolicies } from '@gitroom/backend/services/auth/permissions/permissions.ability';
 import { timer } from '@gitroom/helpers/utils/timer';
+import { getValidationSchemas } from '@gitroom/nestjs-libraries/chat/validation.schemas.helper';
 import { IntegrationService } from '@gitroom/nestjs-libraries/database/prisma/integrations/integration.service';
 import { MediaService } from '@gitroom/nestjs-libraries/database/prisma/media/media.service';
+import { NotificationService } from '@gitroom/nestjs-libraries/database/prisma/notifications/notification.service';
 import { PostsService } from '@gitroom/nestjs-libraries/database/prisma/posts/posts.service';
 import { pricing } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/pricing';
 import { IntegrationFunctionDto } from '@gitroom/nestjs-libraries/dtos/integrations/integration.function.dto';
 import { IntegrationTimeDto } from '@gitroom/nestjs-libraries/dtos/integrations/integration.time.dto';
 import { UploadDto } from '@gitroom/nestjs-libraries/dtos/media/upload.dto';
+import { GetNotificationsDto } from '@gitroom/nestjs-libraries/dtos/notifications/get.notifications.dto';
 import { GetPostsDto } from '@gitroom/nestjs-libraries/dtos/posts/get.posts.dto';
 import { VideoDto } from '@gitroom/nestjs-libraries/dtos/videos/video.dto';
 import { VideoFunctionDto } from '@gitroom/nestjs-libraries/dtos/videos/video.function.dto';
-import { IntegrationManager } from '@gitroom/nestjs-libraries/integrations/integration.manager';
+import {
+  IntegrationManager,
+  socialIntegrationList,
+} from '@gitroom/nestjs-libraries/integrations/integration.manager';
 import { RefreshIntegrationService } from '@gitroom/nestjs-libraries/integrations/refresh.integration.service';
 import { RefreshToken } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
-import { CreatePostDto } from '@gitroom/nestjs-libraries/dtos/posts/create.post.dto';
 import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
 import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
 import {
@@ -48,10 +53,11 @@ export class PublicIntegrationsController {
 
   constructor(
     private _integrationService: IntegrationService,
-    private _postsService: PostsService,
-    private _mediaService: MediaService,
     private _integrationManager: IntegrationManager,
-    private _refreshIntegrationService: RefreshIntegrationService
+    private _refreshIntegrationService: RefreshIntegrationService,
+    private _notificationService: NotificationService,
+    private _postsService: PostsService,
+    private _mediaService: MediaService
   ) {}
 
   @Post('/upload')
@@ -148,11 +154,20 @@ export class PublicIntegrationsController {
   @Delete('/posts/:id')
   async deletePost(
     @GetOrgFromRequest() org: Organization,
-    @Param() body: { id: string }
+    @Param('id') id: string
   ) {
     Sentry.metrics.count('public_api-request', 1);
-    const getPostById = await this._postsService.getPost(org.id, body.id);
+    const getPostById = await this._postsService.getPost(org.id, id);
     return this._postsService.deletePost(org.id, getPostById.group);
+  }
+
+  @Delete('/posts/group/:group')
+  deletePostByGroup(
+    @GetOrgFromRequest() org: Organization,
+    @Param('group') group: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._postsService.deletePost(org.id, group);
   }
 
   @Get('/is-connected')
@@ -219,6 +234,18 @@ export class PublicIntegrationsController {
     );
   }
 
+  @Get('/notifications')
+  async getNotifications(
+    @GetOrgFromRequest() org: Organization,
+    @Query() query: GetNotificationsDto
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._notificationService.getNotificationsPaginated(
+      org.id,
+      query.page ?? 0
+    );
+  }
+
   @Post('/generate-video')
   generateVideo(
     @GetOrgFromRequest() org: Organization,
@@ -236,6 +263,130 @@ export class PublicIntegrationsController {
       body.functionName,
       body.params
     );
+  }
+
+  @Get('/integration-settings/:id')
+  async getIntegrationSettings(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    const loadIntegration = await this._integrationService.getIntegrationById(
+      org.id,
+      id
+    );
+
+    const verified =
+      JSON.parse(loadIntegration.additionalSettings || '[]')?.find(
+        (p: any) => p?.title === 'Verified'
+      )?.value || false;
+
+    const integration = socialIntegrationList.find(
+      (p) => p.identifier === loadIntegration.providerIdentifier
+    )!;
+
+    if (!integration) {
+      return {
+        output: { rules: '', maxLength: 0, settings: {}, tools: [] as any[] },
+      };
+    }
+
+    const maxLength = integration.maxLength(verified);
+    const schemas = !integration.dto
+      ? false
+      : getValidationSchemas()[integration.dto.name];
+    const tools = this._integrationManager.getAllTools();
+    const rules = this._integrationManager.getAllRulesDescription();
+
+    return {
+      output: {
+        rules: rules[integration.identifier],
+        maxLength,
+        settings: !schemas ? 'No additional settings required' : schemas,
+        tools: tools[integration.identifier],
+      },
+    };
+  }
+
+  @Post('/integration-trigger/:id')
+  async triggerIntegrationTool(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string,
+    @Body() body: { methodName: string; data: Record<string, string> }
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    const getIntegration = await this._integrationService.getIntegrationById(
+      org.id,
+      id
+    );
+
+    if (!getIntegration) {
+      throw new HttpException({ msg: 'Integration not found' }, 404);
+    }
+
+    const integrationProvider = socialIntegrationList.find(
+      (p) => p.identifier === getIntegration.providerIdentifier
+    )!;
+
+    if (!integrationProvider) {
+      throw new HttpException({ msg: 'Integration provider not found' }, 404);
+    }
+
+    const tools = this._integrationManager.getAllTools();
+    if (
+      // @ts-ignore
+      !tools[integrationProvider.identifier]?.some(
+        (p: any) => p.methodName === body.methodName
+      ) ||
+      // @ts-ignore
+      !integrationProvider[body.methodName]
+    ) {
+      throw new HttpException({ msg: 'Tool not found' }, 404);
+    }
+
+    while (true) {
+      try {
+        // @ts-ignore
+        const result = await integrationProvider[body.methodName](
+          getIntegration.token,
+          body.data || {},
+          getIntegration.internalId,
+          getIntegration
+        );
+
+        return { output: result };
+      } catch (err) {
+        if (err instanceof RefreshToken) {
+          const data = await this._refreshIntegrationService.refresh(
+            getIntegration
+          );
+
+          if (!data) {
+            await this._integrationService.disconnectChannel(
+              org.id,
+              getIntegration
+            );
+            throw new HttpException(
+              { msg: 'Channel disconnected due to expired token' },
+              401
+            );
+          }
+
+          const { accessToken } = data;
+
+          if (accessToken) {
+            getIntegration.token = accessToken;
+
+            if (integrationProvider.refreshWait) {
+              await timer(10000);
+            }
+
+            continue;
+          }
+        }
+        throw new HttpException({ msg: 'Unexpected error' }, 500);
+      }
+    }
   }
 
   @Get('/social/:integration')
