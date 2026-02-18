@@ -34,6 +34,7 @@ import {
   HttpException,
   Param,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -43,7 +44,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Organization } from '@prisma/client';
 import * as Sentry from '@sentry/nestjs';
 import axios from 'axios';
-import { lookup } from 'mime-types';
+import { extension, lookup } from 'mime-types';
 import { Readable } from 'stream';
 
 @ApiTags('Public API')
@@ -90,17 +91,23 @@ export class PublicIntegrationsController {
     });
 
     const buffer = Buffer.from(response.data);
+    const responseMime = response.headers?.['content-type']
+      ?.split(';')[0]
+      ?.trim();
+    const urlMime = lookup(body?.url?.split?.('?')?.[0]);
+    const mimetype = (urlMime || responseMime || 'image/jpeg') as string;
+    const ext = extension(mimetype) || 'jpg';
 
     const getFile = await this.storage.uploadFile({
       buffer,
-      mimetype: lookup(body?.url?.split?.('?')?.[0]) || 'image/jpeg',
+      mimetype,
       size: buffer.length,
       path: '',
       fieldname: '',
       destination: '',
       stream: new Readable(),
       filename: '',
-      originalname: '',
+      originalname: `upload.${ext}`,
       encoding: '',
     });
 
@@ -306,6 +313,45 @@ export class PublicIntegrationsController {
         tools: tools[integration.identifier],
       },
     };
+  }
+
+  @Get('/posts/:id/missing')
+  async getMissingContent(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._postsService.getMissingContent(org.id, id);
+  }
+
+  @Put('/posts/:id/release-id')
+  async updateReleaseId(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string,
+    @Body('releaseId') releaseId: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._postsService.updateReleaseId(org.id, id, releaseId);
+  }
+
+  @Get('/analytics/:integration')
+  async getAnalytics(
+    @GetOrgFromRequest() org: Organization,
+    @Param('integration') integration: string,
+    @Query('date') date: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._integrationService.checkAnalytics(org, integration, date);
+  }
+
+  @Get('/analytics/post/:postId')
+  async getPostAnalytics(
+    @GetOrgFromRequest() org: Organization,
+    @Param('postId') postId: string,
+    @Query('date') date: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._postsService.checkPostAnalytics(org.id, postId, +date);
   }
 
   @Post('/integration-trigger/:id')

@@ -93,7 +93,7 @@ export class MediaController {
     @UploadedFile() file: Express.Multer.File,
     @Body('folderId') folderId?: string
   ) {
-    const originalName = file.originalname;
+    const originalName = file?.originalname || '';
     const uploadedFile = await this.storage.uploadFile(file);
     return this._mediaService.saveFile(
       org.id,

@@ -548,7 +548,7 @@ export const Menu = forwardRef<
                 </svg>
               </div>
               <div className="text-[14px]">
-                {t('change_bot', 'Change Bot')}
+                {t('change_bot', 'Change Bot')}{' '}
                 {[
                   canChangeProfilePicture && t('picture', 'Picture'),
                   canChangeNickName && t('label_nickname', 'Nickname'),
