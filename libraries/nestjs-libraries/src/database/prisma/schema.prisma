@@ -43,6 +43,7 @@ model Organization {
   users             UserOrganization[]
   webhooks          Webhooks[]
 
+  @@index([apiKey])
   @@index([streakSince])
   @@index([paymentId])
 }
