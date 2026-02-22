@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 const getSitemapLinks = (t: any) => ({
@@ -103,15 +104,69 @@ const socialLinks = [
 export function Footer() {
   const t = useT();
   const sitemapLinks = getSitemapLinks(t);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'scale(0.95) translateY(20px)';
+    el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1) translateY(0)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <footer className="bg-[#0E0E0E] text-white">
-      {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-16">
+    <footer>
+      {/* Dark CTA Section */}
+      <div className="px-4 sm:px-6 lg:px-8 pb-8">
+        <div ref={ctaRef} className="max-w-7xl mx-auto bg-[#202124] rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center relative overflow-hidden">
+          {/* Subtle star dots decoration */}
+          <div className="absolute inset-0 opacity-20" style={{
+            backgroundImage: 'radial-gradient(circle, #4285f4 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }} />
+          {/* Glow effect */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 rounded-full blur-[100px]" />
+          <div className="relative z-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-white mb-6 tracking-tight">
+              {t('home_footer_cta_title', 'Start managing your social media today')}
+            </h2>
+            <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+              {t('home_footer_cta_subtitle', 'Join thousands of creators and businesses using Boto to grow their online presence.')}
+            </p>
+            <Link
+              href="/auth/register"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#202124] text-lg font-medium hover:bg-[#f1f3f4] hover:scale-[1.03] transition-all shadow-lg shadow-white/10"
+            >
+              {t('home_hero_cta', 'Get Started Free')}
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Links */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 pb-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1 lg:max-w-xs">
-            <p className="text-white/70 text-sm leading-relaxed mb-4">
+            <p className="text-[#5f6368] text-sm leading-relaxed mb-4">
               {t('home_footer_description', 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.')}
             </p>
           </div>
@@ -119,7 +174,7 @@ export function Footer() {
           {/* Sitemap Links */}
           {Object.values(sitemapLinks).map((section) => (
             <div key={section.title}>
-              <h3 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">
+              <h3 className="text-[#202124] font-medium text-sm mb-4 uppercase tracking-wider">
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -130,7 +185,7 @@ export function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white/70 hover:text-white transition-colors text-sm flex items-center gap-1"
+                        className="text-[#5f6368] hover:text-[#202124] transition-colors text-sm flex items-center gap-1"
                       >
                         {link.label}
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -140,7 +195,7 @@ export function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-white/70 hover:text-white transition-colors text-sm"
+                        className="text-[#5f6368] hover:text-[#202124] transition-colors text-sm"
                       >
                         {link.label}
                       </Link>
@@ -153,33 +208,34 @@ export function Footer() {
         </div>
 
         {/* Large boto Logo */}
-        <div className="mt-16 md:mt-24 flex justify-center">
+        <div className="mt-16 md:mt-20 flex justify-center">
           <Image
             src="/logo-text.svg"
             alt="boto"
             width={1000}
             height={300}
-            className="w-full max-w-5xl h-auto"
+            className="w-full max-w-5xl h-auto opacity-[0.80]"
+            style={{ filter: 'invert(1) brightness(0)' }}
           />
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-black/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/70 text-sm">
+            <p className="text-[#5f6368] text-sm">
               {t('home_footer_copyright', '© {{year}} Boto Social. All rights reserved.', { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center gap-6">
-              <div className="flex items-center gap-4 border-r border-white/20 pr-6">
+              <div className="flex items-center gap-4 border-e border-black/10 pe-6">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-[#5f6368] hover:text-[#202124] hover:scale-110 transition-all"
                     aria-label={social.label}
                   >
                     {social.icon}
@@ -188,7 +244,7 @@ export function Footer() {
               </div>
               <Link
                 href="/sitemap.xml"
-                className="text-white/70 hover:text-white transition-colors text-sm"
+                className="text-[#5f6368] hover:text-[#202124] transition-colors text-sm"
               >
                 {t('home_footer_sitemap', 'Sitemap')}
               </Link>

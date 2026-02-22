@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LogoTextComponent = () => {
+export const LogoTextComponent = ({ color }: { color?: 'black' | 'white' | string }) => {
   return (
     <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 360" width="150" height="50">
 	<defs>
@@ -8,8 +8,8 @@ export const LogoTextComponent = () => {
 	</defs>
 	<style>
 	</style>
-	<g id="white-on-black">
-		<use id="ChatGPT Image Nov 16, 2025, 11_50_12 AM" href="#img1" x="115" y="27"/>
+	<g id="white-on-black" style={{ filter: color === 'black' ? 'invert(1) brightness(0)' : 'none' }}>
+		<use id="logo" href="#img1" x="115" y="27" />
 	</g>
 </svg>
   );

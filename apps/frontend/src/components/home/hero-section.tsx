@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
+import { StarBackground } from './star-background';
 
 const socialPlatforms = [
   { name: 'Instagram', icon: 'instagram.png' },
@@ -16,111 +18,103 @@ const socialPlatforms = [
   { name: 'X', icon: 'x.png' },
   { name: 'Slack', icon: 'slack.png' },
   { name: 'Discord', icon: 'discord.png' },
-  { name: 'Mastodon', icon: 'mastodon.png' },
-  { name: 'Bluesky', icon: 'bluesky.png' },
   { name: 'Telegram', icon: 'telegram.png' },
-  { name: 'VK', icon: 'vk.png' },
-  { name: 'Medium', icon: 'medium.png' },
-  { name: 'Dev.to', icon: 'devto.png' },
-  { name: 'WordPress', icon: 'wordpress.png' },
 ];
 
 export function HeroSection() {
   const t = useT();
+  const videoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      // Calculate how far into the viewport the element is (0 = just entering, 1 = fully visible)
+      const progress = Math.min(1, Math.max(0, (windowH - rect.top) / (windowH * 0.6)));
+      const scale = 0.85 + progress * 0.15; // Scale from 0.85 to 1.0
+      const opacity = 0.3 + progress * 0.7; // Fade from 0.3 to 1.0
+      el.style.transform = `scale(${scale})`;
+      el.style.opacity = `${opacity}`;
+    };
+
+    handleScroll(); // Initial check
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-start pt-32 pb-16 px-4 overflow-hidden">
-      {/* Hand-drawn doodles - Left side */}
-      <div className="absolute left-4 lg:left-16 top-1/4 hidden lg:block opacity-40">
-        <svg width="120" height="180" viewBox="0 0 120 180" fill="none" className="text-white">
-          <path d="M60 10 Q80 40, 60 70 Q40 100, 60 130 Q80 160, 60 170" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/>
-          <circle cx="40" cy="60" r="30" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="70" cy="120" r="20" stroke="currentColor" strokeWidth="2" fill="none"/>
-        </svg>
-      </div>
-
-      {/* Hand-drawn doodles - Right side */}
-      <div className="absolute right-4 lg:right-16 top-1/4 hidden lg:block opacity-40">
-        <svg width="100" height="120" viewBox="0 0 100 120" fill="none" className="text-white">
-          {/* Star shape */}
-          <path d="M50 5 L55 35 L85 40 L60 55 L70 85 L50 65 L30 85 L40 55 L15 40 L45 35 Z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </div>
-
-      {/* Decorative checkmark icon */}
-      <div className="mb-6">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-[#6366F1]">
-          <path d="M8 24 L18 34 L40 12" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M8 30 L14 36" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round"/>
-        </svg>
-      </div>
-
-      <div className="max-w-5xl mx-auto text-center relative z-10">
+    <section className="relative flex flex-col items-center px-4 overflow-hidden">
+      <StarBackground />
+      {/* Hero content — fills the viewport */}
+      <div className="min-h-screen flex flex-col items-center justify-center max-w-4xl mx-auto text-center relative z-10 pt-20 pb-8">
         {/* Main headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium text-[#202124] mb-8 leading-[1.1] tracking-tight">
           {t('home_hero_title_part1', 'Your')}{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-            {t('home_hero_title_part2', 'agentic social')}
-          </span>
+          {t('home_hero_title_part2', 'agentic social')}
           <br />
-          <span className="relative inline-block">
-            {t('home_hero_title_part3', 'media scheduling tool')}
-            {/* Pink underline decoration */}
-            <svg className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-48 h-4" viewBox="0 0 200 20" fill="none">
-              <path d="M5 15 Q50 5, 100 12 Q150 19, 195 8" stroke="#EC4899" strokeWidth="3" fill="none" strokeLinecap="round"/>
-            </svg>
-          </span>
+          {t('home_hero_title_part3', 'media scheduling tool')}
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto mb-10 mt-8">
+        <p className="text-xl sm:text-2xl text-[#3c4043] max-w-3xl mx-auto mb-12 mt-4 leading-relaxed font-light">
           {t('home_hero_subtitle', 'Everything you need to manage your social media posts, build an audience, capture leads, and grow your business faster with AI')}
         </p>
 
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+          <Link
+            href="/auth/register"
+            className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-[#202124] text-white text-lg font-medium hover:bg-[#303134] transition-all hover:scale-[1.03] shadow-md shadow-black/20"
+          >
+            {t('home_hero_cta', 'Get Started Free')}
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+          </Link>
+          <Link
+            href="/#features"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#202124] text-lg font-medium hover:bg-[#f1f3f4] transition-all shadow-sm shadow-black/5 border border-black/5"
+          >
+            {t('home_hero_explore', 'Explore features')}
+          </Link>
+        </div>
+
         {/* Social platform icons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10 max-w-3xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
           {socialPlatforms.map((platform) => (
             <div
               key={platform.name}
-              className="w-10 h-10 rounded-xl flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+              className="w-12 h-12 rounded-full bg-white shadow-sm shadow-black/5 flex items-center justify-center hover:shadow-md hover:scale-110 transition-all cursor-pointer"
               title={platform.name}
             >
               <Image
                 src={`/icons/platforms/${platform.icon}`}
                 alt={platform.name}
-                width={32}
-                height={32}
-                className="w-8 h-8 object-contain rounded-lg"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain rounded-lg"
               />
             </div>
           ))}
         </div>
-
-        {/* CTA Button */}
-        <Link
-          href="/auth/register"
-          className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black text-lg font-semibold hover:bg-gray-100 transition-all hover:scale-105 shadow-lg shadow-white/10"
-        >
-          {t('home_hero_cta', 'Get Started Free')}
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 7l5 5m0 0l-5 5m5-5H6"
-            />
-          </svg>
-        </Link>
       </div>
 
       {/* Hero Video/Screenshot */}
-      <div className="mt-16 max-w-6xl w-full mx-auto px-4">
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/20 border border-white/10">
+      <div ref={videoRef} className="mt-8 max-w-6xl w-full mx-auto px-4 transition-all duration-100 will-change-transform">
+        <div className="relative rounded-3xl overflow-hidden shadow-xl border border-black/5 bg-[#f1f3f4]">
           <video
             autoPlay
             loop

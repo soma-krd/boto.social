@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 const getTargetAudience = (t: any) => [
@@ -72,41 +73,191 @@ const getFeatures = (t: any) => [
   },
 ];
 
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // Start hidden
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(40px)';
+    el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
+function useScaleReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'scale(0.92)';
+    el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
+function AudienceCard({ item, index }: { item: { icon: string; title: string; description: string }; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px) scale(0.95)';
+    el.style.transition = `opacity 0.6s ease-out ${index * 0.15}s, transform 0.6s ease-out ${index * 0.15}s`;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0) scale(1)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      className="bg-white rounded-3xl p-8 shadow-sm shadow-black/5 border border-black/[0.03] hover:shadow-lg hover:shadow-black/10 hover:-translate-y-1 transition-all duration-300 group"
+    >
+      <div className="w-20 h-20 rounded-2xl bg-[#f1f3f4] flex items-center justify-center mb-6 mx-auto group-hover:scale-110 group-hover:bg-[#e8eaed] transition-all duration-300">
+        <Image
+          src={item.icon}
+          alt={item.title}
+          width={48}
+          height={48}
+          className="opacity-70"
+        />
+      </div>
+      <h3 className="text-xl font-medium text-[#202124] mb-3">{item.title}</h3>
+      <p className="text-[#5f6368] text-base leading-relaxed">{item.description}</p>
+    </div>
+  );
+}
+
+function FeatureRow({ feature, index }: { feature: any; index: number }) {
+  const textRef = useScrollReveal();
+  const videoRef = useScaleReveal();
+
+  return (
+    <div
+      className={`flex flex-col ${feature.layout === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
+    >
+      {/* Text content */}
+      <div ref={textRef} className="flex-1 text-center lg:text-start">
+        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold bg-[#202124] text-white mb-5 tracking-wider">
+          {feature.tag}
+        </span>
+        <h3 className="text-3xl md:text-4xl font-medium text-[#202124] mb-5 leading-tight tracking-tight">
+          {index === 0 ? (
+            <>
+              {textRef && 'All the '}
+              <span className="relative inline-block">
+                tools required
+              </span>{' '}
+              for social media growth
+            </>
+          ) : (
+            feature.title
+          )}
+        </h3>
+        <p className="text-[#5f6368] text-lg leading-relaxed">
+          {feature.description}
+        </p>
+      </div>
+
+      {/* Video */}
+      <div ref={videoRef} className="flex-1 w-full">
+        <div className="relative rounded-3xl overflow-hidden shadow-lg shadow-black/10 border border-black/5 bg-white">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={feature.poster}
+            className="w-full h-auto"
+          >
+            <source src={feature.video} type="video/mp4" />
+            <Image
+              src={feature.poster}
+              alt={feature.title}
+              width={700}
+              height={400}
+              className="w-full h-auto"
+            />
+          </video>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function FeaturesSection() {
   const t = useT();
   const targetAudience = getTargetAudience(t);
   const features = getFeatures(t);
+  const sectionHeaderRef = useScrollReveal();
 
   return (
-    <section className="py-24 px-4 bg-[#0E0E0E]">
+    <section id="features" className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Who is it for section */}
         <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('home_features_who_is_it_for', 'Who is it for?')}
-          </h2>
-          <p className="text-white/80 max-w-2xl mx-auto mb-12">
-            {t('home_features_who_is_it_for_subtitle', "Whether you're a creator, business, or agency, we have the tools you need.")}
-          </p>
+          <div ref={sectionHeaderRef}>
+            <h2 className="text-3xl md:text-5xl font-medium text-[#202124] mb-5 tracking-tight">
+              {t('home_features_who_is_it_for', 'Who is it for?')}
+            </h2>
+            <p className="text-[#5f6368] max-w-2xl mx-auto mb-14 text-xl leading-relaxed">
+              {t('home_features_who_is_it_for_subtitle', "Whether you're a creator, business, or agency, we have the tools you need.")}
+            </p>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-4 max-w-6xl mx-auto">
-            {targetAudience.map((item) => (
-              <div
-                key={item.title}
-                className="bg-[#1A1A1A] rounded-2xl p-8 border border-white/5 hover:border-purple-500/30 transition-all group"
-              >
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
-                  <Image
-                    src={item.icon}
-                    alt={item.title}
-                    width={64}
-                    height={64}
-                    className="opacity-80"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold text-white mb-3">{item.title}</h3>
-                <p className="text-white/70 text-lg leading-relaxed">{item.description}</p>
-              </div>
+          <div className="grid md:grid-cols-3 gap-5 max-w-6xl mx-auto">
+            {targetAudience.map((item, index) => (
+              <AudienceCard key={item.title} item={item} index={index} />
             ))}
           </div>
         </div>
@@ -114,59 +265,7 @@ export function FeaturesSection() {
         {/* Features with videos */}
         <div className="space-y-32">
           {features.map((feature, index) => (
-            <div
-              key={feature.tag}
-              className={`flex flex-col ${feature.layout === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
-            >
-              {/* Text content */}
-              <div className="flex-1 text-center lg:text-left">
-                <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold bg-purple-600/20 text-purple-400 mb-4 tracking-wider">
-                  {feature.tag}
-                </span>
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                  {index === 0 ? (
-                    <>
-                      {t('home_features_planning_title_part1', 'All the')}{' '}
-                      <span className="relative inline-block">
-                        {t('home_features_planning_title_part2', 'tools required')}
-                        <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 10" fill="none">
-                          <path d="M0 5 Q50 0, 100 5 Q150 10, 200 5" stroke="#8B5CF6" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                        </svg>
-                      </span>{' '}
-                      {t('home_features_planning_title_part3', 'for social media growth')}
-                    </>
-                  ) : (
-                    feature.title
-                  )}
-                </h3>
-                <p className="text-white/80 text-lg leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-
-              {/* Video */}
-              <div className="flex-1 w-full">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 bg-[#1A1A1A]">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    poster={feature.poster}
-                    className="w-full h-auto"
-                  >
-                    <source src={feature.video} type="video/mp4" />
-                    <Image
-                      src={feature.poster}
-                      alt={feature.title}
-                      width={700}
-                      height={400}
-                      className="w-full h-auto"
-                    />
-                  </video>
-                </div>
-              </div>
-            </div>
+            <FeatureRow key={feature.tag} feature={feature} index={index} />
           ))}
         </div>
       </div>

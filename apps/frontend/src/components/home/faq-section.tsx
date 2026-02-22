@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 const getFaqs = (t: any) => [
@@ -26,10 +26,105 @@ const getFaqs = (t: any) => [
   },
 ];
 
+function FaqItem({ faq, index, isOpen, onToggle }: { faq: { question: string; answer: string }; index: number; isOpen: boolean; onToggle: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = `opacity 0.5s ease-out ${index * 0.1}s, transform 0.5s ease-out ${index * 0.1}s`;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      className={`rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer border ${
+        isOpen
+          ? 'bg-white shadow-md shadow-black/5 border-black/10'
+          : 'bg-white/60 hover:bg-white shadow-sm shadow-black/[0.03] border-black/5 hover:shadow-md hover:border-black/10'
+      }`}
+    >
+      <button
+        onClick={onToggle}
+        className="w-full px-6 py-5 flex items-center justify-between text-start"
+      >
+        <span className="font-medium text-[#202124] pe-4 text-lg">
+          {faq.question}
+        </span>
+        <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+          isOpen ? 'bg-[#202124] rotate-180' : 'bg-[#f1f3f4]'
+        }`}>
+          <svg
+            className={`w-4 h-4 transition-colors ${isOpen ? 'text-white' : 'text-[#5f6368]'}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+      </button>
+      <div className={`grid transition-all duration-300 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+        <div className="overflow-hidden">
+          <div className="px-6 pb-5">
+            <p className="text-[#5f6368] leading-relaxed text-base">{faq.answer}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function FAQSection() {
   const t = useT();
   const faqs = getFaqs(t);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -39,48 +134,22 @@ export function FAQSection() {
     <section className="py-20 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 italic">
+        <div ref={headerRef} className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-[#202124] mb-4 tracking-tight">
             {t('home_faq_title', 'Frequently asked questions')}
           </h2>
         </div>
 
         {/* FAQ items */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
-            <div
+            <FaqItem
               key={index}
-              className="border border-white/10 rounded-2xl overflow-hidden bg-[#141420] hover:border-purple-500/30 transition-colors"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left"
-              >
-                <span className="font-medium text-white pr-4">
-                  {faq.question}
-                </span>
-                <div className={`w-8 h-8 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 transition-all ${openIndex === index ? 'bg-white/10 rotate-180' : ''}`}>
-                  <svg
-                    className="w-4 h-4 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-              </button>
-              <div className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'}`}>
-                <div className="px-6 pb-5">
-                  <p className="text-white/80 leading-relaxed">{faq.answer}</p>
-                </div>
-              </div>
-            </div>
+              faq={faq}
+              index={index}
+              isOpen={openIndex === index}
+              onToggle={() => toggleFAQ(index)}
+            />
           ))}
         </div>
       </div>

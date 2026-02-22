@@ -2,47 +2,47 @@
 
 export function PrivacyPolicyContent() {
   return (
-    <div className="w-full max-w-none text-white/80">
+    <div className="w-full max-w-none text-slate-700">
       <p className="text-lg leading-relaxed mb-8">
         At Boto (&ldquo;Company,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), we are committed to protecting the privacy and security of our users&apos; personal information. This Privacy Policy outlines how we collect, use, and safeguard the personal information collected on our website. By accessing or using our website, registering for the Website, and providing your personal information, you agree to the terms and conditions of this Privacy Policy.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">1. Our Services</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">1. Our Services</h2>
       
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Boto Services</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Boto Services</h3>
       <p className="leading-relaxed mb-4">
         Boto&apos;s suite of social media management and social care tools is accessible via our websites and mobile applications. These tools allow you to combine all your social media accounts for easy access and management through a single online platform. Through this platform, you can manage your social media, marketing, and advertising campaigns, engage with your audiences, schedule and publish messages, manage customer care communications, and analyze the results of these activities.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Social Networks</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Social Networks</h3>
       <p className="leading-relaxed mb-4">
         Any collection, use, and management of personal information by the social networks, including Facebook, Instagram, Twitter, LinkedIn, and TikTok (collectively, the &ldquo;Social Networks&rdquo;) are governed by their respective privacy policies and terms. When using Social Networks, you must comply with their privacy policies and terms. We recommend carefully reviewing their privacy policies and terms, as Boto is not responsible for Social Networks.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Your Privacy Obligations</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Your Privacy Obligations</h3>
       <p className="leading-relaxed mb-4">
         We rely on you to comply with applicable privacy laws when collecting, using, or disclosing information about individuals through the Services, including obtaining any necessary consents and providing any necessary notices. If we receive any questions or complaints regarding your use of the Services, we will direct the request to you for further assistance.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Business Purposes</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Business Purposes</h3>
       <p className="leading-relaxed mb-4">
         Our Services are not intended for use by children and should only be accessed by individuals at least 18 years old and are using the Services for business purposes.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">2. What information do we collect?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">2. What information do we collect?</h2>
       <p className="leading-relaxed mb-4">We collect information about you as reasonably necessary for the following activities:</p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Using our Services</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Using our Services</h3>
       <p className="leading-relaxed mb-4">We may collect the following information when you use our Services:</p>
 
-      <h4 className="text-lg font-semibold text-white mt-6 mb-3">Account information:</h4>
+      <h4 className="text-lg font-semibold text-slate-900 mt-6 mb-3">Account information:</h4>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Your contact and profile information, including your name, email address, organization name, and address; your preferences such as language, time zone, and the types of communications you would like to receive from us; and image (if you choose to provide this). We may also obtain this information if you use a social login service like Facebook Login to create or access your account.</li>
         <li>Billing and other payment information (if you sign up for a paid service), including payment method details, such as credit card number.</li>
         <li>The Services you have acquired from us, including the type of plan, number of team members, and transaction information related to the Services.</li>
       </ul>
 
-      <h4 className="text-lg font-semibold text-white mt-6 mb-3">Content:</h4>
+      <h4 className="text-lg font-semibold text-slate-900 mt-6 mb-3">Content:</h4>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Your social profile information for Social Networks you choose to connect to the Services. For example, your Facebook profile information may include your Facebook username and profile image.</li>
         <li>If you share this information, please provide a specific location, such as an address, a city, or a place (for example, a restaurant).</li>
@@ -53,7 +53,7 @@ export function PrivacyPolicyContent() {
         <li>Content that you may send and receive through Social Networks and other messaging services, such as SMS, may contain personal information of third parties. This may include information such as names, photos, age, gender, geographic location, opinions, preferences, and phone numbers that are provided or posted by social media users.</li>
       </ul>
 
-      <h4 className="text-lg font-semibold text-white mt-6 mb-3">Logs, usage, and support data:</h4>
+      <h4 className="text-lg font-semibold text-slate-900 mt-6 mb-3">Logs, usage, and support data:</h4>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Log data, which may include your IP address, the address of the web page you visited before using the Services, your browser type and settings, your device information (such as make, model, and OS), the date and time when you used the Services, information about your browser configuration, language preferences, unique identifiers, and cookies.</li>
         <li>Usage data and analytics may include the frequency of logins and the different types of activity users undertake, such as frequently accessed service areas.</li>
@@ -61,7 +61,7 @@ export function PrivacyPolicyContent() {
         <li>Customer support questions, issues, and general feedback that you choose to provide.</li>
       </ul>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Surveys, events, marketing, and other activities</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Surveys, events, marketing, and other activities</h3>
       <p className="leading-relaxed mb-4">Surveys, contests, and events (such as webinars and in-person events) for those we host or are affiliated with:</p>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Contact information includes your name, email address, telephone number, organization name, and address.</li>
@@ -77,7 +77,7 @@ export function PrivacyPolicyContent() {
         <li>Accessing resources (e.g. videos, whitepapers or case studies) on our website: Your name and contact information, and engagement analytics such as the type and frequency of resources accessed, viewed and downloaded.</li>
       </ul>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Browsing our websites</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Browsing our websites</h3>
       <p className="leading-relaxed mb-4">When you browse our websites, we collect information about you as described below, some of which is collected automatically:</p>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>When you use automated chat functionality (chatbots) to make an inquiry, provide feedback, or make another request, we may collect information about you such as your name and email address, your specific feedback or request, and information related to your use of our Services.</li>
@@ -85,10 +85,10 @@ export function PrivacyPolicyContent() {
         <li>Website usage data including engagement rate, the address of the previous web page that directed you to our website, browser type, session experience and replay, and mouse movements.</li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">3. How do we use your information?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">3. How do we use your information?</h2>
       <p className="leading-relaxed mb-4">We use your information for the purposes described below:</p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Providing and securing our Services</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Providing and securing our Services</h3>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>We need to identify and authenticate our users to ensure, for example, that only those authorized users are able to use the Services for their organization, and to make changes to their accounts.</li>
         <li>We use information that you provide when signing up to set up your account, process payments, contact you regarding the Services, and manage your account.</li>
@@ -99,7 +99,7 @@ export function PrivacyPolicyContent() {
         <li>We use Content, information that you send and receive through Social Networks, and other information from these Social Networks (such as your messages, posts, comments, images, advertising, and other material you curate on and upload to the Services) in order to provide the Services.</li>
       </ul>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Communicating with you</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Communicating with you</h3>
       <p className="leading-relaxed mb-4">
         We use your contact information where appropriate to send you information about our Services, events, marketing communications (consistent with your preferences).
       </p>
@@ -107,7 +107,7 @@ export function PrivacyPolicyContent() {
         We use email statistics, such as open rates, to assess the effectiveness of, and to make improvements to our communications. We also use engagement analytics to better understand your needs so that we can provide the information and services that would be more suitable for you.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Improving our websites and applications</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Improving our websites and applications</h3>
       <p className="leading-relaxed mb-4">
         We use information about you to help us understand usage patterns and other activities on our websites and applications so that we can diagnose problems and make improvements, including enhancing usability and security. We also use website personalization software to help us present information on our websites that may be more relevant to you, such as displaying resources applicable to your industry or organization size.
       </p>
@@ -115,56 +115,56 @@ export function PrivacyPolicyContent() {
         If you choose to provide information about you, your usage of social media services and other feedback during telephone calls and other interactions to our customer support and sales teams, we may use, monitor, and record this information for training purposes, to make improvements to our internal sales and marketing processes, and to improve our Services.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">4. What are your rights regarding the information about you?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">4. What are your rights regarding the information about you?</h2>
       
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Services information</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Services information</h3>
       <p className="leading-relaxed mb-4">
         When using our Services, you may access, update, or correct most of your Account information by logging in to your account to edit your profile or organization record.
       </p>
       <p className="leading-relaxed mb-4">
         If you have requests that cannot be carried out by logging in to your account, such as accessing additional information or deleting information about you, please email our{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">privacy team</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">privacy team</a>
         . Please note that we may need to retain certain information about you for as long as you maintain an account for our Services, to provide you with our Services, for record keeping purposes, for payment processing, to comply with our legal and regulatory obligations, to resolve disputes, or to enforce the{' '}
-        <a href="/terms-of-service" className="text-violet-400 hover:text-violet-300 underline transition-colors">Boto terms of service</a>
+        <a href="/terms-of-service" className="text-violet-600 hover:text-violet-700 underline transition-colors">Boto terms of service</a>
         , or other agreement in place between you (or your organization) and Boto (collectively, the &ldquo;Terms of Service&rdquo;).
       </p>
       <p className="leading-relaxed mb-4">
         Requests to access, correct, update, or delete your information can be made in writing to our{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">privacy team</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">privacy team</a>
         {' '}and will be handled within thirty (30) days unless they are unusually extensive or complex, in which case we will advise you of the expected timeline for handling your request.
       </p>
       <p className="leading-relaxed mb-4">
         If you have authorized us to access your Social Network account to provide the Services, you may revoke this access at any time by emailing our support team{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">here</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">here</a>
         . For example, if you have authorized us to access your information via the YouTube API services, in addition to our normal procedure for deleting stored data, you may revoke our access to your data via the Google security settings page, located{' '}
-        <a href="https://security.google.com/settings/security/permissions" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 underline transition-colors">here</a>
+        <a href="https://security.google.com/settings/security/permissions" target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:text-violet-700 underline transition-colors">here</a>
         .
       </p>
       <p className="leading-relaxed mb-4">
         You can contact our Support team for other general requests{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">here</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">here</a>
         .
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Marketing emails, advertising and website browsing</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Marketing emails, advertising and website browsing</h3>
       <p className="leading-relaxed mb-4">
         For marketing communications, you may opt out of marketing communications sent by Boto by accessing by clicking on the unsubscribe link in the marketing email you receive. Please note that if you are a Boto user, unsubscribing from marketing communications will not affect product-generated emails sent in connection with your use of our Services.
       </p>
       <p className="leading-relaxed mb-4">
         Boto participates in interest-based advertising (where you may have visited our websites or another website which allows us to display advertising relating to our Services). The Network Advertising Initiative has developed a tool that may help you understand which third parties have currently enabled cookies for your browser and how to opt out of those cookies. For more information and to opt out of interest-based advertising, you can visit this{' '}
-        <a href="http://optout.networkadvertising.org/?c=1#!%2F" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 underline transition-colors">page</a>
+        <a href="http://optout.networkadvertising.org/?c=1#!%2F" target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:text-violet-700 underline transition-colors">page</a>
         .
       </p>
       <p className="leading-relaxed mb-4">
         For more information on how to opt out of marketing cookies, review our Cookie Notice.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">5. Who has access to your information?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">5. Who has access to your information?</h2>
       <p className="leading-relaxed mb-4">
         Boto does not rent or sell your information. We restrict access to your information to authorized employees and we do not share your information with third parties except in the circumstances explained below.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Authorized Contractors</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Authorized Contractors</h3>
       <p className="leading-relaxed mb-4">
         Our authorized contractors may need to access information about you when they require this information to perform their job. For example, a customer support representative would need access to your account to validate your identity and respond to your question or request; our email communications team would need access to your contact information to ensure this information is sent correctly and any unsubscribe requests are properly managed; and our security staff would need to review information to investigate attempted denial of service attacks, fraudulent account activity, or other attempts to compromise the Services.
       </p>
@@ -172,7 +172,7 @@ export function PrivacyPolicyContent() {
         All our employees and contractors are required to agree to maintain the confidentiality and protect the privacy of your information.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Service Providers, Authorized Resellers, and Partners</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Service Providers, Authorized Resellers, and Partners</h3>
       <p className="leading-relaxed mb-4">
         We will share limited information about you to authorized service providers we use for marketing services, communicating with you, managing our customer database, the provision of professional services, and providing and managing the Services (including hosting data centers, securing our Services, and payment processing).
       </p>
@@ -189,19 +189,19 @@ export function PrivacyPolicyContent() {
         We may also participate in and run marketing events (e.g. conferences, webinars, and provide resources) with sponsors and other organizations. Where the sponsors or other organizations wish to collect your information for their marketing purposes, while we may facilitate this (e.g. information may be collected on the same registration form), they will be doing so independently under their own policies. We will advise you and provide you an opportunity for you to share your information with the sponsors or other organizations for such purposes, either upon registration or during the event.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Social Networks and Third-Party Services</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Social Networks and Third-Party Services</h3>
       <p className="leading-relaxed mb-4">
         Where you are using our Services and have chosen to connect your Social Networks to the Services, or if you authorize a Third-Party Service to access your account, you are agreeing to provide information about you to the Social Networks and the Third-Party Services under their respective terms and privacy policies. For example, if you choose to connect your YouTube account to the Services, this connection uses YouTube&apos;s API services, and the Google Privacy Policy (located{' '}
-        <a href="https://www.google.com/policies/privacy" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 underline transition-colors">here</a>
+        <a href="https://www.google.com/policies/privacy" target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:text-violet-700 underline transition-colors">here</a>
         ) will apply to you.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Customer Organizations</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Customer Organizations</h3>
       <p className="leading-relaxed mb-4">
         Where your employer or an entity has purchased Services on your behalf, we may disclose information about you such as your name and email address, and some usage information including whether a user has logged in to the Service, frequency of login, time spent using the Services, and enrollment and completion of Boto Academy courses to assist your employer or the entity in managing its use and maximizing the value of the Services.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Successor and Affiliated Entities</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Successor and Affiliated Entities</h3>
       <p className="leading-relaxed mb-4">
         We may share information about you among Boto-controlled affiliates and subsidiaries, and they will protect your information in a manner that is consistent with this Privacy Policy and where applicable, in accordance with the privacy policy specific to the entity.
       </p>
@@ -209,7 +209,7 @@ export function PrivacyPolicyContent() {
         We may also disclose your information as part of a corporate transaction such as a merger or sale of assets. If we do, we will inform such entities of the requirement to handle your information in accordance with this Privacy Policy, or inform you that you are covered by a new privacy policy.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Law Enforcement, Government Agencies, and Professional Advisors</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Law Enforcement, Government Agencies, and Professional Advisors</h3>
       <p className="leading-relaxed mb-4">
         We may need to disclose information about you where we believe that it is reasonably necessary to comply with a law or regulation, or if we are otherwise legally required to do so, such as in response to a court order or legal process, or to establish, protect, or exercise our legal rights or to defend against legal claims or demands. For governmental data access requests concerning you or your organization, we would first attempt to redirect the request to you and/or we would first attempt to notify you unless we are legally prohibited from doing so.
       </p>
@@ -220,7 +220,7 @@ export function PrivacyPolicyContent() {
         We also use professional advisors, including lawyers and accountants, and may be required to disclose information about you when engaging them for their services and as necessary for audits, financial and other regulatory reviews.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">6. What international data transfers occur at Boto?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">6. What international data transfers occur at Boto?</h2>
       <p className="leading-relaxed mb-4">
         Under the General Data Protection Regulation (GDPR) and other data protection laws, information about you may only be transferred from your region to other regions if certain requirements are met. For instance, under the GDPR, information about you may be transferred from the European Economic Area (EEA) to outside the EEA if adequate data protections are in place.
       </p>
@@ -234,7 +234,7 @@ export function PrivacyPolicyContent() {
         By its nature, social media data can be shared with people around the globe. The Social Networks and Third-Party Services that you choose to integrate with our Services may collect, store, and process your information from various locations around the world according to their own terms and privacy policies.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">7. How do we safeguard your information?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">7. How do we safeguard your information?</h2>
       <p className="leading-relaxed mb-4">
         Boto maintains industry standard security safeguards to protect your information. This includes ensuring our employees receive appropriate security and privacy training and guidance so they are aware of the measures they need to implement to protect your information.
       </p>
@@ -245,7 +245,7 @@ export function PrivacyPolicyContent() {
         We encrypt data in transit and at rest, where appropriate, to ensure that your information is kept private. We undertake service provider security and privacy reviews to ensure that service providers follow our stringent requirements to safeguard your information, and we also enter into data protection agreements with our service providers. All payment information is fully encrypted and handled only by PCI certified organizations.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">8. How long do we retain your information?</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">8. How long do we retain your information?</h2>
       <p className="leading-relaxed mb-4">
         In general for the Boto Services, we do not permanently store Content from Social Networks. Rather, when you login to the Services, we retrieve data from Social Networks in real time so that it is displayed in the platform for viewing during your session. We store other Content that you produce (such as draft Content for publication on Social Networks) so that you can easily access this material on the Services.
       </p>
@@ -256,12 +256,12 @@ export function PrivacyPolicyContent() {
         We retain your information as long as required to provide the Services requested by you, for record keeping purposes, to comply with our legal obligations, resolve disputes, and enforce the terms for the Services. After it is no longer necessary for us to retain information about you, or otherwise upon your request, we will dispose of it in a secure manner or anonymize the information.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">9. Boto&apos;s roles under the GDPR and UK data protection laws</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">9. Boto&apos;s roles under the GDPR and UK data protection laws</h2>
       <p className="leading-relaxed mb-4">
         Depending on the situation and the type of data involved, Boto may act as a data controller or a data processor.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Boto as a data controller</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Boto as a data controller</h3>
       <p className="leading-relaxed mb-4">Boto may act as a data controller when we are:</p>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Collecting information from you to set up and administer your Boto account (for example, Account information such as your name and email address);</li>
@@ -271,7 +271,7 @@ export function PrivacyPolicyContent() {
         <li>Recruiting individuals for job opportunities.</li>
       </ul>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Legal bases for processing when Boto is a data controller</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Legal bases for processing when Boto is a data controller</h3>
       <p className="leading-relaxed mb-4">The legal bases for processing information about you include:</p>
       <ul className="list-disc pl-6 space-y-2 mb-4">
         <li>Your consent (for example, when you have provided your information to sign up for an account or a webinar, or you have provided your employment history when applying for a job). Where we rely on your consent to process personal data, you can withdraw your consent at any time.</li>
@@ -280,7 +280,7 @@ export function PrivacyPolicyContent() {
         <li>In some cases, we may have a legal obligation to process your personal data to comply with relevant laws (for example, processing payroll and tax information to comply with relevant employment and tax legislation); or processing is necessary to protect your vital interests or those of another person (for example, obtaining health-related information during a medical emergency).</li>
       </ul>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Your rights when Boto is a data controller</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Your rights when Boto is a data controller</h3>
       <p className="leading-relaxed mb-4">
         Where Boto is acting as a data controller, we have outlined certain rights in the &ldquo;What are your privacy rights?&rdquo; section.
       </p>
@@ -292,11 +292,11 @@ export function PrivacyPolicyContent() {
       </ul>
       <p className="leading-relaxed mb-4">
         If you would like assistance on any of the above requests, please email our{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">Privacy team</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">Privacy team</a>
         .
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Boto as a data processor</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Boto as a data processor</h3>
       <p className="leading-relaxed mb-4">
         When you use our Services and make decisions about the personal data being processed in them (including selecting the Social Network accounts you wish to connect to the Services or uploading and using Content), you are acting as a data controller, and Boto is acting as a data processor.
       </p>
@@ -310,12 +310,12 @@ export function PrivacyPolicyContent() {
         If you are using the Services as an authorized user of a Boto customer (whether that customer is your employer, another organization, or an individual), that customer determines its own policies (if any) regarding storage, access, modification, deletion, sharing, and retention of personal data and Content, which may apply to your use of the Services. Please check with that customer about the policies and settings it has in place.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">10. Your California Privacy Rights</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">10. Your California Privacy Rights</h2>
       <p className="leading-relaxed mb-4">
         Suppose you are a consumer as defined in the California Consumer Privacy Act (CCPA) and as amended by the California Privacy Rights Act (CPRA) (collectively, &ldquo;California Privacy Laws&rdquo;). In that case, the following provisions apply to you. Definitions of terms are set out in the California Privacy Laws.
       </p>
 
-      <h3 className="text-xl font-bold text-white mt-8 mb-4">Your Rights</h3>
+      <h3 className="text-xl font-bold text-slate-900 mt-8 mb-4">Your Rights</h3>
       <p className="leading-relaxed mb-4">We have outlined certain rights in the section &ldquo;What are your privacy rights?&rdquo;</p>
       <p className="leading-relaxed mb-4">Under the California Privacy Laws, you may have the following specific rights:</p>
       <ul className="list-disc pl-6 space-y-2 mb-4">
@@ -326,14 +326,14 @@ export function PrivacyPolicyContent() {
       </ul>
       <p className="leading-relaxed mb-4">
         You may access, update, or correct most of your Account information by logging in to your account; or you may exercise your rights by emailing our{' '}
-        <a href="mailto:hi@boto.social" className="text-violet-400 hover:text-violet-300 underline transition-colors">Privacy team</a>
+        <a href="mailto:hi@boto.social" className="text-violet-600 hover:text-violet-700 underline transition-colors">Privacy team</a>
         .
       </p>
       <p className="leading-relaxed mb-4">
         While we disclose personal information to service providers for the purpose of managing our relationship with you (e.g. distributing marketing communications) and providing the Services, we do not sell your personal information.
       </p>
 
-      <h2 className="text-2xl font-bold text-white mt-12 mb-6">11. Changes to this Privacy Policy</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mt-12 mb-6">11. Changes to this Privacy Policy</h2>
       <p className="leading-relaxed mb-4">
         We may change this privacy policy at any time to reflect updates to our Services, applicable laws, and other factors. If we make any material changes, we will include a prominent notice on this website and/or our Services, but we encourage you to review this policy periodically to stay informed.
       </p>
