@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
 
 const getSitemapLinks = (t: any) => ({
@@ -103,30 +104,56 @@ const socialLinks = [
 export function Footer() {
   const t = useT();
   const sitemapLinks = getSitemapLinks(t);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+
+    el.style.opacity = '0';
+    el.style.transform = 'scale(0.95) translateY(20px)';
+    el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'scale(1) translateY(0)';
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <footer>
       {/* Dark CTA Section */}
       <div className="px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="max-w-7xl mx-auto bg-[#202124] rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center relative overflow-hidden">
+        <div ref={ctaRef} className="max-w-7xl mx-auto bg-[#202124] rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center relative overflow-hidden">
           {/* Subtle star dots decoration */}
           <div className="absolute inset-0 opacity-20" style={{
             backgroundImage: 'radial-gradient(circle, #4285f4 1px, transparent 1px)',
             backgroundSize: '40px 40px',
           }} />
+          {/* Glow effect */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-500/10 rounded-full blur-[100px]" />
           <div className="relative z-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal text-white mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-white mb-6 tracking-tight">
               {t('home_footer_cta_title', 'Start managing your social media today')}
             </h2>
-            <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
               {t('home_footer_cta_subtitle', 'Join thousands of creators and businesses using Boto to grow their online presence.')}
             </p>
             <Link
               href="/auth/register"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-[#202124] text-base font-medium hover:bg-[#f1f3f4] transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#202124] text-lg font-medium hover:bg-[#f1f3f4] hover:scale-[1.03] transition-all shadow-lg shadow-white/10"
             >
               {t('home_hero_cta', 'Get Started Free')}
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </Link>
@@ -187,7 +214,8 @@ export function Footer() {
             alt="boto"
             width={1000}
             height={300}
-            className="w-full max-w-5xl h-auto opacity-10"
+            className="w-full max-w-5xl h-auto opacity-[0.80]"
+            style={{ filter: 'invert(1) brightness(0)' }}
           />
         </div>
       </div>
@@ -207,7 +235,7 @@ export function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#5f6368] hover:text-[#202124] transition-colors"
+                    className="text-[#5f6368] hover:text-[#202124] hover:scale-110 transition-all"
                     aria-label={social.label}
                   >
                     {social.icon}
