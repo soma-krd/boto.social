@@ -40,28 +40,28 @@ export function FAQSection() {
       <div className="max-w-3xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 italic">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal text-[#202124] mb-4 tracking-tight">
             {t('home_faq_title', 'Frequently asked questions')}
           </h2>
         </div>
 
         {/* FAQ items */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border border-white/10 rounded-2xl overflow-hidden bg-[#141420] hover:border-purple-500/30 transition-colors"
+              className="rounded-2xl overflow-hidden bg-[#f1f3f4] hover:bg-[#e8eaed] transition-colors cursor-pointer"
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left"
+                className="w-full px-6 py-5 flex items-center justify-between text-start"
               >
-                <span className="font-medium text-white pr-4">
+                <span className="font-medium text-[#202124] pe-4">
                   {faq.question}
                 </span>
-                <div className={`w-8 h-8 rounded-full border border-white/20 flex items-center justify-center flex-shrink-0 transition-all ${openIndex === index ? 'bg-white/10 rotate-180' : ''}`}>
+                <div className={`w-8 h-8 rounded-full bg-white flex items-center justify-center flex-shrink-0 transition-all ${openIndex === index ? 'rotate-180' : ''}`}>
                   <svg
-                    className="w-4 h-4 text-white"
+                    className="w-4 h-4 text-[#5f6368]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -77,7 +77,7 @@ export function FAQSection() {
               </button>
               <div className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'}`}>
                 <div className="px-6 pb-5">
-                  <p className="text-white/80 leading-relaxed">{faq.answer}</p>
+                  <p className="text-[#5f6368] leading-relaxed">{faq.answer}</p>
                 </div>
               </div>
             </div>

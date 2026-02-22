@@ -78,14 +78,14 @@ export function FeaturesSection() {
   const features = getFeatures(t);
 
   return (
-    <section className="py-24 px-4 bg-[#0E0E0E]">
+    <section id="features" className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Who is it for section */}
         <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-normal text-[#202124] mb-4 tracking-tight">
             {t('home_features_who_is_it_for', 'Who is it for?')}
           </h2>
-          <p className="text-white/80 max-w-2xl mx-auto mb-12">
+          <p className="text-[#5f6368] max-w-2xl mx-auto mb-12 text-lg">
             {t('home_features_who_is_it_for_subtitle', "Whether you're a creator, business, or agency, we have the tools you need.")}
           </p>
 
@@ -93,19 +93,19 @@ export function FeaturesSection() {
             {targetAudience.map((item) => (
               <div
                 key={item.title}
-                className="bg-[#1A1A1A] rounded-2xl p-8 border border-white/5 hover:border-purple-500/30 transition-all group"
+                className="bg-[#f1f3f4] rounded-3xl p-8 hover:bg-[#e8eaed] transition-all group"
               >
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                <div className="w-20 h-20 rounded-2xl bg-white flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform shadow-sm">
                   <Image
                     src={item.icon}
                     alt={item.title}
-                    width={64}
-                    height={64}
+                    width={48}
+                    height={48}
                     className="opacity-80"
                   />
                 </div>
-                <h3 className="text-2xl font-semibold text-white mb-3">{item.title}</h3>
-                <p className="text-white/70 text-lg leading-relaxed">{item.description}</p>
+                <h3 className="text-xl font-medium text-[#202124] mb-3">{item.title}</h3>
+                <p className="text-[#5f6368] text-base leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -119,19 +119,16 @@ export function FeaturesSection() {
               className={`flex flex-col ${feature.layout === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}
             >
               {/* Text content */}
-              <div className="flex-1 text-center lg:text-left">
-                <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold bg-purple-600/20 text-purple-400 mb-4 tracking-wider">
+              <div className="flex-1 text-center lg:text-start">
+                <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-[#f1f3f4] text-[#5f6368] mb-4 tracking-wider">
                   {feature.tag}
                 </span>
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                <h3 className="text-3xl md:text-4xl font-normal text-[#202124] mb-4 leading-tight tracking-tight">
                   {index === 0 ? (
                     <>
                       {t('home_features_planning_title_part1', 'All the')}{' '}
                       <span className="relative inline-block">
                         {t('home_features_planning_title_part2', 'tools required')}
-                        <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 10" fill="none">
-                          <path d="M0 5 Q50 0, 100 5 Q150 10, 200 5" stroke="#8B5CF6" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                        </svg>
                       </span>{' '}
                       {t('home_features_planning_title_part3', 'for social media growth')}
                     </>
@@ -139,14 +136,14 @@ export function FeaturesSection() {
                     feature.title
                   )}
                 </h3>
-                <p className="text-white/80 text-lg leading-relaxed">
+                <p className="text-[#5f6368] text-lg leading-relaxed">
                   {feature.description}
                 </p>
               </div>
 
               {/* Video */}
               <div className="flex-1 w-full">
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 bg-[#1A1A1A]">
+                <div className="relative rounded-3xl overflow-hidden shadow-lg border border-black/5 bg-[#f1f3f4]">
                   <video
                     autoPlay
                     loop

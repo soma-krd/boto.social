@@ -8,7 +8,7 @@ import { Footer } from './footer';
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-[#0E0E0E]">
+    <div className="min-h-screen bg-[#f8faff] text-[#202124]">
       <HomeHeader />
       <main>
         <HeroSection />
