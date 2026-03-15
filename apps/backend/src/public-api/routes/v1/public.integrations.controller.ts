@@ -241,6 +241,49 @@ export class PublicIntegrationsController {
     );
   }
 
+  @Get('/social/:integration')
+  @CheckPolicies([AuthorizationActions.Create, Sections.CHANNEL])
+  async getIntegrationUrl(
+    @Param('integration') integration: string,
+    @Query('refresh') refresh: string,
+    @GetOrgFromRequest() org: Organization
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    if (
+      !this._integrationManager
+        .getAllowedSocialsIntegrations()
+        .includes(integration)
+    ) {
+      throw new HttpException({ msg: 'Integration not allowed' }, 400);
+    }
+
+    const integrationProvider =
+      this._integrationManager.getSocialIntegration(integration);
+
+    if (integrationProvider.externalUrl) {
+      throw new HttpException(
+        { msg: 'This integration requires an external URL and is not supported via the public API' },
+        400
+      );
+    }
+
+    try {
+      const { codeVerifier, state, url } =
+        await integrationProvider.generateAuthUrl();
+
+      if (refresh) {
+        await ioRedis.set(`refresh:${state}`, refresh, 'EX', 3600);
+      }
+
+      await ioRedis.set(`organization:${state}`, org.id, 'EX', 3600);
+      await ioRedis.set(`login:${state}`, codeVerifier, 'EX', 3600);
+
+      return { url };
+    } catch (err) {
+      throw new HttpException({ msg: 'Failed to generate auth URL' }, 500);
+    }
+  }
+
   @Get('/notifications')
   async getNotifications(
     @GetOrgFromRequest() org: Organization,
@@ -270,6 +313,25 @@ export class PublicIntegrationsController {
       body.functionName,
       body.params
     );
+  }
+
+  @Delete('/integrations/:id')
+  async deleteChannel(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    const isTherePosts = await this._integrationService.getPostsForChannel(
+      org.id,
+      id
+    );
+    if (isTherePosts.length) {
+      for (const post of isTherePosts) {
+        this._postsService.deletePost(org.id, post.group).catch(() => {});
+      }
+    }
+
+    return this._integrationService.deleteChannel(org.id, id);
   }
 
   @Get('/integration-settings/:id')
@@ -437,7 +499,7 @@ export class PublicIntegrationsController {
 
   @Get('/social/:integration')
   @CheckPolicies([AuthorizationActions.Create, Sections.CHANNEL])
-  async getIntegrationUrl(
+  async getIntegrationUrlExternal(
     @Param('integration') integration: string,
     @Query('refresh') refresh: string,
     @Query('externalUrl') externalUrl: string,
@@ -500,24 +562,6 @@ export class PublicIntegrationsController {
     return this._integrationService.saveProviderPage(org.id, id, body);
   }
 
-  @Delete('/integrations/:id')
-  async deleteChannel(
-    @GetOrgFromRequest() org: Organization,
-    @Param('id') id: string
-  ) {
-    Sentry.metrics.count('public_api-request', 1);
-    const isTherePosts = await this._integrationService.getPostsForChannel(
-      org.id,
-      id
-    );
-    if (isTherePosts.length) {
-      for (const post of isTherePosts) {
-        await this._postsService.deletePost(org.id, post.group);
-      }
-    }
-
-    return this._integrationService.deleteChannel(org.id, id);
-  }
 
   @Post('/integrations/:id/disable')
   disableChannel(

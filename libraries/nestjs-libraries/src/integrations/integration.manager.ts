@@ -35,6 +35,7 @@ import { SocialAbstract } from '@gitroom/nestjs-libraries/integrations/social.ab
 import { MoltbookProvider } from '@gitroom/nestjs-libraries/integrations/social/moltbook.provider';
 import { SkoolProvider } from '@gitroom/nestjs-libraries/integrations/social/skool.provider';
 import { WhopProvider } from '@gitroom/nestjs-libraries/integrations/social/whop.provider';
+import { MeweProvider } from '@gitroom/nestjs-libraries/integrations/social/mewe.provider';
 
 export const socialIntegrationList: Array<SocialAbstract & SocialProvider> = [
   new XProvider(process.env.ENABLE_X == 'true'),

@@ -1,66 +1,56 @@
-import { ProvidersInterface } from '@gitroom/backend/services/auth/providers.interface';
+import {
+  AuthProvider,
+  AuthProviderAbstract,
+} from '@gitroom/backend/services/auth/providers.interface';
 
-export class OauthProvider implements ProvidersInterface {
-  private readonly authUrl: string;
-  private readonly baseUrl: string;
-  private readonly clientId: string;
-  private readonly clientSecret: string;
-  private readonly frontendUrl: string;
-  private readonly tokenUrl: string;
-  private readonly userInfoUrl: string;
-
-  constructor() {
+@AuthProvider({ provider: 'GENERIC' })
+export class OauthProvider extends AuthProviderAbstract {
+  private getConfig() {
     const {
       BOTO_OAUTH_AUTH_URL,
       BOTO_OAUTH_CLIENT_ID,
       BOTO_OAUTH_CLIENT_SECRET,
       BOTO_OAUTH_TOKEN_URL,
-      BOTO_OAUTH_URL,
       BOTO_OAUTH_USERINFO_URL,
       FRONTEND_URL,
     } = process.env;
 
-    if (!BOTO_OAUTH_USERINFO_URL)
-      throw new Error(
-        'BOTO_OAUTH_USERINFO_URL environment variable is not set'
-      );
-    if (!BOTO_OAUTH_URL)
-      throw new Error('BOTO_OAUTH_URL environment variable is not set');
-    if (!BOTO_OAUTH_TOKEN_URL)
-      throw new Error('BOTO_OAUTH_TOKEN_URL environment variable is not set');
-    if (!BOTO_OAUTH_CLIENT_ID)
-      throw new Error('BOTO_OAUTH_CLIENT_ID environment variable is not set');
-    if (!BOTO_OAUTH_CLIENT_SECRET)
-      throw new Error(
-        'BOTO_OAUTH_CLIENT_SECRET environment variable is not set'
-      );
-    if (!BOTO_OAUTH_AUTH_URL)
-      throw new Error('BOTO_OAUTH_AUTH_URL environment variable is not set');
-    if (!FRONTEND_URL)
-      throw new Error('FRONTEND_URL environment variable is not set');
+    if (
+      !BOTO_OAUTH_USERINFO_URL ||
+      !BOTO_OAUTH_TOKEN_URL ||
+      !BOTO_OAUTH_CLIENT_ID ||
+      !BOTO_OAUTH_CLIENT_SECRET ||
+      !BOTO_OAUTH_AUTH_URL ||
+      !FRONTEND_URL
+    ) {
+      throw new Error('BOTO_OAUTH environment variables are not set');
+    }
 
-    this.authUrl = BOTO_OAUTH_AUTH_URL;
-    this.baseUrl = BOTO_OAUTH_URL;
-    this.clientId = BOTO_OAUTH_CLIENT_ID;
-    this.clientSecret = BOTO_OAUTH_CLIENT_SECRET;
-    this.frontendUrl = FRONTEND_URL;
-    this.tokenUrl = BOTO_OAUTH_TOKEN_URL;
-    this.userInfoUrl = BOTO_OAUTH_USERINFO_URL;
+    return {
+      authUrl: BOTO_OAUTH_AUTH_URL,
+      clientId: BOTO_OAUTH_CLIENT_ID,
+      clientSecret: BOTO_OAUTH_CLIENT_SECRET,
+      tokenUrl: BOTO_OAUTH_TOKEN_URL,
+      userInfoUrl: BOTO_OAUTH_USERINFO_URL,
+      frontendUrl: FRONTEND_URL,
+    };
   }
 
   generateLink(): string {
+    const { authUrl, clientId, frontendUrl } = this.getConfig();
     const params = new URLSearchParams({
-      client_id: this.clientId,
+      client_id: clientId,
       scope: 'openid profile email',
       response_type: 'code',
-      redirect_uri: `${this.frontendUrl}/settings`,
+      redirect_uri: `${frontendUrl}/settings`,
     });
 
-    return `${this.authUrl}?${params.toString()}`;
+    return `${authUrl}?${params.toString()}`;
   }
 
   async getToken(code: string): Promise<string> {
-    const response = await fetch(`${this.tokenUrl}`, {
+    const { tokenUrl, clientId, clientSecret, frontendUrl } = this.getConfig();
+    const response = await fetch(`${tokenUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -68,10 +58,10 @@ export class OauthProvider implements ProvidersInterface {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
+        client_id: clientId,
+        client_secret: clientSecret,
         code,
-        redirect_uri: `${this.frontendUrl}/settings`,
+        redirect_uri: `${frontendUrl}/settings`,
       }),
     });
 
@@ -85,7 +75,8 @@ export class OauthProvider implements ProvidersInterface {
   }
 
   async getUser(access_token: string): Promise<{ email: string; id: string }> {
-    const response = await fetch(`${this.userInfoUrl}`, {
+    const { userInfoUrl } = this.getConfig();
+    const response = await fetch(`${userInfoUrl}`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
         Accept: 'application/json',

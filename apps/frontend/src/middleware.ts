@@ -87,7 +87,7 @@ export async function middleware(request: NextRequest) {
 
   const org = nextUrl.searchParams.get('org');
   const url = new URL(nextUrl).search;
-  if (nextUrl.href.indexOf('/auth') === -1 && !authCookie) {
+  if (!nextUrl.pathname.startsWith('/auth') && !authCookie) {
     const providers = ['google', 'settings'];
     const findIndex = providers.find((p) => nextUrl.href.indexOf(p) > -1);
     const additional = !findIndex
@@ -108,7 +108,7 @@ export async function middleware(request: NextRequest) {
   if (nextUrl.href.indexOf('/auth') > -1 && authCookie) {
     return NextResponse.redirect(new URL(`/launches${url}`, nextUrl.href));
   }
-  if (nextUrl.href.indexOf('/auth') > -1 && !authCookie) {
+  if (nextUrl.pathname.startsWith('/auth') && !authCookie) {
     if (org) {
       const redirect = NextResponse.redirect(new URL(`/`, nextUrl.href));
       redirect.cookies.set('org', org, {
