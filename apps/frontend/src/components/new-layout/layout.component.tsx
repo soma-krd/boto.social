@@ -93,54 +93,57 @@ export const LayoutComponent = ({ children }: { children: ReactNode }) => {
                 jakartaSans.className
               )}
             >
-             {/*  <AnnouncementBanner /> */}
+              {/*  <AnnouncementBanner /> */}
               <div>{user?.admin ? <Impersonate /> : <div />}</div>
               {user.tier === 'FREE' && isGeneral && billingEnabled ? (
                 <FirstBillingComponent />
               ) : (
-                <div className="flex-1 flex gap-[8px] mobile:flex-col mobile:gap-0">
-                  <Support />
-                  <div className="flex flex-col bg-newBgColorInner w-[80px] rounded-[12px] mobile:hidden">
-                    <div
-                      className={clsx(
-                        'fixed h-full w-[64px] start-[17px] flex flex-1 top-0',
-                        user?.admin && 'pt-[60px] max-h-[1000px]:w-[500px]'
-                      )}
-                    >
-                      <div className="flex flex-col h-full gap-[32px] flex-1 py-[12px]">
-                        <Logo />
-                        <TopMenu />
+                <>
+                  <AnnouncementBanner />
+                  <div className="flex-1 flex gap-[8px]">
+                    <Support />
+                    <div className="flex flex-col bg-newBgColorInner w-[80px] rounded-[12px]">
+                      <div
+                        id="left-menu"
+                        className={clsx(
+                          'fixed h-full w-[64px] start-[17px] flex flex-1 top-0',
+                          user?.admin && 'pt-[60px] max-h-[1000px]:w-[500px]'
+                        )}
+                      >
+                        <div className="flex flex-col h-full gap-[32px] flex-1 py-[12px]">
+                          <Logo />
+                          <TopMenu />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex-1 bg-newBgLineColor rounded-[12px] mobile:rounded-b-none overflow-hidden flex flex-col gap-[1px] blurMe mobile:pb-[56px]">
-                    <div className="flex bg-newBgColorInner h-[80px] mobile:h-[56px] px-[20px] mobile:px-[12px] items-center">
-                      <div className="text-[24px] mobile:text-[18px] font-[600] flex flex-1">
-                        <Title />
-                      </div>
-                      <div className="flex gap-[20px] mobile:gap-[12px] text-textItemBlur">
-                        <StreakComponent />
-                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
-                        <OrganizationSelector />
-                        <div className="hover:text-newTextColor mobile:hidden">
-                          <ModeComponent />
+                    <div className="flex-1 bg-newBgLineColor rounded-[12px] overflow-hidden flex flex-col gap-[1px] blurMe">
+                      <div className="flex bg-newBgColorInner h-[80px] px-[20px] items-center">
+                        <div className="text-[24px] font-[600] flex flex-1">
+                          <Title />
                         </div>
-                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
-                        <LanguageComponent />
-                        <div className="mobile:hidden">
+                        <div className="flex gap-[20px] text-textItemBlur">
+                          <StreakComponent />
+                          <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                          <OrganizationSelector />
+                          <div className="hover:text-newTextColor">
+                            <ModeComponent />
+                          </div>
+                          <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                          <LanguageComponent />
                           <ChromeExtensionComponent />
+                          <div className="w-[1px] h-[20px] bg-blockSeparator" />
+                          <AttachToFeedbackIcon />
+                          <NotificationComponent />
                         </div>
-                        <div className="w-[1px] h-[20px] bg-blockSeparator mobile:hidden" />
-                        <AttachToFeedbackIcon />
-                        <NotificationComponent />
                       </div>
+                      <div className="flex flex-1 gap-[1px]">{children}</div>
+                    </div>
+                    {/* Mobile Bottom Navigation - Only visible on mobile */}
+                    <div className="hidden mobile:flex fixed bottom-0 left-0 right-0 h-[56px] bg-newBgColorInner border-t border-newBorder z-50 px-[8px]">
+                      <MobileBottomNav />
                     </div>
                   </div>
-                  {/* Mobile Bottom Navigation - Only visible on mobile */}
-                  <div className="hidden mobile:flex fixed bottom-0 left-0 right-0 h-[56px] bg-newBgColorInner border-t border-newBorder z-50 px-[8px]">
-                    <MobileBottomNav />
-                  </div>
-                </div>
+                </>
               )}
             </div>
           </CheckPayment>
