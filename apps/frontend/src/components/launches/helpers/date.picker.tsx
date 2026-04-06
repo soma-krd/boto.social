@@ -1,4 +1,5 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import dayjs from 'dayjs';
 import { Calendar, TimeInput } from '@mantine/dates';
 import clsx from 'clsx';
@@ -17,11 +18,22 @@ export const DatePicker: FC<{
   const [open, setOpen] = useState(false);
   const t = useT();
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1025px)');
+    const handler = () => setIsMobile(mql.matches);
+    handler();
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
   const changeShow = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
   const ref = useClickOutside<HTMLDivElement>(() => {
-    setOpen(false);
+    if (!isMobile) {
+      setOpen(false);
+    }
   });
   const changeDate = useCallback(
     (type: 'date' | 'time') => (day: Date) => {
@@ -35,6 +47,46 @@ export const DatePicker: FC<{
     },
     [date]
   );
+
+  const calendarContent = (
+    <>
+      <Calendar
+        onChange={changeDate('date')}
+        value={date.toDate()}
+        dayClassName={(date, modifiers) => {
+          if (modifiers.weekend) {
+            return '!text-customColor28';
+          }
+          if (modifiers.outside) {
+            return '!text-gray';
+          }
+          if (modifiers.selected) {
+            return '!text-white !bg-seventh !outline-none';
+          }
+          return '!text-textColor';
+        }}
+        classNames={{
+          day: 'hover:bg-seventh',
+          calendarHeaderControl: 'text-textColor hover:bg-third',
+          calendarHeaderLevel: 'text-textColor hover:bg-third',
+        }}
+      />
+      <TimeInput
+        onChange={changeDate('time')}
+        label={t('label_pick_time', 'Pick time')}
+        classNames={{
+          label: 'text-textColor py-[12px]',
+          input:
+            'bg-sixth h-[40px] border border-tableBorder text-textColor rounded-[4px] outline-none',
+        }}
+        defaultValue={date.toDate()}
+      />
+      <Button className="mt-[12px]" onClick={changeShow}>
+        {t('close', 'Close')}
+      </Button>
+    </>
+  );
+
   return (
     <div
       className={clsx(
@@ -50,46 +102,27 @@ export const DatePicker: FC<{
       <div className="cursor-pointer">
         {date.format(isUSCitizen() ? 'MM/DD/YYYY hh:mm A' : 'DD/MM/YYYY HH:mm')}
       </div>
-      {open && (
+      {open && !isMobile && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="animate-fadeIn absolute bottom-[100%] mb-[16px] start-[50%] -translate-x-[50%] bg-sixth border border-tableBorder text-textColor rounded-[16px] z-[300] p-[16px] flex flex-col mobile:fixed mobile:bottom-auto mobile:mb-0 mobile:top-[50%] mobile:-translate-y-[50%] mobile:start-auto mobile:left-[50%] mobile:max-w-[calc(100vw-32px)]"
+          className="animate-fadeIn absolute bottom-[100%] mb-[16px] start-[50%] -translate-x-[50%] bg-sixth border border-tableBorder text-textColor rounded-[16px] z-[300] p-[16px] flex flex-col"
         >
-          <Calendar
-            onChange={changeDate('date')}
-            value={date.toDate()}
-            dayClassName={(date, modifiers) => {
-              if (modifiers.weekend) {
-                return '!text-customColor28';
-              }
-              if (modifiers.outside) {
-                return '!text-gray';
-              }
-              if (modifiers.selected) {
-                return '!text-white !bg-seventh !outline-none';
-              }
-              return '!text-textColor';
-            }}
-            classNames={{
-              day: 'hover:bg-seventh',
-              calendarHeaderControl: 'text-textColor hover:bg-third',
-              calendarHeaderLevel: 'text-textColor hover:bg-third', // cell: 'child:!text-textColor'
-            }}
-          />
-          <TimeInput
-            onChange={changeDate('time')}
-            label={t('label_pick_time', 'Pick time')}
-            classNames={{
-              label: 'text-textColor py-[12px]',
-              input:
-                'bg-sixth h-[40px] border border-tableBorder text-textColor rounded-[4px] outline-none',
-            }}
-            defaultValue={date.toDate()}
-          />
-          <Button className="mt-[12px]" onClick={changeShow}>
-            {t('close', 'Close')}
-          </Button>
+          {calendarContent}
         </div>
+      )}
+      {open && isMobile && createPortal(
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 animate-fadeIn"
+          onClick={changeShow}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-sixth border border-tableBorder text-textColor rounded-[16px] p-[16px] flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100dvh-32px)] overflow-y-auto"
+          >
+            {calendarContent}
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

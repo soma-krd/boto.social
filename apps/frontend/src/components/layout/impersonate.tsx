@@ -110,8 +110,8 @@ const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-[16px] min-w-[500px]">
-      <div className="max-h-[400px] overflow-y-auto">
+    <div className="flex flex-col gap-[16px] w-full min-w-0 max-w-full">
+      <div className="max-h-[400px] overflow-y-auto overflow-x-auto -mx-1 px-1">
         {!charges?.length ? (
           <div className="text-center py-[20px] text-newTextColor/60">
             {t('no_charges', 'No charges found')}
@@ -184,12 +184,12 @@ const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
           </table>
         )}
       </div>
-      <div className="flex gap-[12px] justify-end">
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:justify-end sm:gap-[12px]">
         <Button
           onClick={handleRefund}
           loading={refunding}
           disabled={!selected.size}
-          className="rounded-[4px]"
+          className="rounded-[4px] w-full sm:w-auto"
         >
           {t('refund_selected', 'Refund Selected')}
           {selected.size > 0 && ` (${selected.size})`}
@@ -197,7 +197,7 @@ const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
         <Button
           onClick={handleCancel}
           loading={cancelling}
-          className="!bg-red-700 rounded-[4px]"
+          className="!bg-red-700 rounded-[4px] w-full sm:w-auto"
         >
           {t('cancel_subscription', 'Cancel Subscription')}
         </Button>
@@ -213,13 +213,15 @@ const ManageBilling = () => {
   const handleClick = useCallback(() => {
     openModal({
       title: t('manage_billing', 'Manage Billing'),
+      size: 'min(560px, calc(100vw - 48px))',
+      classNames: { modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]' },
       children: (close) => <ChargesModal close={close} />,
     });
   }, []);
 
   return (
     <div
-      className="px-[10px] rounded-[4px] bg-red-700 text-white cursor-pointer whitespace-nowrap"
+      className="px-[10px] py-[8px] sm:py-0 rounded-[4px] bg-red-700 text-white cursor-pointer whitespace-nowrap w-full sm:w-auto text-center"
       onClick={handleClick}
     >
       {t('manage_billing', 'Manage Billing')}
@@ -304,7 +306,7 @@ const AddAnnouncementModal: FC<{ close: () => void }> = ({ close }) => {
   }, [title, description, color]);
 
   return (
-    <div className="flex flex-col gap-[16px] min-w-[500px]">
+    <div className="flex flex-col gap-[16px] w-full min-w-0 max-w-full">
       <Input
         label={t('announcement_title', 'Title')}
         name="title"
@@ -318,7 +320,7 @@ const AddAnnouncementModal: FC<{ close: () => void }> = ({ close }) => {
           {t('announcement_description', 'Description')}
         </label>
         <textarea
-          className="bg-input border border-tableBorder rounded-[8px] p-[10px] text-newTextColor min-h-[120px] outline-none resize-y"
+          className="bg-input border border-tableBorder rounded-[8px] p-[10px] text-newTextColor min-h-[120px] outline-none resize-y w-full max-w-full min-w-0 box-border"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder={t(
@@ -331,12 +333,12 @@ const AddAnnouncementModal: FC<{ close: () => void }> = ({ close }) => {
         <label className="text-[14px]">
           {t('announcement_color', 'Color')}
         </label>
-        <div className="flex gap-[8px]">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-[8px]">
           {colorOptions.map((opt) => (
             <div
               key={opt.value}
               onClick={() => setColor(opt.value)}
-              className={`flex-1 text-center py-[8px] rounded-[8px] text-white text-[13px] cursor-pointer transition-opacity ${opt.className} ${
+              className={`flex-1 min-w-0 text-center py-[8px] px-[6px] rounded-[8px] text-white text-[12px] sm:text-[13px] cursor-pointer transition-opacity ${opt.className} ${
                 color === opt.value ? 'opacity-100 ring-2 ring-white' : 'opacity-40'
               }`}
             >
@@ -345,12 +347,12 @@ const AddAnnouncementModal: FC<{ close: () => void }> = ({ close }) => {
           ))}
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-stretch sm:justify-end">
         <Button
           onClick={handleSubmit}
           loading={saving}
           disabled={!title.trim() || !description.trim()}
-          className="rounded-[4px]"
+          className="rounded-[4px] w-full sm:w-auto"
         >
           {t('create_announcement', 'Create Announcement')}
         </Button>
@@ -366,13 +368,15 @@ const AddAnnouncement = () => {
   const handleClick = useCallback(() => {
     openModal({
       title: t('add_announcement', 'Add Announcement'),
+      size: 'min(560px, calc(100vw - 48px))',
+      classNames: { modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]' },
       children: (close) => <AddAnnouncementModal close={close} />,
     });
   }, []);
 
   return (
     <div
-      className="px-[10px] rounded-[4px] bg-green-700 text-white cursor-pointer whitespace-nowrap"
+      className="px-[10px] py-[8px] sm:py-0 rounded-[4px] bg-green-700 text-white cursor-pointer whitespace-nowrap w-full sm:w-auto text-center"
       onClick={handleClick}
     >
       {t('add_announcement', 'Add Announcement')}
@@ -393,7 +397,7 @@ const ImportDebugPost = () => {
 
   return (
     <div
-      className="px-[10px] rounded-[4px] bg-yellow-600 text-white cursor-pointer whitespace-nowrap"
+      className="px-[10px] py-[8px] sm:py-0 rounded-[4px] bg-yellow-600 text-white cursor-pointer whitespace-nowrap w-full sm:w-auto text-center"
       onClick={handleClick}
     >
       {t('import_debug_post', 'Import Debug Post')}
@@ -461,28 +465,28 @@ export const Impersonate = () => {
   }, [data]);
   return (
     <div>
-      <div className="bg-forth h-[52px] flex justify-center items-center border-input border rounded-[8px] text-white">
-        <div className="relative flex flex-col w-[600px]">
-          <div className="relative z-[1]">
+      <div className="bg-forth min-h-[52px] flex justify-center items-center border-input border rounded-[8px] text-white px-3 py-3 sm:px-4 sm:py-0">
+        <div className="relative flex flex-col w-full max-w-[600px] min-w-0">
+          <div className="relative z-[1] w-full min-w-0">
             {user?.impersonate ? (
-              <div className="text-center flex justify-center items-center gap-[20px]">
-                <div>
+              <div className="text-center flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:items-center sm:gap-x-5 sm:gap-y-2">
+                <div className="text-[14px] sm:text-base">
                   {t('currently_impersonating', 'Currently Impersonating')}
                 </div>
-                <div>
+                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                   <div
-                    className="px-[10px] rounded-[4px] bg-red-500 text-white cursor-pointer"
+                    className="px-[10px] py-[6px] rounded-[4px] bg-red-500 text-white cursor-pointer inline-flex items-center justify-center"
                     onClick={stopImpersonating}
                   >
                     X
                   </div>
+                  {user?.tier?.current === 'FREE' && <Subscription />}
+                  {billingEnabled && <ManageBilling />}
                 </div>
-                {user?.tier?.current === 'FREE' && <Subscription />}
-                {billingEnabled && <ManageBilling />}
               </div>
             ) : (
-              <div className="flex items-center gap-[10px]">
-                <div className="flex-1">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-[10px] w-full min-w-0">
+                <div className="flex-1 min-w-0 w-full">
                   <Input
                     autoComplete="off"
                     placeholder="Write the user details"
@@ -494,8 +498,10 @@ export const Impersonate = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <ImportDebugPost />
-                <AddAnnouncement />
+                <div className="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end sm:shrink-0">
+                  <ImportDebugPost />
+                  <AddAnnouncement />
+                </div>
               </div>
             )}
           </div>
