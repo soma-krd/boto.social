@@ -2,7 +2,7 @@ import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
-import Image from 'next/image';
+import SafeImage from '@gitroom/react/helpers/safe.image';
 import Link from 'next/link';
 import { CommentsComponents } from '@gitroom/frontend/components/preview/comments.components';
 import dayjs from 'dayjs';
@@ -20,6 +20,7 @@ const RenderPreviewDate = dynamicLoad(
     ),
   { ssr: false }
 );
+import { RenderPreviewDateClient } from '@gitroom/frontend/components/preview/render.preview.date.client';
 
 dayjs.extend(utc);
 
@@ -35,17 +36,23 @@ export const metadata: Metadata = {
     'fb:app_id': facebookAppId,
   } : undefined,
 };
-export default async function Auth({
-  params: { id },
-  searchParams,
-}: {
-  params: {
-    id: string;
-  };
-  searchParams?: {
-    share?: string;
-  };
-}) {
+export default async function Auth(
+  props: {
+    params: Promise<{
+      id: string;
+    }>;
+    searchParams?: Promise<{
+      share?: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const post = await (await internalFetch(`/public/posts/${id}`)).json();
   const t = await getT();
   if (!post.length) {
@@ -81,7 +88,7 @@ export default async function Auth({
             )}
             <div className="flex-1">
               {t('publication_date', 'Publication Date:')}{' '}
-              <RenderPreviewDate date={post[0].publishDate} />
+              <RenderPreviewDateClient date={post[0].publishDate} />
             </div>
           </div>
         </div>

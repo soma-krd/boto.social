@@ -34,6 +34,7 @@ import { ReactSortable } from 'react-sortablejs';
 import { MediaComponentInner } from '@gitroom/frontend/components/launches/helpers/media.settings.component';
 import { AiVideo } from '@gitroom/frontend/components/launches/ai.video';
 import { useModals } from '@gitroom/frontend/components/layout/new-modal';
+import { ThirdPartyMediaLibrary } from '@gitroom/frontend/components/third-parties/third-party.media-library';
 import { Dashboard } from '@uppy/react';
 import {
   ChevronLeftIcon,
@@ -552,7 +553,7 @@ export const MediaBox: FC<{
         ) : (
           <PlusIcon size={14} />
         )}
-        <div className={loading && 'invisible'}>{t('upload', 'Upload')}</div>
+        <div className={loading ? 'invisible' : undefined}>{t('upload', 'Upload')}</div>
       </button>
     );
   }, [t, loading]);
@@ -623,7 +624,12 @@ export const MediaBox: FC<{
               className="hidden"
               multiple={true}
             />
-            {btn}
+            {!isLoading && !!data?.results?.length && (
+            <div className="flex gap-[8px]">
+              {btn}
+              <ThirdPartyMediaLibrary onImported={() => mutate()} />
+            </div>
+          )}
           </div>
         </div>
         <div className="w-full pointer-events-none relative mt-[5px] mb-[5px]">
@@ -678,7 +684,10 @@ export const MediaBox: FC<{
                     'You can also drag & drop pictures.'
                   )}
                 </div>
-                <div className="forceChange">{btn}</div>
+                <div className="forceChange flex gap-[8px]">
+                  {btn}
+                  <ThirdPartyMediaLibrary onImported={() => mutate()} />
+                </div>
               </>
             )}
             {isLoading && (
@@ -967,8 +976,7 @@ export const MultiMediaComponent: FC<{
               handle=".dragging"
             >
               {currentMedia.map((media, index) => (
-                <Fragment key={media.id}>
-                  <div className="cursor-pointer rounded-[5px] w-[40px] h-[40px] border-2 border-tableBorder relative flex transition-all">
+                  <div key={media.id} className="cursor-pointer rounded-[5px] w-[40px] h-[40px] border-2 border-tableBorder relative flex transition-all">
                     <DragHandleIcon className="z-[20] dragging absolute pe-[1px] pb-[3px] -start-[4px] -top-[4px] cursor-move" />
 
                     <div className="w-full h-full relative group">
@@ -1019,7 +1027,6 @@ export const MultiMediaComponent: FC<{
                       className="absolute -end-[4px] -top-[4px] z-[20] rounded-full bg-white"
                     />
                   </div>
-                </Fragment>
               ))}
             </ReactSortable>
           )}

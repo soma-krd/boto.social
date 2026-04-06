@@ -77,6 +77,7 @@ export const Menu = forwardRef<
   const ref = useClickOutside<HTMLDivElement>(() => {
     setShow(false);
   });
+  const showRef = useRef(undefined);
 
   // Adjust menu position if it would overflow viewport (horizontal and vertical)
   useLayoutEffect(() => {

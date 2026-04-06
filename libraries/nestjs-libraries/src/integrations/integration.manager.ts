@@ -67,7 +67,8 @@ export const socialIntegrationList: Array<SocialAbstract & SocialProvider> = [
   new ListmonkProvider(process.env.ENABLE_LISTMONK == 'true'),
   new MoltbookProvider(process.env.ENABLE_MOLTBOOK == 'true'),
   new SkoolProvider(process.env.ENABLE_SKOOL == 'true'),
-  // new MastodonCustomProvider(),
+  new WhopProvider(process.env.ENABLE_WHOP == 'true'),
+  new MeweProvider(process.env.ENABLE_MEWE == 'true'),
 ];
 
 @Injectable()
