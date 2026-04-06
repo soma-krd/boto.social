@@ -1,9 +1,6 @@
 import Image from 'next/image';
-import { getT } from '@gitroom/react/translation/get.translation.service.backend';
 
-export async function SocialMediaShowcase() {
-  const t = await getT();
-
+export function SocialMediaShowcase() {
   const platforms = [
     { name: '', icon: '' },
     { name: '', icon: '' },
@@ -30,7 +27,7 @@ export async function SocialMediaShowcase() {
 
   return (
     <div className="flex flex-col items-center justify-center px-8 py-12 max-w-4xl mx-auto">
-      <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-6">
+      <h1 className="text-4xl md:text-5xl font-bold text-newTextColor text-center mb-6">
         Wide list of trending social
         <br />
         media channels
@@ -38,7 +35,7 @@ export async function SocialMediaShowcase() {
       <div className="relative mb-12">
         <div className="h-1 w-32 bg-gradient-to-r from-purple-600 via-purple-400 to-purple-600 rounded-full" />
       </div>
-      <p className="text-gray-400 text-center text-lg mb-16 max-w-2xl">
+      <p className="text-newTableText text-center text-lg mb-16 max-w-2xl">
         Harness the power of various social media channels seamlessly
         integrated into the platform for enhanced workflow efficiency.
       </p>
@@ -46,7 +43,7 @@ export async function SocialMediaShowcase() {
         {platforms.map((platform, index) => (
           <div
             key={`${platform.name}-${index}`}
-            className="flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-900/30 to-purple-950/30 backdrop-blur-sm border border-purple-800/20 hover:border-purple-600/50 transition-all duration-300"
+            className="flex items-center justify-center w-24 h-24 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/80 shadow-[inset_0_1px_0_0_rgb(255_255_255_/_0.95),0_4px_16px_rgb(15_23_42_/_0.06),0_1px_2px_rgb(15_23_42_/_0.04)] hover:bg-white/60 hover:border-white hover:shadow-[inset_0_1px_0_0_rgb(255_255_255_/_1),0_8px_28px_rgb(15_23_42_/_0.1)] transition-all duration-300"
           >
             {platform.icon && (
             <Image

@@ -827,7 +827,7 @@ export const Editor: FC<{
                             height={400}
                             theme={
                               (localStorage.getItem('mode') as Theme) ||
-                              Theme.DARK
+                              Theme.LIGHT
                             }
                             onEmojiClick={(e) => {
                               addText(e.emoji);

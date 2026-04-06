@@ -732,12 +732,20 @@ html[dir='rtl'] [dir='ltr'] {
 }
 
 .blackGradBottomBg {
-  background: linear-gradient(180deg, #0e0e0e 0%, rgba(14, 14, 14, 0) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--new-bgColorInner) 0%,
+    transparent 100%
+  );
   rotate: 180deg;
 }
 
 .blackGradTopBg {
-  background: linear-gradient(180deg, #0e0e0e 0%, rgba(14, 14, 14, 0) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--new-bgColorInner) 0%,
+    transparent 100%
+  );
 }
 
 .billing-form input {
