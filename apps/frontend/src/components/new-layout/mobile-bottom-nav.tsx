@@ -10,7 +10,7 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { Drawer } from '@mantine/core';
 
-const PRIMARY_PATHS = ['/launches', '/agents', '/analytics', '/media'];
+const PRIMARY_PATHS = ['/launches',  '/analytics', '/media'];
 
 const filterMenuItem = (f: { hide?: boolean; requireBilling?: boolean; name: string; role?: string[] }, user: { isLifetime?: boolean; role?: string } | null, billingEnabled: boolean) => {
   if (f.hide) return false;
