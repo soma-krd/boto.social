@@ -12,14 +12,6 @@ import { CopyClient } from '@gitroom/frontend/components/preview/copy.client';
 import { getT } from '@gitroom/react/translation/get.translation.service.backend';
 import dynamicLoad from 'next/dynamic';
 import { LogoTextComponent } from '../../../../../components/ui/logo-text.component';
-
-const RenderPreviewDate = dynamicLoad(
-  () =>
-    import('@gitroom/frontend/components/preview/render.preview.date').then(
-      (mod) => mod.RenderPreviewDate
-    ),
-  { ssr: false }
-);
 import { RenderPreviewDateClient } from '@gitroom/frontend/components/preview/render.preview.date.client';
 
 dayjs.extend(utc);
