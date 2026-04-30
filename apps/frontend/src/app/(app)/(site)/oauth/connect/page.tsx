@@ -1,12 +1,13 @@
 import { OauthConnect } from '@gitroom/frontend/components/layout/oauth-connect.component';
 export const dynamic = 'force-dynamic';
 
-export default async function Index({
-  searchParams,
-}: {
-  searchParams: {
-    callback: string;
-  };
+export default async function Index(props: {
+  searchParams: Promise<{
+    callback?: string;
+  }>;
 }) {
-  return <OauthConnect callback={searchParams.callback} />;
+  const searchParams = await props.searchParams;
+  return (
+    <OauthConnect callback={searchParams.callback ?? ''} />
+  );
 }
