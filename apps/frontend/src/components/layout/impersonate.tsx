@@ -1,17 +1,17 @@
-import { Input } from '@gitroom/react/form/input';
-import { ChangeEventHandler, FC, useCallback, useMemo, useState } from 'react';
-import useSWR, { useSWRConfig } from 'swr';
-import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
+import { ImportDebugPostModal } from '@gitroom/frontend/components/launches/import-debug-post.modal';
+import { setCookie } from '@gitroom/frontend/components/layout/layout.context';
+import { useModals } from '@gitroom/frontend/components/layout/new-modal';
 import { useUser } from '@gitroom/frontend/components/layout/user.context';
-import { Select } from '@gitroom/react/form/select';
+import { useFetch } from '@gitroom/helpers/utils/custom.fetch';
 import { pricing } from '@gitroom/nestjs-libraries/database/prisma/subscriptions/pricing';
+import { Button } from '@gitroom/react/form/button';
+import { Input } from '@gitroom/react/form/input';
+import { Select } from '@gitroom/react/form/select';
 import { deleteDialog } from '@gitroom/react/helpers/delete.dialog';
 import { useVariables } from '@gitroom/react/helpers/variable.context';
-import { setCookie } from '@gitroom/frontend/components/layout/layout.context';
 import { useT } from '@gitroom/react/translation/get.transation.service.client';
-import { useModals } from '@gitroom/frontend/components/layout/new-modal';
-import { Button } from '@gitroom/react/form/button';
-import { ImportDebugPostModal } from '@gitroom/frontend/components/launches/import-debug-post.modal';
+import { ChangeEventHandler, FC, useCallback, useMemo, useState } from 'react';
+import useSWR, { useSWRConfig } from 'swr';
 
 interface Charge {
   id: string;
@@ -22,17 +22,23 @@ interface Charge {
   refunded: boolean;
   amount_refunded: number;
   description: string | null;
+  receipt_url: string | null;
+  invoice_pdf: string | null;
 }
 
 const useCharges = () => {
   const fetch = useFetch();
-  return useSWR<Charge[]>('/billing/charges', async () => {
-    return (await fetch('/billing/charges')).json();
-  }, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-  });
+  return useSWR<Charge[]>(
+    '/billing/charges',
+    async () => {
+      return (await fetch('/billing/charges')).json();
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+    }
+  );
 };
 
 const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
@@ -124,6 +130,7 @@ const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
                 <th className="p-[8px]">{t('date', 'Date')}</th>
                 <th className="p-[8px]">{t('amount', 'Amount')}</th>
                 <th className="p-[8px]">{t('status', 'Status')}</th>
+                <th className="p-[8px] w-[50px]" />
               </tr>
             </thead>
             <tbody>
@@ -178,6 +185,38 @@ const ChargesModal: FC<{ close: () => void }> = ({ close }) => {
                       </span>
                     )}
                   </td>
+                  <td className="p-[8px]">
+                    {(charge.invoice_pdf || charge.receipt_url) && (
+                      <a
+                        href={charge.invoice_pdf || charge.receipt_url!}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center justify-center w-[28px] h-[28px] rounded-[4px] hover:bg-tableBorder transition-colors"
+                        title={
+                          charge.invoice_pdf
+                            ? t('download_invoice', 'Download Invoice')
+                            : t('view_receipt', 'View Receipt')
+                        }
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="16"
+                          height="16"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                      </a>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -214,7 +253,9 @@ const ManageBilling = () => {
     openModal({
       title: t('manage_billing', 'Manage Billing'),
       size: 'min(560px, calc(100vw - 48px))',
-      classNames: { modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]' },
+      classNames: {
+        modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]',
+      },
       children: (close) => <ChargesModal close={close} />,
     });
   }, []);
@@ -338,8 +379,12 @@ const AddAnnouncementModal: FC<{ close: () => void }> = ({ close }) => {
             <div
               key={opt.value}
               onClick={() => setColor(opt.value)}
-              className={`flex-1 min-w-0 text-center py-[8px] px-[6px] rounded-[8px] text-white text-[12px] sm:text-[13px] cursor-pointer transition-opacity ${opt.className} ${
-                color === opt.value ? 'opacity-100 ring-2 ring-white' : 'opacity-40'
+              className={`flex-1 min-w-0 text-center py-[8px] px-[6px] rounded-[8px] text-white text-[12px] sm:text-[13px] cursor-pointer transition-opacity ${
+                opt.className
+              } ${
+                color === opt.value
+                  ? 'opacity-100 ring-2 ring-white'
+                  : 'opacity-40'
               }`}
             >
               {opt.label}
@@ -369,7 +414,9 @@ const AddAnnouncement = () => {
     openModal({
       title: t('add_announcement', 'Add Announcement'),
       size: 'min(560px, calc(100vw - 48px))',
-      classNames: { modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]' },
+      classNames: {
+        modal: 'mobile:p-[16px] w-full max-w-[min(560px,calc(100vw-48px))]',
+      },
       children: (close) => <AddAnnouncementModal close={close} />,
     });
   }, []);

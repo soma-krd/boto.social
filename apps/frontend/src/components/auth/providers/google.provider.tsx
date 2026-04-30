@@ -40,7 +40,7 @@ export const GoogleProvider = () => {
           />
         </svg>
       </div>
-      <div className="block xs:hidden">{t('google', 'Google')}</div>
+      <div className="block xs:hidden">Google</div>
     </div>
   );
 };

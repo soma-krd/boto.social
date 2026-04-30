@@ -61,7 +61,9 @@ export async function proxy(request: NextRequest) {
     nextUrl.pathname.startsWith('/boto.svg') ||
     nextUrl.pathname.startsWith('/sitemap.xml') ||
     nextUrl.pathname.startsWith('/robots.txt') ||
-    nextUrl.pathname.startsWith('/terms-of-service')
+    nextUrl.pathname.startsWith('/terms-of-service') ||
+    nextUrl.pathname.startsWith('/provider/') ||
+    nextUrl.pathname.startsWith('/icons/')
   ) {
     return topResponse;
   }

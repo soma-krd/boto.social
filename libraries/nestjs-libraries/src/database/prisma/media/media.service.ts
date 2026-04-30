@@ -58,8 +58,8 @@ export class MediaService {
     return this._mediaRepository.saveFile(org, fileName, filePath, folderId, originalName);
   }
 
-  getMedia(org: string, page: number, folderId?: string | null) {
-    return this._mediaRepository.getMedia(org, page, folderId);
+  getMedia(org: string, page: number, folderId?: string | null, search?: string) {
+    return this._mediaRepository.getMedia(org, page, folderId, search);
   }
 
   moveMedia(org: string, mediaId: string, folderId: string | null) {

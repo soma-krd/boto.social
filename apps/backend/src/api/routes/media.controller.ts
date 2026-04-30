@@ -134,6 +134,7 @@ export class MediaController {
 
   @Post('/upload-simple')
   @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new CustomFileValidationPipe())
   async uploadSimple(
     @GetOrgFromRequest() org: Organization,
     @UploadedFile('file') file: Express.Multer.File,
@@ -200,9 +201,10 @@ export class MediaController {
   getMedia(
     @GetOrgFromRequest() org: Organization,
     @Query('page') page: number,
-    @Query('folderId') folderId?: string
+    @Query('search') search?: string,
+    @Query('folderId') folderId?: string,
   ) {
-    return this._mediaService.getMedia(org.id, page ?? 1, folderId ?? undefined);
+    return this._mediaService.getMedia(org.id, page ?? 1, folderId ?? undefined, search ?? undefined);
   }
 
   @Get('/folders')

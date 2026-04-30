@@ -384,8 +384,9 @@ export const AddProviderComponent: FC<{
   invite: boolean;
   update?: () => void;
   onboarding?: boolean;
+  isMobile?: boolean;
 }> = (props) => {
-  const { update, social, article, onboarding } = props;
+  const { update, social, article, onboarding, isMobile } = props;
   const { isGeneral, extensionId } = useVariables();
   const toaster = useToaster();
   const router = useRouter();
@@ -427,22 +428,33 @@ export const AddProviderComponent: FC<{
               modal: 'mobile:p-[16px] text-textColor',
             },
             children: (
-              <Web3Providers
-                onComplete={(code, newState) => {
-                  window.location.href = `/integrations/social/${identifier}?code=${code}&state=${newState}${
-                    onboarding ? '&onboarding=true' : ''
-                  }`;
-                }}
-                nonce={url}
-              />
+              <div
+                {...(isMobile ? { className: 'h-full bg-black p-[20px]' } : {})}
+              >
+                <Web3Providers
+                  onComplete={(code, newState) => {
+                    window.location.href = `/integrations/social/${identifier}?code=${code}&state=${newState}${
+                      onboarding ? '&onboarding=true' : ''
+                    }`;
+                  }}
+                  nonce={url}
+                />
+              </div>
             ),
           });
           return;
         };
         const gotoIntegration = async (externalUrl?: string) => {
+          // Mobile WebView: reuse the existing `externalUrl` param to
+          // carry the `postiz://` deep link so the backend redirects
+          // back to the iOS/Android app after OAuth completes, instead
+          // of the default web redirect.
           const params = [
-            externalUrl ? `externalUrl=${externalUrl}` : '',
+            `externalUrl=${encodeURIComponent(externalUrl)}`,
             onboardingParam,
+            isMobile
+              ? `redirectUrl=${encodeURIComponent('postiz://integrations')}`
+              : '',
           ]
             .filter(Boolean)
             .join('&');
@@ -469,6 +481,23 @@ export const AddProviderComponent: FC<{
             );
             modal.closeAll();
             copy(url);
+            return;
+          }
+
+          if (isMobile) {
+            // In the mobile WebView the OAuth provider (Google, Facebook,
+            // etc.) typically refuses in-WebView sign-in. Post the URL
+            // out to React Native so it can open the system browser;
+            // `window.open`/`location.href` aren't reliable here because
+            // RN WebView doesn't always route them through the native
+            // navigation intercept. The backend redirects back to the
+            // app via `postiz://` once OAuth completes.
+            const rn = (window as any).ReactNativeWebView;
+            if (rn && typeof rn.postMessage === 'function') {
+              rn.postMessage(JSON.stringify({ type: 'open-external', url }));
+              return;
+            }
+            window.open(url, '_blank');
             return;
           }
 
@@ -582,6 +611,7 @@ export const AddProviderComponent: FC<{
           modal.openModal({
             title: 'URL',
             withCloseButton: true,
+            ...(isMobile ? { removeLayout: true, fullScreen: true } : {}),
             classNames: {
               modal: 'bg-transparent text-textColor',
             },
@@ -593,16 +623,21 @@ export const AddProviderComponent: FC<{
           modal.openModal({
             title: t('add_provider_title', 'Add Provider'),
             withCloseButton: true,
+            ...(isMobile ? { removeLayout: true, fullScreen: true } : {}),
             classNames: {
               modal: 'bg-transparent text-textColor',
             },
             children: (
-              <CustomVariables
-                identifier={identifier}
-                gotoUrl={(url: string) => router.push(url)}
-                variables={customFields}
-                onboarding={onboarding}
-              />
+              <div
+                {...(isMobile ? { className: 'h-full bg-black p-[20px]' } : {})}
+              >
+                <CustomVariables
+                  identifier={identifier}
+                  gotoUrl={(url: string) => router.push(url)}
+                  variables={customFields}
+                  onboarding={onboarding}
+                />
+              </div>
             ),
           });
           return;
@@ -675,7 +710,7 @@ export const AddProviderComponent: FC<{
                 </div>
                 <div className="whitespace-pre-wrap text-center min-w-0 break-words line-clamp-2">
                   {item.name}
-                  {!!item.toolTip && (
+                  {!!item.toolTip && !isMobile && (
                     <svg
                       width="15"
                       height="15"

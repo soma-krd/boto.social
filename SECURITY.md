@@ -4,12 +4,16 @@
 
 The Boto app is committed to ensuring the security and integrity of our users' data. This security policy outlines our procedures for handling security vulnerabilities and our disclosure policy.
 
-## Reporting Security Vulnerabilities
+## Scope
 
 If you discover a security vulnerability in the Boto app, please report it to us privately via email to one of the maintainers:
 
-- @nevo-david
-- @egelhaus ([E-Mail](mailto:egelhaus@ennogelhaus.de))
+- The core repository for `postiz-app` (github.com/gitroomhq/postiz-app)
+- All `gitroomhq` repositories that are official components, tooling, or integrations of Postiz
+- Official Postiz container images published under `gitroomhq` on GHCR
+- Official Postiz CLI tools and NPM packages (NPM org: @postiz)
+- Postiz-Cloud related infrastructure & services. (API, Frontend, Configurations etc.)
+- Plugins for Postiz maintained within the `gitroomhq` organization
 
 When reporting a security vulnerability, please provide as much detail as possible, including:
 
@@ -33,7 +37,7 @@ This project currently only supports the latest release. We recommend that users
 
 ## Disclosure Guidelines
 
-We follow a private disclosure policy. If you discover a security vulnerability, please report it to us privately via email to one of the maintainers listed above. We will respond promptly to reports of vulnerabilities and work to resolve them as quickly as possible.
+We follow a private disclosure policy. If you discover a security vulnerability, please report it to us privately via GitHub Security Advisories, and if immediate urgency, via email as listed above. We will respond promptly to reports of vulnerabilities and work to resolve them as quickly as possible.
 
 We will not publicly disclose security vulnerabilities until a patch or fix is available to prevent malicious actors from exploiting the vulnerability before a fix is released.
 

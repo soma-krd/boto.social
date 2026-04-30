@@ -1,8 +1,8 @@
 import { internalFetch } from '@gitroom/helpers/utils/internal.fetch';
+import { sanitizePostContent } from '@gitroom/helpers/utils/sanitize.post.content';
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { isGeneralServerSide } from '@gitroom/helpers/utils/is.general.server.side';
-import SafeImage from '@gitroom/react/helpers/safe.image';
 import Link from 'next/link';
 import { CommentsComponents } from '@gitroom/frontend/components/preview/comments.components';
 import dayjs from 'dayjs';
@@ -10,7 +10,6 @@ import utc from 'dayjs/plugin/utc';
 import { VideoOrImage } from '@gitroom/react/helpers/video.or.image';
 import { CopyClient } from '@gitroom/frontend/components/preview/copy.client';
 import { getT } from '@gitroom/react/translation/get.translation.service.backend';
-import dynamicLoad from 'next/dynamic';
 import { LogoTextComponent } from '../../../../../components/ui/logo-text.component';
 import { RenderPreviewDateClient } from '@gitroom/frontend/components/preview/render.preview.date.client';
 
@@ -126,7 +125,7 @@ export default async function Auth(
                       <div
                         className="text-sm whitespace-pre-wrap"
                         dangerouslySetInnerHTML={{
-                          __html: p.content,
+                          __html: sanitizePostContent(p.content),
                         }}
                       />
                       <div className="flex w-full gap-[10px]">

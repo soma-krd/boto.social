@@ -73,11 +73,23 @@ export class MediaRepository {
     });
   }
 
-  async getMedia(org: string, page: number, folderId?: string | null) {
+  async getMedia(org: string, page: number, folderId?: string | null, search?: string) {
     const pageNum = (page || 1) - 1;
+
+    const trimmedSearch = search?.trim();
+    const searchFilter = trimmedSearch
+      ? {
+          originalName: {
+            contains: trimmedSearch,
+            mode: 'insensitive' as const,
+          },
+        }
+      : {};
+
     const where: { organizationId: string; deletedAt: null; folderId?: string | null } = {
       organizationId: org,
       deletedAt: null,
+      ...searchFilter,
     };
     // Root view (folderId undefined): show only files without folder
     // Folder view (folderId provided): show only files in that folder

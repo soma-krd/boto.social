@@ -53,6 +53,7 @@ import {
 import { useLaunchStore } from '@gitroom/frontend/components/new-launch/store';
 import { useShallow } from 'zustand/react/shallow';
 import { LoadingComponent } from '@gitroom/frontend/components/layout/loading';
+import { useDebounce } from 'use-debounce';
 const Polonto = dynamic(
   () => import('@gitroom/frontend/components/launches/polonto')
 );
@@ -289,6 +290,8 @@ export const MediaBox: FC<{
 }> = ({ type, standalone, setMedia }) => {
   const [page, setPage] = useState(0);
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch] = useDebounce(search, 300);
   const fetch = useFetch();
   const modals = useModals();
   const toaster = useToaster();
@@ -297,10 +300,13 @@ export const MediaBox: FC<{
   const loadMedia = useCallback(async () => {
     const params = new URLSearchParams({ page: String(page + 1) });
     if (currentFolderId != null) params.set('folderId', currentFolderId);
-    return (await fetch(`/media?${params}`)).json();
-  }, [page, currentFolderId]);
+    if (debouncedSearch.trim()) {
+      params.set('search', debouncedSearch.trim());
+    }
+    return (await fetch(`/media?${params.toString()}`)).json();
+  }, [page, currentFolderId, debouncedSearch, fetch]);
   const { data, mutate, isLoading } = useSWR(
-    `get-media-${page}-${currentFolderId ?? 'root'}`,
+    `get-media-${page}-${currentFolderId ?? 'root'}-${debouncedSearch}`,
     loadMedia
   );
 
@@ -594,6 +600,23 @@ export const MediaBox: FC<{
             </React.Fragment>
           ))}
         </div>
+        <div
+          className={clsx(
+            'mb-3',
+            !isLoading && !hasContent && !debouncedSearch && 'hidden'
+          )}
+        >
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(0);
+            }}
+            placeholder={t('search_media_by_name', 'Search by file name')}
+            className="w-full h-[44px] px-[14px] rounded-[8px] bg-newBgColorInner border border-newColColor text-[14px] outline-none focus:border-[#612BD3]"
+          />
+        </div>
         <div className="flex mobile:flex-col mobile:gap-[10px]">
           {!isLoading && hasContent && (
             <div className="flex-1 text-[14px] font-[600] whitespace-pre-line">
@@ -608,7 +631,7 @@ export const MediaBox: FC<{
               )}
             </div>
           )}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center flex-wrap">
             <button
               type="button"
               onClick={createFolder}
@@ -625,11 +648,11 @@ export const MediaBox: FC<{
               multiple={true}
             />
             {!isLoading && !!data?.results?.length && (
-            <div className="flex gap-[8px]">
-              {btn}
-              <ThirdPartyMediaLibrary onImported={() => mutate()} />
-            </div>
-          )}
+              <div className="flex gap-[8px]">
+                {btn}
+                <ThirdPartyMediaLibrary onImported={() => mutate()} />
+              </div>
+            )}
           </div>
         </div>
         <div className="w-full pointer-events-none relative mt-[5px] mb-[5px]">
@@ -668,10 +691,15 @@ export const MediaBox: FC<{
               <>
                 <NoMediaIcon />
                 <div className="text-[20px] font-[600]">
-                  {t(
-                    'you_dont_have_any_media_yet',
-                    "You don't have any media yet"
-                  )}
+                  {debouncedSearch
+                    ? t(
+                        'no_media_match_search',
+                        'No media matches your search'
+                      )
+                    : t(
+                        'you_dont_have_any_media_yet',
+                        "You don't have any media yet"
+                      )}
                 </div>
                 <div className="whitespace-pre-line text-newTextColor/[0.6] text-center">
                   {t(

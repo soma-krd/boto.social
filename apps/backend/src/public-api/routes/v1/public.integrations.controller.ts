@@ -14,9 +14,11 @@ import { IntegrationFunctionDto } from '@gitroom/nestjs-libraries/dtos/integrati
 import { IntegrationTimeDto } from '@gitroom/nestjs-libraries/dtos/integrations/integration.time.dto';
 import { UploadDto } from '@gitroom/nestjs-libraries/dtos/media/upload.dto';
 import { GetNotificationsDto } from '@gitroom/nestjs-libraries/dtos/notifications/get.notifications.dto';
+import { ChangePostStatusDto } from '@gitroom/nestjs-libraries/dtos/posts/change.post.status.dto';
 import { GetPostsDto } from '@gitroom/nestjs-libraries/dtos/posts/get.posts.dto';
 import { VideoDto } from '@gitroom/nestjs-libraries/dtos/videos/video.dto';
 import { VideoFunctionDto } from '@gitroom/nestjs-libraries/dtos/videos/video.function.dto';
+import { ssrfSafeDispatcher } from '@gitroom/nestjs-libraries/dtos/webhooks/ssrf.safe.dispatcher';
 import {
   IntegrationManager,
   socialIntegrationList,
@@ -24,6 +26,7 @@ import {
 import { RefreshIntegrationService } from '@gitroom/nestjs-libraries/integrations/refresh.integration.service';
 import { RefreshToken } from '@gitroom/nestjs-libraries/integrations/social.abstract';
 import { ioRedis } from '@gitroom/nestjs-libraries/redis/redis.service';
+import { CustomFileValidationPipe } from '@gitroom/nestjs-libraries/upload/custom.upload.validation';
 import { UploadFactory } from '@gitroom/nestjs-libraries/upload/upload.factory';
 import { GetOrgFromRequest } from '@gitroom/nestjs-libraries/user/org.from.request';
 import {
@@ -38,14 +41,26 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { Organization } from '@prisma/client';
 import * as Sentry from '@sentry/nestjs';
-import axios from 'axios';
-import { extension, lookup } from 'mime-types';
 import { Readable } from 'stream';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { fromBuffer } = require('file-type');
+
+const PUBLIC_API_ALLOWED_MIME = new Set<string>([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/avif',
+  'image/bmp',
+  'image/tiff',
+  'video/mp4',
+]);
 
 @ApiTags('Public API')
 @Controller('/public/v1')
@@ -63,6 +78,7 @@ export class PublicIntegrationsController {
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new CustomFileValidationPipe())
   async uploadSimple(
     @GetOrgFromRequest() org: Organization,
     @UploadedFile('file') file: Express.Multer.File
@@ -86,17 +102,20 @@ export class PublicIntegrationsController {
     @Body() body: UploadDto
   ) {
     Sentry.metrics.count('public_api-request', 1);
-    const response = await axios.get(body.url, {
-      responseType: 'arraybuffer',
+    const response = await fetch(body.url, {
+      // @ts-ignore — undici option, not in lib.dom fetch types
+      dispatcher: ssrfSafeDispatcher,
     });
-
-    const buffer = Buffer.from(response.data);
-    const responseMime = response.headers?.['content-type']
-      ?.split(';')[0]
-      ?.trim();
-    const urlMime = lookup(body?.url?.split?.('?')?.[0]);
-    const mimetype = (urlMime || responseMime || 'image/jpeg') as string;
-    const ext = extension(mimetype) || 'jpg';
+    if (!response.ok) {
+      throw new HttpException({ msg: 'Failed to fetch URL' }, 400);
+    }
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const detected = await fromBuffer(buffer);
+    if (!detected || !PUBLIC_API_ALLOWED_MIME.has(detected.mime)) {
+      throw new HttpException({ msg: 'Unsupported file type.' }, 400);
+    }
+    const mimetype = detected.mime;
+    const ext = detected.ext;
 
     const getFile = await this.storage.uploadFile({
       buffer,
@@ -384,6 +403,16 @@ export class PublicIntegrationsController {
   ) {
     Sentry.metrics.count('public_api-request', 1);
     return this._postsService.getMissingContent(org.id, id);
+  }
+
+  @Put('/posts/:id/status')
+  async changePostStatus(
+    @GetOrgFromRequest() org: Organization,
+    @Param('id') id: string,
+    @Body() body: ChangePostStatusDto
+  ) {
+    Sentry.metrics.count('public_api-request', 1);
+    return this._postsService.changePostStatus(org.id, id, body.status);
   }
 
   @Put('/posts/:id/release-id')

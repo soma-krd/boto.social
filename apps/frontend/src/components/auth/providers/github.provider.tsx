@@ -27,7 +27,7 @@ export const GithubProvider = () => {
           />
         </svg>
       </div>
-      <div>{t('sign_in_with_github', 'Sign in with GitHub')}</div>
+      <div className="block xs:hidden">GitHub</div>
     </div>
   );
 };

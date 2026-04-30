@@ -1,28 +1,27 @@
-import { SentryComponent } from '@gitroom/frontend/components/layout/sentry.component';
-import type { Metadata, Viewport } from 'next';
-
-export const dynamic = 'force-dynamic';
-import '../global.scss';
-import 'react-tooltip/dist/react-tooltip.css';
 import '@copilotkit/react-ui/styles.css';
-import LayoutContext from '@gitroom/frontend/components/layout/layout.context';
-import { ReactNode } from 'react';
-import { Plus_Jakarta_Sans } from 'next/font/google';
-import PlausibleProvider from 'next-plausible';
-import clsx from 'clsx';
-import { VariableContextComponent } from '@gitroom/react/helpers/variable.context';
-import { Fragment } from 'react';
-import { PHProvider } from '@gitroom/react/helpers/posthog';
-import UtmSaver from '@gitroom/helpers/utils/utm.saver';
 import { DubAnalytics } from '@gitroom/frontend/components/layout/dubAnalytics';
 import { FacebookComponent } from '@gitroom/frontend/components/layout/facebook.component';
-import { cookies } from 'next/headers';
+import { HtmlComponent } from '@gitroom/frontend/components/layout/html.component';
+import LayoutContext from '@gitroom/frontend/components/layout/layout.context';
+import { SentryComponent } from '@gitroom/frontend/components/layout/sentry.component';
+import UtmSaver from '@gitroom/helpers/utils/utm.saver';
+import { PHProvider } from '@gitroom/react/helpers/posthog';
+import { VariableContextComponent } from '@gitroom/react/helpers/variable.context';
 import {
   cookieName,
   fallbackLng,
 } from '@gitroom/react/translation/i18n.config';
-import { HtmlComponent } from '@gitroom/frontend/components/layout/html.component';
+import clsx from 'clsx';
+import type { Metadata, Viewport } from 'next';
+import PlausibleProvider from 'next-plausible';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import { cookies } from 'next/headers';
 import Script from 'next/script';
+import { Fragment, ReactNode } from 'react';
+import 'react-tooltip/dist/react-tooltip.css';
+import '../global.scss';
+
+export const dynamic = 'force-dynamic';
 
 import { ChangeDirClient } from '@gitroom/frontend/components/new-layout/change.dir.client';
 
@@ -45,7 +44,8 @@ export const metadata: Metadata = {
     default: 'Boto - AI-Powered Social Media Management',
     template: '%s | Boto',
   },
-  description: 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms with team collaboration and analytics.',
+  description:
+    'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms with team collaboration and analytics.',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -71,7 +71,8 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Boto',
     title: 'Boto - AI-Powered Social Media Management',
-    description: 'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.',
+    description:
+      'AI-powered social media management and scheduling tool. Manage posts across 15+ platforms.',
     images: [
       {
         url: `${siteUrl}/og.png`,
@@ -121,8 +122,12 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         )}
       </head>
       <ChangeDirClient />
+      <ChangeDirClient />
       <body
-        className={clsx(jakartaSans.className, 'light text-primary !bg-primary')}
+        className={clsx(
+          jakartaSans.className,
+          'light text-primary !bg-primary'
+        )}
       >
         <VariableContextComponent
           storageProvider={
@@ -175,8 +180,8 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                 host={process.env.NEXT_PUBLIC_POSTHOG_HOST}
               >
                 <LayoutContext>
-                    <UtmSaver />
-                    {children}
+                  <UtmSaver />
+                  {children}
                 </LayoutContext>
               </PHProvider>
             </Plausible>
